@@ -26,6 +26,7 @@ class MainVC: UIViewController {
 
     @IBOutlet var mainView: UIView!
     
+    @IBOutlet weak var searchBar: UISearchBar!
     var tapGesture = UITapGestureRecognizer()
     
     var swipeLeft = UISwipeGestureRecognizer()
@@ -73,6 +74,7 @@ class MainVC: UIViewController {
         mainView.addGestureRecognizer(screenEdgeRecognizer)
         
     }
+    
 
     //Menu opens and closes as hamburger button is pressed
     @IBAction func menuButtonPressed(_ sender: Any) {
@@ -201,7 +203,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-     
+        searchBar.endEditing(true)
         ProductVC.prodPic = images[indexPath.row]
         ProductVC.prodName = text[indexPath.row]
         
@@ -221,6 +223,8 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
         
         cell.textLabel?.text = menuOptions[indexPath.row]
+        
+        //cell.textLabel?.textAlignment = .center //centres text label in table view
         
         cell.imageView?.image = menuImages[indexPath.row]
         

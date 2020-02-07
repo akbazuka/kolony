@@ -106,6 +106,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="AV2-FO-MaF"/>
+                    <connections>
+                        <outlet property="passTextField" destination="KIL-oU-eP1" id="mEh-Gq-LpE"/>
+                        <outlet property="userNameTextField" destination="UCJ-qd-ibY" id="f95-uO-MeS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -115,7 +119,7 @@
         <scene sceneID="6Jt-il-CrQ">
             <objects>
                 <viewController id="JXj-Jg-4R7" customClass="MainVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="YLH-O9-0Td">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="YLH-O9-0Td">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -183,19 +187,19 @@
                                 <gestureRecognizers/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="96v-bd-blX">
-                                <rect key="frame" x="0.0" y="0.0" width="220" height="808"/>
+                                <rect key="frame" x="0.0" y="0.0" width="195" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="220" id="NPM-lG-mkl"/>
+                                    <constraint firstAttribute="width" constant="195" id="NPM-lG-mkl"/>
                                     <constraint firstAttribute="height" constant="808" id="s04-pN-tb0"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="ape-oW-4hC">
-                                        <rect key="frame" x="0.0" y="28" width="220" height="80"/>
+                                        <rect key="frame" x="0.0" y="28" width="195" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ape-oW-4hC" id="QiM-DT-ufr">
-                                            <rect key="frame" x="0.0" y="0.0" width="220" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="195" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -229,8 +233,6 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="kr3-Pg-LJP"/>
                         <barButtonItem title="Item" id="6dg-xO-5El"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="LXc-D4-oPL"/>
-                        <barButtonItem title="Item" id="8Mq-Qi-AJ2"/>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="U4j-85-fKK"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Kolony" id="xKq-Qn-88h">
                         <barButtonItem key="backBarButtonItem" title="Back" id="m3t-tY-SBz"/>
@@ -264,69 +266,130 @@
                         <outlet property="mainView" destination="YLH-O9-0Td" id="ZVa-7x-jC4"/>
                         <outlet property="menuButton" destination="BTv-ST-Rfv" id="OFQ-bs-C3p"/>
                         <outlet property="menuView" destination="96v-bd-blX" id="5Ps-Gl-vKe"/>
+                        <outlet property="searchBar" destination="wHs-hT-q31" id="R0n-9X-sdh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Yd-nE-DEJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2461" y="-260"/>
+            <point key="canvasLocation" x="2460.8695652173915" y="-260.49107142857144"/>
         </scene>
         <!--Product Details-->
         <scene sceneID="vah-dF-O28">
             <objects>
                 <viewController storyboardIdentifier="ProductVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VDX-kg-mU8" customClass="ProductVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="oM4-sm-Y2s">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="oM4-sm-Y2s">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="nikeAir" translatesAutoresizingMaskIntoConstraints="NO" id="jwi-N7-xeA">
-                                <rect key="frame" x="0.0" y="73" width="414" height="294"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Jordan 1 Retro High Off-White University Blue" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dv4-rZ-eHy">
-                                <rect key="frame" x="58" y="375" width="299" height="105"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VaO-pG-YDY">
-                                <rect key="frame" x="143" y="612" width="129" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
-                                <state key="normal" title="Try Before Buy">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                </state>
-                                <connections>
-                                    <action selector="tryOnClicked:" destination="VDX-kg-mU8" eventType="touchUpInside" id="xrH-5S-nke"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price: $1,190" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECi-eQ-3IG">
-                                <rect key="frame" x="133" y="488" width="148" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="19"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tdx-tS-ZIe">
-                                <rect key="frame" x="130" y="534" width="154" height="54"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Add To Cart" image="cartPic">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="addToCartOnClick:" destination="VDX-kg-mU8" eventType="touchUpInside" id="CJH-3b-X22"/>
-                                </connections>
-                            </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3tN-3A-jUK">
+                                <rect key="frame" x="0.0" y="20" width="414" height="856"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zr7-g6-udc">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1160"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" alignment="center" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="w3I-eS-PKf">
+                                                <rect key="frame" x="20" y="149" width="374" height="602"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nikeAir" translatesAutoresizingMaskIntoConstraints="NO" id="jwi-N7-xeA">
+                                                        <rect key="frame" x="0.0" y="0.0" width="374" height="263"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="263" id="89g-XZ-4p6"/>
+                                                            <constraint firstAttribute="width" constant="374" id="brR-jp-7ES"/>
+                                                        </constraints>
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jordan 1 Retro High Off-White University Blue" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dv4-rZ-eHy">
+                                                        <rect key="frame" x="37.5" y="291" width="299" height="105"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="105" id="0xW-11-TSG"/>
+                                                            <constraint firstAttribute="width" constant="299" id="AnG-gZ-fq9"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price: $1,190" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECi-eQ-3IG">
+                                                        <rect key="frame" x="113" y="424" width="148" height="21"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="21" id="fug-Ye-uzr"/>
+                                                            <constraint firstAttribute="width" constant="148" id="xc4-5X-btW"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tdx-tS-ZIe">
+                                                        <rect key="frame" x="110" y="473" width="154" height="54"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="154" id="18s-Pz-Eq8"/>
+                                                            <constraint firstAttribute="height" constant="54" id="5me-2A-DPC"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
+                                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <state key="normal" title="Add To Cart" image="cartPic">
+                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="addToCartOnClick:" destination="VDX-kg-mU8" eventType="touchUpInside" id="CJH-3b-X22"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VaO-pG-YDY">
+                                                        <rect key="frame" x="122.5" y="555" width="129" height="47"/>
+                                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="129" id="8LU-qu-OKj"/>
+                                                            <constraint firstAttribute="height" constant="47" id="zy0-Sj-dtl"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
+                                                        <state key="normal" title="Try Before Buy">
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="tryOnClicked:" destination="VDX-kg-mU8" eventType="touchUpInside" id="xrH-5S-nke"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1200" id="rnA-3c-56H"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="zr7-g6-udc" firstAttribute="trailing" secondItem="VEY-XP-llV" secondAttribute="trailing" id="58k-JZ-qWf"/>
+                                    <constraint firstItem="zr7-g6-udc" firstAttribute="leading" secondItem="VEY-XP-llV" secondAttribute="leading" id="grB-PT-oAL"/>
+                                    <constraint firstItem="zr7-g6-udc" firstAttribute="top" secondItem="VEY-XP-llV" secondAttribute="top" id="hXV-Fd-8lx"/>
+                                    <constraint firstItem="zr7-g6-udc" firstAttribute="bottom" secondItem="VEY-XP-llV" secondAttribute="bottom" id="ohv-ie-kpD"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="ZAp-1Y-76u"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="VEY-XP-llV"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="zr7-g6-udc" firstAttribute="width" secondItem="oM4-sm-Y2s" secondAttribute="width" id="O2J-7i-5Sw"/>
+                            <constraint firstItem="3tN-3A-jUK" firstAttribute="top" secondItem="oM4-sm-Y2s" secondAttribute="top" constant="20" symbolic="YES" id="XRP-jb-DBE"/>
+                            <constraint firstItem="3tN-3A-jUK" firstAttribute="leading" secondItem="xzV-RQ-uVk" secondAttribute="leading" id="gOe-Lf-yxU"/>
+                            <constraint firstItem="3tN-3A-jUK" firstAttribute="trailing" secondItem="xzV-RQ-uVk" secondAttribute="trailing" id="gqy-NN-YA1"/>
+                            <constraint firstAttribute="bottom" secondItem="3tN-3A-jUK" secondAttribute="bottom" constant="20" symbolic="YES" id="yip-pX-SEO"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="xzV-RQ-uVk"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="otL-1E-37g"/>
+                        <barButtonItem title="Item" id="do7-th-FhM"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="dYe-8M-C8W"/>
+                        <barButtonItem title="Item" id="CRy-u9-abb"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="BWr-p1-FbL"/>
+                        <barButtonItem title="Item" id="we5-Ws-q9k"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="SAL-5o-aVk"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Product Details" id="Evw-WO-C5e"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <size key="freeformSize" width="414" height="1200"/>
                     <connections>
                         <outlet property="addToCartBtn" destination="Tdx-tS-ZIe" id="OOW-Tu-ipb"/>
                         <outlet property="productImages" destination="jwi-N7-xeA" id="Vcb-cr-MZs"/>
@@ -336,7 +399,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ERI-ZH-p4U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2461" y="487"/>
+            <point key="canvasLocation" x="2462" y="522"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IrS-sm-OmU">
@@ -363,7 +426,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eJ5-F8-Wtm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1514" y="-260"/>
+            <point key="canvasLocation" x="1528" y="-260"/>
         </scene>
     </scenes>
     <resources>
