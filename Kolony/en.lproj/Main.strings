@@ -1,0 +1,60 @@
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "6dg-xO-5El"; */
+"6dg-xO-5El.title" = "Item";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "CRy-u9-abb"; */
+"CRy-u9-abb.title" = "Item";
+
+/* Class = "UIButton"; normalTitle = "Sign in as Guest"; ObjectID = "DRC-mQ-Buy"; */
+"DRC-mQ-Buy.normalTitle" = "Sign in as Guest";
+
+/* Class = "UILabel"; text = "Jordan 1 Retro High Off-White University Blue"; ObjectID = "Dv4-rZ-eHy"; */
+"Dv4-rZ-eHy.text" = "Jordan 1 Retro High Off-White University Blue";
+
+/* Class = "UILabel"; text = "Price: $1,190"; ObjectID = "ECi-eQ-3IG"; */
+"ECi-eQ-3IG.text" = "Price: $1,190";
+
+/* Class = "UINavigationItem"; title = "Product Details"; ObjectID = "Evw-WO-C5e"; */
+"Evw-WO-C5e.title" = "Product Details";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "KIL-oU-eP1"; */
+"KIL-oU-eP1.placeholder" = "Password";
+
+/* Class = "UIButton"; normalTitle = "Add To Cart"; ObjectID = "Tdx-tS-ZIe"; */
+"Tdx-tS-ZIe.normalTitle" = "Add To Cart";
+
+/* Class = "UITextField"; placeholder = "Username"; ObjectID = "UCJ-qd-ibY"; */
+"UCJ-qd-ibY.placeholder" = "Username";
+
+/* Class = "UIButton"; normalTitle = "Try Before Buy"; ObjectID = "VaO-pG-YDY"; */
+"VaO-pG-YDY.normalTitle" = "Try Before Buy";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "cLW-8V-Hkt"; */
+"cLW-8V-Hkt.title" = "Item";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "do7-th-FhM"; */
+"do7-th-FhM.title" = "Item";
+
+/* Class = "UIButton"; normalTitle = "Sign in"; ObjectID = "hod-Mp-uIQ"; */
+"hod-Mp-uIQ.normalTitle" = "Sign in";
+
+/* Class = "UILabel"; text = "Kolony"; ObjectID = "l2V-g3-oPW"; */
+"l2V-g3-oPW.text" = "Kolony";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "m3t-tY-SBz"; */
+"m3t-tY-SBz.title" = "Back";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "rH1-Oa-xdN"; */
+"rH1-Oa-xdN.title" = "Item";
+
+/* Class = "UIButton"; normalTitle = "Register as New User"; ObjectID = "sAV-PV-fqV"; */
+"sAV-PV-fqV.normalTitle" = "Register as New User";
+
+/* Class = "UISearchBar"; placeholder = "Search for a product"; ObjectID = "wHs-hT-q31"; */
+"wHs-hT-q31.placeholder" = "Search for a product";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "we5-Ws-q9k"; */
+"we5-Ws-q9k.title" = "Item";
+
+/* Class = "UINavigationItem"; title = "Kolony"; ObjectID = "xKq-Qn-88h"; */
+"xKq-Qn-88h.title" = "Kolony";

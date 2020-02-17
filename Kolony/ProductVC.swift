@@ -18,6 +18,18 @@ class ProductVC: UIViewController {
     
     @IBOutlet weak var tryBtn: UIButton!
     
+    @IBOutlet weak var sizeBtn: UIButton!
+    
+    @IBOutlet weak var brandLabel: UILabel!
+    
+    @IBOutlet weak var styleLabel: UILabel!
+    
+    @IBOutlet weak var colorwayLabel: UILabel!
+    
+    @IBOutlet weak var releaseLabel: UILabel!
+    
+    @IBOutlet weak var retailLabel: UILabel!
+    
     static var prodPic : UIImage? = nil //static to reference in MainVC
     
     static var prodName = ""            //static to reference in MainVC
@@ -44,7 +56,24 @@ class ProductVC: UIViewController {
         tryBtn.layer.cornerRadius = 5
         tryBtn.layer.borderWidth = 1
         tryBtn.layer.borderColor = UIColor.white.cgColor
+
+        //Customize Size Button
+        sizeBtn.layer.cornerRadius = 5
+        sizeBtn.layer.borderWidth = 1
+        sizeBtn.layer.borderColor = UIColor.white.cgColor
         
+        //Make Information Labels Uppercase
+        brandLabel.text = brandLabel.text?.uppercased()
+        
+        styleLabel.text = styleLabel.text?.uppercased()
+        
+        colorwayLabel.text = colorwayLabel.text?.uppercased()
+        
+        releaseLabel.text = releaseLabel.text?.uppercased()
+        
+        retailLabel.text = retailLabel.text?.uppercased()
+        
+        //Sets product info according to what product was clicked on
         productImages.image = ProductVC.prodPic
         productName.text = ProductVC.prodName
         
@@ -58,4 +87,9 @@ class ProductVC: UIViewController {
     @IBAction func tryOnClicked(_ sender: Any) {
         //
     }
+    
+    @IBAction func sizeOnClicked(_ sender: Any) {
+        //
+    }
+    
 }
