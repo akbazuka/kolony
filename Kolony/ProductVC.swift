@@ -34,6 +34,20 @@ class ProductVC: UIViewController {
     
     static var prodName = ""            //static to reference in MainVC
     
+    static var prodPrice = ""
+    
+    static var prodSize = ""
+    
+    static var prodBrand = ""
+    
+    static var prodStyle = ""
+    
+    static var prodColorway = ""
+    
+    static var prodRelease = ""
+    
+    static var prodRetail = ""
+    
     //let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
     
     //ViewDidLoad

@@ -38,6 +38,8 @@ class MainVC: UIViewController {
     var images = [UIImage(named: "nikeAir"), UIImage(named: "yeezy")] //Array to test no. of cells in UICOllectionVew
     
     var text = ["Jordan 1 Retro High Off-White University Blue", "adidas Yeezy Boost 350 V2 Yecheil (Non-Reflective)"]
+    
+    var price = ["$1,190","$270"]
 
     var menuOptions = ["Settings", "Rate Us", "Sign Out"]
     
@@ -199,13 +201,18 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         cell.productDescription.text = text[indexPath.row]
         //Places text of a certain index of text array in indexPath of Label of cell
+        
+        cell.productPrice.text = price[indexPath.row]
+        
         return cell
     }
     
+    //Information sent to ProductVC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchBar.endEditing(true)
         ProductVC.prodPic = images[indexPath.row]
         ProductVC.prodName = text[indexPath.row]
+        ProductVC.prodPrice = price[indexPath.row]
         
         navGoTo("ProductVC", animate: true)
     }

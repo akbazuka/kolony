@@ -12,6 +12,8 @@ class ProductCell: UICollectionViewCell {
     
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productDescription: UILabel!
+    @IBOutlet weak var productPrice: UILabel!
+    
     
     override func layoutSubviews() {
         productDescription.adjustsFontSizeToFitWidth = true
