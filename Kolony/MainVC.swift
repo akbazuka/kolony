@@ -218,7 +218,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
-//MARK: Table View Stuff
+//MARK: Menu View Stuff (Table View)
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -230,6 +230,8 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
         
         cell.textLabel?.text = menuOptions[indexPath.row]
+        
+        cell.textLabel?.font = UIFont(name: "Avenir-Book", size: 18)
         
         //cell.textLabel?.textAlignment = .center //centres text label in table view
         

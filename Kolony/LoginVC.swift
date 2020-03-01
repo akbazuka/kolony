@@ -13,10 +13,22 @@ class LoginVC: UIViewController {
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var signAsGusetBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        registerButton.layer.cornerRadius = 5
+        registerButton.layer.borderWidth = 1
+        registerButton.layer.borderColor = UIColor.black.cgColor
+        
+//        registerButton.titleEdgeInsets = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1);
+        
+        //registerButton.frame = CGRect(x: 80, y: 80, width: 90, height: 30)
+        
+        signAsGusetBtn.layer.cornerRadius = 5
+        signAsGusetBtn.layer.borderWidth = 1
+        signAsGusetBtn.layer.borderColor = UIColor.black.cgColor
         
         
     }
