@@ -56,8 +56,8 @@ class MainVC: UIViewController{
     
     var menuImages = [UIImage(named: "settingsPic"), UIImage(named: "ratePic"), UIImage(named: "exitPic")]
     
-    var feedItems: NSArray = NSArray()
-    var selectedLocation : ProductsModel = ProductsModel()
+//    var feedItems: NSArray = NSArray() //(Uncomment if using database)
+//    var selectedLocation : ProductsModel = ProductsModel() //(Uncomment if using database)
     
     //ViewDidLoad
     override func viewDidLoad() {
@@ -89,10 +89,10 @@ class MainVC: UIViewController{
 
         mainView.addGestureRecognizer(screenEdgeRecognizer)
         
-        //For getting data from database
-        let homeModel = HomeModel()
-        homeModel.delegate = self
-        homeModel.downloadItems()
+//        //For getting data from database
+//        let homeModel = HomeModel() //(Uncomment if using database)
+//        homeModel.delegate = self   //(Uncomment if using database)
+//        homeModel.downloadItems()   //(Uncomment if using database)
     }
     
 
@@ -209,8 +209,8 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        //return images.count //Creates no. of cells based on length of images array
-        return feedItems.count
+        return images.count //Creates no. of cells based on length of images array
+        //return feedItems.count //(Uncomment if using database)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -219,12 +219,12 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         cell.productImage.image = images[indexPath.row] //Places image of a certain index of image array in indexPath of imageview of cell
         
-        //cell.productDescription.text = name[indexPath.row] //Places text of a certain index of text array in indexPath of Label of cell
+        cell.productDescription.text = name[indexPath.row] //Places text of a certain index of text array in indexPath of Label of cell
         
         // Get the name of product to be shown (from database)
-        let item: ProductsModel = feedItems[indexPath.row] as! ProductsModel
+        //let item: ProductsModel = feedItems[indexPath.row] as! ProductsModel (Uncomment if using database)
         // Get references to labels of cell
-        cell.productDescription.text = item.name
+        //cell.productDescription.text = item.name (Uncomment if using database)
         
         cell.productPrice.text = price[indexPath.row]
         
@@ -247,15 +247,15 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
+/* (Uncomment if using database)
 //MARK: Database Stuff
 extension MainVC: HomeModelProtocol {
     func itemsDownloaded(items: NSArray) {
         feedItems = items
-        self.collectionView.reloadData()
+        //self.collectionView.reloadData()
     }
-    
-    
 }
+ */
 
 //MARK: Menu View Stuff (Table View)
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
