@@ -3,14 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		7E0AD94323E2C91900244520 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0AD94223E2C91900244520 /* ProductCell.swift */; };
+		7E225AC6240CFA74002F74D9 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E225AC5240CFA74002F74D9 /* HomeModel.swift */; };
+		7E225AC8240CFA87002F74D9 /* ProductsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E225AC7240CFA87002F74D9 /* ProductsModel.swift */; };
 		7E2DC2DF23DD6E6C004FEEC2 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DC2DE23DD6E6B004FEEC2 /* MainVC.swift */; };
 		7E3ADB542409F47F0003D7CF /* Pods_Kolony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD4C3163AFC2C4F610DF410 /* Pods_Kolony.framework */; };
-		7E3ADB552409F47F0003D7CF /* Pods_Kolony.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD4C3163AFC2C4F610DF410 /* Pods_Kolony.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7E5AA298240B978A00F07843 /* pickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5AA297240B978A00F07843 /* pickerView.swift */; };
 		7EB48AE423E67311003C6530 /* ProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB48AE323E67311003C6530 /* ProductVC.swift */; };
 		7EE6116023D6ED2500DBA511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE6115F23D6ED2500DBA511 /* AppDelegate.swift */; };
@@ -21,23 +22,11 @@
 		7EE6116C23D6ED2800DBA511 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EE6116A23D6ED2800DBA511 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		7E3ADB562409F47F0003D7CF /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				7E3ADB552409F47F0003D7CF /* Pods_Kolony.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		1BD4C3163AFC2C4F610DF410 /* Pods_Kolony.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kolony.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E0AD94223E2C91900244520 /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
+		7E225AC5240CFA74002F74D9 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
+		7E225AC7240CFA87002F74D9 /* ProductsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsModel.swift; sourceTree = "<group>"; };
 		7E2DC2DE23DD6E6B004FEEC2 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		7E5AA297240B978A00F07843 /* pickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickerView.swift; sourceTree = "<group>"; };
 		7EB48AE323E67311003C6530 /* ProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductVC.swift; sourceTree = "<group>"; };
@@ -114,6 +103,8 @@
 				7EE6116A23D6ED2800DBA511 /* LaunchScreen.storyboard */,
 				7EE6116D23D6ED2800DBA511 /* Info.plist */,
 				7E5AA297240B978A00F07843 /* pickerView.swift */,
+				7E225AC5240CFA74002F74D9 /* HomeModel.swift */,
+				7E225AC7240CFA87002F74D9 /* ProductsModel.swift */,
 			);
 			path = Kolony;
 			sourceTree = "<group>";
@@ -129,8 +120,6 @@
 				7EE6115823D6ED2500DBA511 /* Sources */,
 				7EE6115923D6ED2500DBA511 /* Frameworks */,
 				7EE6115A23D6ED2500DBA511 /* Resources */,
-				EA0D993640074BBC8F97CBC4 /* [CP] Embed Pods Frameworks */,
-				7E3ADB562409F47F0003D7CF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -210,23 +199,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EA0D993640074BBC8F97CBC4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Kolony/Pods-Kolony-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Kolony/Pods-Kolony-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Kolony/Pods-Kolony-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -234,6 +206,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E225AC6240CFA74002F74D9 /* HomeModel.swift in Sources */,
+				7E225AC8240CFA87002F74D9 /* ProductsModel.swift in Sources */,
 				7EE6116423D6ED2500DBA511 /* LoginVC.swift in Sources */,
 				7EE6116023D6ED2500DBA511 /* AppDelegate.swift in Sources */,
 				7E5AA298240B978A00F07843 /* pickerView.swift in Sources */,

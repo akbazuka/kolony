@@ -30,6 +30,8 @@ class ProductVC: UIViewController {
     
     @IBOutlet weak var retailLabel: UILabel!
     
+    @IBOutlet weak var productPrice: UILabel!
+    
     static var prodPic : UIImage? = nil //static to reference in MainVC
     
     static var prodName = ""            //static to reference in MainVC
@@ -49,7 +51,7 @@ class ProductVC: UIViewController {
     static var prodRetail = ""
     
     fileprivate let pickerView = ToolbarPickerView()
-    fileprivate let titles = ["0", "1", "2", "XXL"]
+    fileprivate let titles = ["5","6", "7", "8", "9", "10", "11"]
     @IBOutlet weak var textField: UITextField!
     
     //let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
@@ -77,7 +79,7 @@ class ProductVC: UIViewController {
 
         //Customize Size Button
         sizeBtn.isEnabled = false
-        //sizeBtn.layer.cornerRadius = 5
+        sizeBtn.layer.cornerRadius = 5
         //sizeBtn.layer.borderWidth = 1
         //sizeBtn.layer.borderColor = UIColor.white.cgColor
         
@@ -94,10 +96,15 @@ class ProductVC: UIViewController {
         
         /***********************************************/
         
-        //Sets product info according to what product was clicked on
+        //Sets product info according to what product was clicked on in collection view of MainVC
         productImages.image = ProductVC.prodPic
         productName.text = ProductVC.prodName
-        
+        productPrice.text = ProductVC.prodPrice
+        brandLabel.text = ProductVC.prodBrand
+        styleLabel.text = ProductVC.prodStyle
+        colorwayLabel.text = ProductVC.prodColorway
+        releaseLabel.text = ProductVC.prodRelease
+        retailLabel.text = ProductVC.prodRetail
         //UINavigationBar.appearance().titleTextAttributes = attributes //Changes font of navigation bar title
         
         //UIPickerView with Done Button
