@@ -10,8 +10,7 @@ import Foundation
  
 class ProductsModel: NSObject {
     
-    //properties
-    
+    //Properties
     var name: String?
     //var images: String?
     var brand: String?
@@ -23,14 +22,13 @@ class ProductsModel: NSObject {
     var release: String? //date?
     
     
-    //empty constructor
-    
+    //Empty constructor
     override init()
     {
         
     }
     
-    //construct with @name, @brand, @size, @colorway, @price, @retail, @style and @release parameters
+    //Construct with @name, @brand, @size, @colorway, @price, @retail, @style and @release parameters
     init(name: String, brand: String, size: String, colorway: String, price: String, retail: String, style: String, release: String) {
         
         self.name = name
@@ -45,7 +43,7 @@ class ProductsModel: NSObject {
     }
     
     
-    //prints object's current state
+    //Prints object's current state
     override var description: String {
         return "Name: \(String(describing: name)), Brand: \(String(describing: brand)), Size: \(String(describing: size)), Colorway: \(String(describing: colorway)), Price: \(String(describing: price)), Retail: \(String(describing: retail)), Style: \(String(describing: style)), Release: \(String(describing: release))"
         

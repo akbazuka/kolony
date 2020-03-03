@@ -131,10 +131,10 @@
             </objects>
             <point key="canvasLocation" x="582.60869565217399" y="-260.49107142857144"/>
         </scene>
-        <!--Kolony-->
+        <!--MainVC-->
         <scene sceneID="6Jt-il-CrQ">
             <objects>
-                <viewController id="JXj-Jg-4R7" customClass="MainVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JXj-Jg-4R7" userLabel="MainVC" customClass="MainVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YLH-O9-0Td">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -253,7 +253,11 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Mtz-5Y-JRA"/>
                         <barButtonItem title="Item" image="homePic" id="rH1-Oa-xdN"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="579-gV-4ZG"/>
-                        <barButtonItem title="Item" image="cartPic1" id="cLW-8V-Hkt"/>
+                        <barButtonItem title="Item" image="cartPic1" id="cLW-8V-Hkt">
+                            <connections>
+                                <segue destination="GXr-IU-euD" kind="show" id="sbP-hK-w5H"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="kr3-Pg-LJP"/>
                         <barButtonItem title="Item" image="personPic" id="6dg-xO-5El"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="LXc-D4-oPL"/>
@@ -562,7 +566,11 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="dYe-8M-C8W"/>
-                        <barButtonItem title="Item" image="cartPic1" id="CRy-u9-abb"/>
+                        <barButtonItem title="Item" image="cartPic1" id="CRy-u9-abb">
+                            <connections>
+                                <segue destination="GXr-IU-euD" kind="show" id="Eca-M0-IVE"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="BWr-p1-FbL"/>
                         <barButtonItem title="Item" image="personPic" id="we5-Ws-q9k"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SAL-5o-aVk"/>
@@ -586,7 +594,79 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ERI-ZH-p4U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2460.8695652173915" y="521.65178571428567"/>
+            <point key="canvasLocation" x="2461" y="537"/>
+        </scene>
+        <!--CartVC-->
+        <scene sceneID="mob-zj-wza">
+            <objects>
+                <viewController storyboardIdentifier="CartVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GXr-IU-euD" userLabel="CartVC" customClass="CartVC" customModule="Kolony" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ME5-r2-4ny">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6fk-iY-Qfy">
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="414" id="EYg-5r-XRC"/>
+                                    <constraint firstAttribute="height" constant="769" id="gaa-W7-ick"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="liD-kX-EHM">
+                                    <size key="itemSize" width="395" height="172"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="CartCell" reuseIdentifier="cartCell" id="caC-ya-ll6" userLabel="cartCell" customClass="CartCell" customModule="Kolony" customModuleProvider="target">
+                                        <rect key="frame" x="9.5" y="0.0" width="395" height="172"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="59q-G1-9sC">
+                                            <rect key="frame" x="0.0" y="0.0" width="395" height="172"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="395" height="172"/>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="GXr-IU-euD" id="j6p-Tc-gXH"/>
+                                    <outlet property="delegate" destination="GXr-IU-euD" id="W1h-HN-ts3"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6fk-iY-Qfy" firstAttribute="trailing" secondItem="Hq3-FU-PxM" secondAttribute="trailing" id="HYV-Ow-VBr"/>
+                            <constraint firstItem="6fk-iY-Qfy" firstAttribute="bottom" secondItem="Hq3-FU-PxM" secondAttribute="bottom" id="IFy-Uk-IbU"/>
+                            <constraint firstItem="6fk-iY-Qfy" firstAttribute="leading" secondItem="Hq3-FU-PxM" secondAttribute="leading" id="lRh-zA-Ggj"/>
+                            <constraint firstItem="6fk-iY-Qfy" firstAttribute="top" secondItem="Hq3-FU-PxM" secondAttribute="top" id="xFq-Iv-Q58"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Hq3-FU-PxM"/>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="EJO-Z6-eaI"/>
+                        <barButtonItem title="Item" image="homePic" id="2Uq-Eo-f2v">
+                            <connections>
+                                <segue destination="JXj-Jg-4R7" kind="show" id="4vJ-H9-jeQ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="x4J-7W-fwS"/>
+                        <barButtonItem title="Item" image="cartPic1" id="MTL-75-o8O"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="oZh-cJ-uj4"/>
+                        <barButtonItem title="Item" image="personPic" id="IMd-gr-4O1"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Hrs-ew-CwM"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="My Cart" id="H10-oB-wuB">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="llh-cl-TMB"/>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="cartCollectionView" destination="6fk-iY-Qfy" id="5pn-pe-BlO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QaU-c1-NUk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3556.521739130435" y="-260.49107142857144"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IrS-sm-OmU">
@@ -626,6 +706,7 @@
         <image name="round_tune_black_36pt" width="36" height="36"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cF6-Wh-WYM"/>
+        <segue reference="sbP-hK-w5H"/>
+        <segue reference="4vJ-H9-jeQ"/>
     </inferredMetricsTieBreakers>
 </document>

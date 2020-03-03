@@ -127,6 +127,7 @@ class ProductVC: UIViewController {
 }
 
 /*Delegate methods of UIPickerView*/
+//MARK: UIPickerView Delegates
 extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -146,7 +147,8 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
     }
 }
 
-/*Done button of date picker*/
+/*Done button of picker*/
+//MARK: UIPickerView Done Button
 extension ProductVC: ToolbarPickerViewDelegate {
 
     func didTapDone() {

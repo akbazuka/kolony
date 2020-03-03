@@ -14,8 +14,6 @@ class MainVC: UIViewController{
     
     @IBOutlet weak var MenuLeadingConstraint: NSLayoutConstraint!
 
-    var showMenu = false
-
     @IBOutlet weak var menuButton: UIButton!
 
     @IBOutlet weak var filterButton: UIButton!
@@ -27,6 +25,9 @@ class MainVC: UIViewController{
     @IBOutlet var mainView: UIView!
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    var showMenu = false
+    
     var tapGesture = UITapGestureRecognizer()
     
     var swipeLeft = UISwipeGestureRecognizer()
@@ -267,7 +268,6 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
 //MARK: Database Stuff
 extension MainVC: HomeModelProtocol {
     func itemsDownloaded(items: NSArray) {
-        print("Try 4")
         feedItems = items
         self.collectionView.reloadData()
     }
