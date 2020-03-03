@@ -51,10 +51,10 @@ class ProductVC: UIViewController {
     static var prodRetail = ""
     
     fileprivate let pickerView = ToolbarPickerView()
-    fileprivate let titles = ["5","6", "7", "8", "9", "10", "11"]
+    fileprivate let sizes = ["5","6", "7", "8", "9", "10", "11"]
     @IBOutlet weak var textField: UITextField!
     
-    //let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
+    let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
     
     //ViewDidLoad
     override func viewDidLoad() {
@@ -83,16 +83,12 @@ class ProductVC: UIViewController {
         //sizeBtn.layer.borderWidth = 1
         //sizeBtn.layer.borderColor = UIColor.white.cgColor
         
-        //Make Information Labels Uppercase
-        brandLabel.text = brandLabel.text?.uppercased()
-        
-        styleLabel.text = styleLabel.text?.uppercased()
-        
-        colorwayLabel.text = colorwayLabel.text?.uppercased()
-        
-        releaseLabel.text = releaseLabel.text?.uppercased()
-        
-        retailLabel.text = retailLabel.text?.uppercased()
+        //Make Information Labels resize to fit inside container
+        brandLabel.adjustsFontSizeToFitWidth = true
+        styleLabel.adjustsFontSizeToFitWidth = true
+        colorwayLabel.adjustsFontSizeToFitWidth = true
+        releaseLabel.adjustsFontSizeToFitWidth = true
+        retailLabel.adjustsFontSizeToFitWidth = true
         
         /***********************************************/
         
@@ -100,11 +96,12 @@ class ProductVC: UIViewController {
         productImages.image = ProductVC.prodPic
         productName.text = ProductVC.prodName
         productPrice.text = ProductVC.prodPrice
-        brandLabel.text = ProductVC.prodBrand
-        styleLabel.text = ProductVC.prodStyle
-        colorwayLabel.text = ProductVC.prodColorway
+        brandLabel.text = ProductVC.prodBrand.uppercased()
+        styleLabel.text = ProductVC.prodStyle.uppercased()
+        colorwayLabel.text = ProductVC.prodColorway.uppercased()
         releaseLabel.text = ProductVC.prodRelease
         retailLabel.text = ProductVC.prodRetail
+        
         //UINavigationBar.appearance().titleTextAttributes = attributes //Changes font of navigation bar title
         
         //UIPickerView with Done Button
@@ -133,7 +130,7 @@ class ProductVC: UIViewController {
 extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.titles.count
+        return self.sizes.count
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -141,11 +138,11 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.titles[row]
+        return self.sizes[row]
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.textField.text = self.titles[row]
+        self.textField.text = self.sizes[row]
     }
 }
 
@@ -160,7 +157,7 @@ extension ProductVC: ToolbarPickerViewDelegate {
         //self.sizeBtn.setTitle(self.titles[row], for: .normal)
         //self.sizeBtn.resignFirstResponder()
         
-        self.textField.text = self.titles[row]
+        self.textField.text = self.sizes[row]
         self.textField.resignFirstResponder()
     }
 

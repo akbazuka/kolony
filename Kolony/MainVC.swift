@@ -35,8 +35,9 @@ class MainVC: UIViewController{
 
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 24)!] //For changing font of navigation bar title
     
-    //Product Information
-    var images = [UIImage(named: "nikeAir"), UIImage(named: "yeezy")] //Array to test no. of cells in UICOllectionVew
+    //Product Information (Hard Coded) Uncomment below section if not using database
+    var images = [UIImage(named: "nikeAir"), UIImage(named: "yeezy")] //Array to test no. of cells in UICOllectionVew; Comment line when implement storing references to images in database
+    /*
     var name = ["Jordan 1 Retro High Off-White University Blue", "adidas Yeezy Boost 350 V2 Yecheil (Non-Reflective)"]
     
     var price = ["$1,190","$270"]
@@ -50,14 +51,15 @@ class MainVC: UIViewController{
     var release = ["06/23/2018","12/20/2019"]
     
     var retail = ["$190","$220"]
+ */
     /*******************************************/
 
     var menuOptions = ["Settings", "Rate Us", "Sign Out"]
     
     var menuImages = [UIImage(named: "settingsPic"), UIImage(named: "ratePic"), UIImage(named: "exitPic")]
     
-//    var feedItems: NSArray = NSArray() //(Uncomment if using database)
-//    var selectedLocation : ProductsModel = ProductsModel() //(Uncomment if using database)
+    var feedItems: NSArray = NSArray() //(Uncomment if using database)
+    var selectedLocation : ProductsModel = ProductsModel() //(Uncomment if using database)
     
     //ViewDidLoad
     override func viewDidLoad() {
@@ -89,10 +91,10 @@ class MainVC: UIViewController{
 
         mainView.addGestureRecognizer(screenEdgeRecognizer)
         
-//        //For getting data from database
-//        let homeModel = HomeModel() //(Uncomment if using database)
-//        homeModel.delegate = self   //(Uncomment if using database)
-//        homeModel.downloadItems()   //(Uncomment if using database)
+        //For getting data from database
+        let homeModel = HomeModel() //(Uncomment if using database)
+        homeModel.delegate = self   //(Uncomment if using database)
+        homeModel.downloadItems()   //(Uncomment if using database)
     }
     
 
@@ -209,8 +211,8 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return images.count //Creates no. of cells based on length of images array
-        //return feedItems.count //(Uncomment if using database)
+        //return images.count //Creates no. of cells based on length of images array
+        return feedItems.count //(Uncomment if using database)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -219,14 +221,15 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         cell.productImage.image = images[indexPath.row] //Places image of a certain index of image array in indexPath of imageview of cell
         
-        cell.productDescription.text = name[indexPath.row] //Places text of a certain index of text array in indexPath of Label of cell
+        //cell.productDescription.text = name[indexPath.row] //Places text of a certain index of text array in indexPath of Label of cell (Comment if using database)
         
-        // Get the name of product to be shown (from database)
-        //let item: ProductsModel = feedItems[indexPath.row] as! ProductsModel (Uncomment if using database)
+        //Get data of product by cell (from database)
+        let item: ProductsModel = feedItems[indexPath.row] as! ProductsModel //(Uncomment if using database)
         // Get references to labels of cell
-        //cell.productDescription.text = item.name (Uncomment if using database)
+        cell.productDescription.text = item.name //(Uncomment if using database)
         
-        cell.productPrice.text = price[indexPath.row]
+        //cell.productPrice.text = price[indexPath.row] //Comment if using database
+        cell.productPrice.text = item.price //Uncomment if using database
         
         return cell
     }
@@ -234,6 +237,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     //Information sent to ProductVC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchBar.endEditing(true)
+        /* If not using database, uncomment this code; hard coded variables
         ProductVC.prodPic = images[indexPath.row]
         ProductVC.prodName = name[indexPath.row]
         ProductVC.prodPrice = price[indexPath.row]
@@ -242,20 +246,32 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         ProductVC.prodColorway = colorway[indexPath.row]
         ProductVC.prodRelease = release[indexPath.row]
         ProductVC.prodRetail = retail[indexPath.row]
+ */
+        //Get data of product by cell (from database)
+        let item: ProductsModel = feedItems[indexPath.row] as! ProductsModel //(Uncomment if using database)
+        
+        ProductVC.prodPic = images[indexPath.row]
+        ProductVC.prodName = item.name ?? "Name"
+        ProductVC.prodPrice = item.price ?? "$$$"
+        ProductVC.prodBrand = item.brand ?? "Brand"
+        ProductVC.prodStyle = item.style ?? "Style"
+        ProductVC.prodColorway = item.colorway ?? "Colorway"
+        ProductVC.prodRelease = item.release ?? "Release Date"
+        ProductVC.prodRetail = item.retail ?? "Retail Price"
         
         navGoTo("ProductVC", animate: true)
     }
 }
 
-/* (Uncomment if using database)
+// (Uncomment if using database)
 //MARK: Database Stuff
 extension MainVC: HomeModelProtocol {
     func itemsDownloaded(items: NSArray) {
+        print("Try 4")
         feedItems = items
-        //self.collectionView.reloadData()
+        self.collectionView.reloadData()
     }
 }
- */
 
 //MARK: Menu View Stuff (Table View)
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
