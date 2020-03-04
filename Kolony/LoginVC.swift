@@ -39,6 +39,9 @@ class LoginVC: UIViewController {
     
     }
 
-
+    @IBAction func registerBtnOnClick(_ sender: Any) {
+        //navGoTo("SignUpVC", animate: true)
+        MainVC.goTo("SignUpVC", animate: true)
+    }
 }
 

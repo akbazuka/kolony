@@ -60,6 +60,10 @@ class ProductVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Changes back button title in navigation controller to "Back"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+
+        
         //Wrap text to next line if doesn't fit on same line
         productName.lineBreakMode = .byWordWrapping // notice the 'b' instead of 'B'
         productName.numberOfLines = 0

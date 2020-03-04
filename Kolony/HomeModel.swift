@@ -15,11 +15,9 @@ protocol HomeModelProtocol: class {
 
 class HomeModel: NSObject, URLSessionDataDelegate {
 
-    //properties
-
     weak var delegate: HomeModelProtocol!
 
-    //var data = Data()
+    //var data = Data() //What is this??
 
     let urlPath: String = "http://192.168.0.20/kolony.php" //this will be changed to the path where service.php lives
 
