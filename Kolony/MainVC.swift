@@ -97,7 +97,6 @@ class MainVC: UIViewController{
         homeModel.delegate = self   //(Uncomment if using database)
         homeModel.downloadItems()   //(Uncomment if using database)
     }
-    
 
     //Menu opens and closes as hamburger button is pressed
     @IBAction func menuButtonPressed(_ sender: Any) {
