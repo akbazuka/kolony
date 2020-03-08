@@ -14,12 +14,12 @@ class ProductsModel: NSObject {
     var name: String?
     //var images: String?
     var brand: String?
-    var size: String? //int?
     var colorway: String?
     var price: String? //int?
     var retail: String?
     var style: String?
     var release: String? //date?
+    var id: String?
     
     
     //Empty constructor
@@ -29,23 +29,23 @@ class ProductsModel: NSObject {
     }
     
     //Construct with @name, @brand, @size, @colorway, @price, @retail, @style and @release parameters
-    init(name: String, brand: String, size: String, colorway: String, price: String, retail: String, style: String, release: String) {
+    init(name: String, brand: String, colorway: String, price: String, retail: String, style: String, release: String, id: String) {
         
         self.name = name
         self.brand = brand
-        self.size = size
         self.colorway = colorway
         self.price = price
         self.retail = retail
         self.style = style
         self.release = release
+        self.id = id
         
     }
     
     
     //Prints object's current state
     override var description: String {
-        return "Name: \(String(describing: name)), Brand: \(String(describing: brand)), Size: \(String(describing: size)), Colorway: \(String(describing: colorway)), Price: \(String(describing: price)), Retail: \(String(describing: retail)), Style: \(String(describing: style)), Release: \(String(describing: release))"
+        return "Name: \(String(describing: name)), Brand: \(String(describing: brand)), Colorway: \(String(describing: colorway)), Price: \(String(describing: price)), Retail: \(String(describing: retail)), Style: \(String(describing: style)), Release: \(String(describing: release)), ID: \(String(describing: id))"
         
     }
     

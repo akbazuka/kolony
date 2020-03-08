@@ -15,7 +15,8 @@ class LoginVC: UIViewController {
     @IBOutlet weak var passTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var signAsGusetBtn: UIButton!
-    static var UID : String?
+    //static var UID : String?
+    static var isGuest = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,11 +61,17 @@ class LoginVC: UIViewController {
         }
     }
     
+    @IBAction func guestBtnOnClick(_ sender: Any) {
+        LoginVC.isGuest = 1
+    }
+    
+    /*
     //Loads UID
     static func loadUID()-> Bool{
         LoginVC.UID = UserDefaults.standard.string(forKey:"uID")
         return LoginVC.UID != nil
     }
+ */
     
     //Login User
     func authenticateUser(email: String, password: String){
@@ -79,6 +86,8 @@ class LoginVC: UIViewController {
 
                 //Go to MainVC through Navigation Controller (NavVC)
                 MainVC.goTo("NavVC", animate: true)
+                
+                LoginVC.isGuest = 0 //Not a guest if login succesfully
                 
             } else {
                 //print("ERROR")

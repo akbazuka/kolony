@@ -63,6 +63,7 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
                                 <connections>
+                                    <action selector="guestBtnOnClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zks-Vb-hg4"/>
                                     <segue destination="N5M-sq-kwI" kind="show" id="nxu-Hf-MIt"/>
                                 </connections>
                             </button>
@@ -774,8 +775,8 @@
                         <outlet property="releaseLabel" destination="YQg-BV-fcE" id="Acu-Ej-2PK"/>
                         <outlet property="retailLabel" destination="Nro-p1-fbN" id="tec-wq-Vm2"/>
                         <outlet property="sizeBtn" destination="NrO-VP-o5v" id="SAe-Rd-gzD"/>
+                        <outlet property="sizeText" destination="Ydi-F9-R0m" id="H7L-ES-OjE"/>
                         <outlet property="styleLabel" destination="ZfN-9x-Zcd" id="LIa-nV-5gc"/>
-                        <outlet property="textField" destination="Ydi-F9-R0m" id="H7L-ES-OjE"/>
                         <outlet property="tryBtn" destination="VaO-pG-YDY" id="uoI-Tc-ig4"/>
                     </connections>
                 </viewController>

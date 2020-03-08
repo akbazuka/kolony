@@ -65,6 +65,11 @@ class MainVC: UIViewController{
     //ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Change "Sign Out" button to "Login" if user enters as guest
+        if (LoginVC.isGuest == 1){
+            menuOptions[2] = "Login"
+        }
 
         MenuLeadingConstraint.constant = -218 //Presents (default) menu bar to hide
 
@@ -258,6 +263,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         ProductVC.prodColorway = item.colorway ?? "Colorway"
         ProductVC.prodRelease = item.release ?? "Release Date"
         ProductVC.prodRetail = item.retail ?? "Retail Price"
+        ProductVC.prodID = item.id ?? "Product ID"
         
         navGoTo("ProductVC", animate: true)
     }
@@ -301,8 +307,14 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         case "Rate Us":
             print("Rate Us pressed")
         case "Sign Out":
+            //Navigates back to Login screen
             MainVC.goTo("LoginVC", animate: true)
-            print("Sign Out pressed")
+            //Resets user defaults
+            UserDefaults.standard.set(nil, forKey: "uID")
+            //print("Sign Out pressed")
+        case "Login":
+            //Navigates back to Login screen
+            MainVC.goTo("LoginVC", animate: true)
         default:
             print("Nada")
         }

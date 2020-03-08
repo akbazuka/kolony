@@ -34,11 +34,12 @@ class ProductVC: UIViewController {
     
     static var prodPic : UIImage? = nil //static to reference in MainVC
     
+    static var prodID = ""
+    
     static var prodName = ""            //static to reference in MainVC
     
     static var prodPrice = ""           //""
     
-    static var prodSize = ""            //""
     
     static var prodBrand = ""
     
@@ -50,9 +51,14 @@ class ProductVC: UIViewController {
     
     static var prodRetail = ""
     
+    var feedItems: NSArray = NSArray() //(Uncomment if using database)
+    var selectedLocation1 : SizeProductModel = SizeProductModel() //(Uncomment if using database)
+    
     fileprivate let pickerView = ToolbarPickerView()
-    fileprivate let sizes = ["5","6", "7", "8", "9", "10", "11"]
-    @IBOutlet weak var textField: UITextField!
+    //fileprivate let sizes = ["5","6", "7", "8", "9", "10", "11"]
+    var selectedItemID = ""
+    
+    @IBOutlet weak var sizeText: UITextField!
     
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
     
@@ -109,8 +115,8 @@ class ProductVC: UIViewController {
         //UINavigationBar.appearance().titleTextAttributes = attributes //Changes font of navigation bar title
         
         //UIPickerView with Done Button
-        self.textField.inputView = self.pickerView
-        self.textField.inputAccessoryView = self.pickerView.toolbar
+        self.sizeText.inputView = self.pickerView
+        self.sizeText.inputAccessoryView = self.pickerView.toolbar
 
         self.pickerView.dataSource = self
         self.pickerView.delegate = self
@@ -118,14 +124,65 @@ class ProductVC: UIViewController {
 
         self.pickerView.reloadAllComponents()
         /***********************************************/
+        
+        //For getting data from database
+        let homeModel = HomeModel() //(Uncomment if using database)
+        homeModel.delegate = self   //(Uncomment if using database)
+        homeModel.downloadItemSizes()   //(Uncomment if using database)
     }
 
     @IBAction func addToCartOnClick(_ sender: Any) {
-        //
+        //if(isKeyPresentInUserDefaults(key: "uID")){ //Not as good as validating if guest user
+        
+        //Only allows to add to cart if user is logged in with a valid account and not as guest user and size is picked
+        if LoginVC.isGuest == 0, let size = sizeText.text, !size.isEmpty {
+            //Add item to cart in the database
+            insertCart(uID: UserDefaults.standard.string(forKey: "uID") ?? "-1", selectedProductID: self.selectedItemID)
+            //Show alert saying item was added to cart
+            alert(title: "Added to Cart", message: "This item was successfully added to your shopping cart!" )
+        } else if (LoginVC.isGuest != 0) {
+            alert(title: "Error", message: "You must be logged in with a registered account if you would like to add this item to your shopping cart.")
+        } else {
+            alert(title: "Select a Size", message: "You must select a size for the product you wish to add to your cart")
+        }
+    }
+    
+    //To check if a user defualt exists
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
     }
     
     @IBAction func tryOnClicked(_ sender: Any) {
         //
+    }
+    
+    //Push user to database
+    func insertCart(uID: String, selectedProductID: String){
+        
+        //Create url string
+        let urlString = SignUpVC.self.dataURL + "insertCart&uID=\(uID)&indiProductID=\(selectedProductID)"
+        
+        //Encode url
+        let result = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "Error"
+        
+        //Create url
+        guard let url = URL(string: result) else { return }
+        
+        //Send url
+        URLSession.shared.dataTask(with: url).resume()
+        
+        print("URL Sent: \(url)")
+    }
+    
+    //Alert Popup
+    func alert(title: String, message: String) {
+        
+        //Error Title
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        //Action Title
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        //Present to Screen
+        present(alert,animated: true,completion: nil)
     }
     
 }
@@ -135,19 +192,34 @@ class ProductVC: UIViewController {
 extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.sizes.count
+        
+        return feedItems.count
+        //return sizes.count
+        
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
 
+    /*
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return self.sizes[row]
-    }
+    }*/
 
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let item: SizeProductModel = feedItems[row] as! SizeProductModel
+        return item.size
+    }
+    
+    /*
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.textField.text = self.sizes[row]
+        self.sizeText.text = self.sizes[row]
+    }*/
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let item: SizeProductModel = feedItems[row] as! SizeProductModel
+        self.sizeText.text = item.size
     }
 }
 
@@ -163,13 +235,30 @@ extension ProductVC: ToolbarPickerViewDelegate {
         //self.sizeBtn.setTitle(self.titles[row], for: .normal)
         //self.sizeBtn.resignFirstResponder()
         
-        self.textField.text = self.sizes[row]
-        self.textField.resignFirstResponder()
+        let item: SizeProductModel = feedItems[row] as! SizeProductModel
+        
+        self.sizeText.text = item.size
+        self.sizeText.resignFirstResponder()
+        
+        //Selects product according to size chosen
+        self.selectedItemID = item.individualID ?? "0"
     }
 
     func didTapCancel() {
-        self.textField.text = nil
-        self.textField.resignFirstResponder()
+        self.sizeText.text = nil
+        self.sizeText.resignFirstResponder()
         
+        //Resets selected item
+        self.selectedItemID = ""
+        
+    }
+}
+
+// (Uncomment if using database)
+//MARK: Database Stuff
+extension ProductVC: HomeModelProtocol {
+    func itemsDownloaded(items: NSArray) {
+        feedItems = items
+        self.pickerView.reloadAllComponents()
     }
 }

@@ -92,6 +92,8 @@ class SignUpVC: UIViewController {
                 
                 //Add user to personal database
                 self.insertUser(uID: UserDefaults.standard.string(forKey: "uID") ?? "-1", userName: username, email: email)
+                
+                LoginVC.isGuest = 0 //Not a guest if successfully register (logs in by default after registration)
             }
                 
             else {
