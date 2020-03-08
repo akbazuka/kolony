@@ -15,7 +15,7 @@ class LoginVC: UIViewController {
     @IBOutlet weak var passTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var signAsGusetBtn: UIButton!
-    //static var UID : String?
+    //static var UID = String?
     static var isGuest = 0
     
     override func viewDidLoad() {
@@ -63,6 +63,8 @@ class LoginVC: UIViewController {
     
     @IBAction func guestBtnOnClick(_ sender: Any) {
         LoginVC.isGuest = 1
+        //Resets user defaults
+        UserDefaults.standard.set(nil, forKey: "uID")
     }
     
     /*

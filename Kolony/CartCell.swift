@@ -10,7 +10,19 @@ import UIKit
 
 class CartCell: UICollectionViewCell {
     
+    @IBOutlet weak var cartImage: UIImageView!
+    @IBOutlet weak var cartName: UILabel!
+    @IBOutlet weak var cartPrice: UILabel!
+    @IBOutlet weak var cartSize: UILabel!
+    @IBOutlet weak var removeItemBtn: UIButton!
+    
     override func layoutSubviews() {
-        //productName.adjustsFontSizeToFitWidth = true
+        cartName.lineBreakMode = .byWordWrapping
+        cartName.adjustsFontSizeToFitWidth = true
+        
+        //Add border and change color of remove Item Button
+        removeItemBtn.layer.cornerRadius = 5
+        removeItemBtn.layer.borderWidth = 2
+        removeItemBtn.layer.borderColor = UIColor.black.cgColor
     }
 }

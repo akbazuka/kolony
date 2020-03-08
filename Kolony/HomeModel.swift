@@ -43,11 +43,11 @@ class HomeModel: NSObject, URLSessionDataDelegate {
         task.resume()
     }
     
-    let urlPath1: String = "http://192.168.0.20/kolony.php?type=pullProductSizes&productID="+ProductVC.prodID
+    let urlPathSizes: String = "http://192.168.0.20/kolony.php?type=pullProductSizes&productID="+ProductVC.prodID
     
     func downloadItemSizes() {
 
-        let url: URL = URL(string: urlPath1)!
+        let url: URL = URL(string: urlPathSizes)!
         let defaultSession = Foundation.URLSession(configuration: URLSessionConfiguration.default)
         //print("Try 2")
 
@@ -66,6 +66,32 @@ class HomeModel: NSObject, URLSessionDataDelegate {
 
         task.resume()
     }
+    
+    let urlPathCart: String = "http://192.168.0.20/kolony.php?type=pullCart&uID="+(UserDefaults.standard.string(forKey: "uID") ?? "-1")
+    
+    func downloadItemsCart() {
+
+        //print("This is the url \(urlPathCart)")
+        
+        let url: URL = URL(string: urlPathCart)!
+        let defaultSession = Foundation.URLSession(configuration: URLSessionConfiguration.default)
+        //print("Try 8")
+
+        let task = defaultSession.dataTask(with: url) { (data, response, error) in
+            //print("Try 9")
+
+            if error != nil {
+                print("Failed to download cart data")
+            }else {
+                print("Cart data downloaded")
+                //print(data)
+                self.parseJSONCart(data!)
+            }
+        }
+
+        task.resume()
+    }
+
 
     
     func parseJSON(_ data:Data) {
@@ -167,6 +193,55 @@ class HomeModel: NSObject, URLSessionDataDelegate {
 
             self.delegate.itemsDownloaded(items: sizeProducts)
 
+        })
+    }
+    
+    func parseJSONCart(_ data:Data) {
+
+        var jsonResult = NSArray()
+
+        do{
+            jsonResult = try JSONSerialization.jsonObject(with: data, options:JSONSerialization.ReadingOptions.allowFragments) as! NSArray
+
+        } catch let error as NSError {
+            print("This is the cart error: "+error.localizedDescription)
+            //print("Error Here")
+            //print(data)
+
+        }
+
+        var jsonElement = NSDictionary()
+        let cartProducts = NSMutableArray()
+
+        for i in 0 ..< jsonResult.count
+        {
+
+            jsonElement = jsonResult[i] as! NSDictionary
+
+            let cartProduct = CartProductsModel()
+
+            //the following insures none of the JsonElement values are nil through optional binding
+            if let name = jsonElement["productname"] as? String,
+                let price = jsonElement["productprice"] as? String,
+                let size = jsonElement["productsizes"] as? String,
+                let individualID = jsonElement["eachproductid"] as? String,
+                let prodID = jsonElement["productid"] as? String
+            {
+
+                cartProduct.name = name
+                cartProduct.price = "$"+price
+                cartProduct.size = size
+                cartProduct.individualID = individualID
+                cartProduct.prodID = prodID
+
+            }
+
+            cartProducts.add(cartProduct)
+        }
+
+        DispatchQueue.main.async(execute: { () -> Void in
+
+            self.delegate.itemsDownloaded(items: cartProducts)
         })
     }
 }

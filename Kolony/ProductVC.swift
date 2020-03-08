@@ -40,7 +40,6 @@ class ProductVC: UIViewController {
     
     static var prodPrice = ""           //""
     
-    
     static var prodBrand = ""
     
     static var prodStyle = ""
@@ -231,7 +230,7 @@ extension ProductVC: ToolbarPickerViewDelegate {
         let row = self.pickerView.selectedRow(inComponent: 0)
         self.pickerView.selectRow(row, inComponent: 0, animated: false)
         
-        //TO change title of button
+        //To change title of button
         //self.sizeBtn.setTitle(self.titles[row], for: .normal)
         //self.sizeBtn.resignFirstResponder()
         

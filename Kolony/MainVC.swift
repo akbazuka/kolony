@@ -9,6 +9,9 @@
 import UIKit
 
 class MainVC: UIViewController{
+    
+    //Store userID
+    static var user = ""
 
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -217,7 +220,8 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         //return images.count //Creates no. of cells based on length of images array
-        return feedItems.count //(Uncomment if using database)
+        //print("We have: \(feedItems.count)")
+        return feedItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -231,10 +235,10 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         //Get data of product by cell (from database)
         let item: ProductsModel = feedItems[indexPath.row] as! ProductsModel //(Uncomment if using database)
         // Get references to labels of cell
-        cell.productDescription.text = item.name //(Uncomment if using database)
+        cell.productDescription.text = item.name
         
         //cell.productPrice.text = price[indexPath.row] //Comment if using database
-        cell.productPrice.text = item.price //Uncomment if using database
+        cell.productPrice.text = item.price
         
         return cell
     }
