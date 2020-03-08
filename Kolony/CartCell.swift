@@ -20,9 +20,9 @@ class CartCell: UICollectionViewCell {
         cartName.lineBreakMode = .byWordWrapping
         cartName.adjustsFontSizeToFitWidth = true
         
-        //Add border and change color of remove Item Button
-        removeItemBtn.layer.cornerRadius = 5
-        removeItemBtn.layer.borderWidth = 2
-        removeItemBtn.layer.borderColor = UIColor.black.cgColor
+        ////Add border and change color of remove Item Button
+        //removeItemBtn.layer.cornerRadius = 5
+        //removeItemBtn.layer.borderWidth = 2
+        //removeItemBtn.layer.borderColor = UIColor.black.cgColor
     }
 }
