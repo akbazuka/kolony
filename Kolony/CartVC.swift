@@ -22,13 +22,6 @@ class CartVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Hide cart empty label if user not logged in as guest and if user is logged in, change the label's text
-        if LoginVC.isGuest == 0{
-            cartEmptyLabel.isHidden = true
-        } else if LoginVC.isGuest == 0 && feedItems.count == 0 {
-            cartEmptyLabel.text = "Your cart is empty."
-        }
-        
         //For getting data from database
         let homeModel = HomeModel()
         homeModel.delegate = self
@@ -43,6 +36,14 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         //print("The count is: \(feedItems.count)")
+        
+        //Hide cart empty label if user not logged in as guest and if user is logged in, change the label's text
+        if LoginVC.isGuest == 0 && feedItems.count != 0{
+            cartEmptyLabel.isHidden = true
+        } else if LoginVC.isGuest == 0 && feedItems.count == 0 {
+            cartEmptyLabel.isHidden = false
+            cartEmptyLabel.text = "Your cart is empty."
+        }
         return feedItems.count
     }
     
@@ -61,10 +62,14 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         cartCell.cartSize.text = "Size: \(item.size ?? "-1")"
         
-        ////Remove Item Button
+        //Remove Item Button
         //cartCell.removeItemBtn?.setValue(indexPath.row, forKey: "index")
-        ////Call removeItemFunc
-        //cartCell.removeItemBtn?.addTarget(self, action: #selector(UIPushBehavior.removeItem(_:)), for: UIControl.Event.touchUpInside)
+        //Call removeItemFunc
+        
+        //Send parameter individualID by using tag property and converting String to Int here
+        cartCell.removeItemBtn.tag = Int(item.individualID ?? "-1") ?? -1
+        //Programatically send button in cell to removeItem function when clicked (.touchUpInside)
+        cartCell.removeItemBtn.addTarget(self, action: #selector(removeItem), for: .touchUpInside)
         
         //Image View
         //cartCell.cartImage.image = ...
@@ -72,14 +77,35 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
         return cartCell
     }
     
-    func removeItem(sender:UIButton){
-        let i : Int = (sender.layer.value(forKey: "index")) as! Int
+    @objc func removeItem(sender:UIButton){
+        //Convert individualID back to String
+        let individualID = String(sender.tag)
         
-        //Update database to remove item from cart table here
-        //userNames.removeAtIndex(i)
-        print(i)
+        //Update database to remove item from cart table
+        removeFromCart(uID: UserDefaults.standard.string(forKey: "uID") ?? "-1", selectedProductID: individualID)
         
-        collectionView.reloadData()
+        //self.collectionView.reloadData() //Not working; don't understand why
+        
+        //Reload screen immediately to reflect changes made in database
+        self.viewDidLoad()
+    }
+    
+    //Remove product from user's cart in database
+    func removeFromCart(uID: String, selectedProductID: String){
+        
+        //Create url string
+        let urlString = SignUpVC.self.dataURL + "removeFromCart&uID=\(uID)&indiProductID=\(selectedProductID)"
+        
+        //Encode url
+        let result = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "Error"
+        
+        //Create url
+        guard let url = URL(string: result) else { return }
+        
+        //Send url
+        URLSession.shared.dataTask(with: url).resume()
+        
+        print("URL Sent: \(url)")
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

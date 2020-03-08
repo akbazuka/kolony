@@ -155,7 +155,7 @@ class ProductVC: UIViewController {
         //
     }
     
-    //Push user to database
+    //Push product into user's cart in database
     func insertCart(uID: String, selectedProductID: String){
         
         //Create url string

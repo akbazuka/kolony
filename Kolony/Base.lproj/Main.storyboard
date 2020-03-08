@@ -891,7 +891,7 @@
                                             <outlet property="cartName" destination="U6k-cw-SRo" id="rsF-PL-AWU"/>
                                             <outlet property="cartPrice" destination="V6D-ij-MuO" id="pqC-74-vAH"/>
                                             <outlet property="cartSize" destination="2pT-Y3-wTO" id="LCH-iY-Tni"/>
-                                            <outlet property="removeItemBtn" destination="aLN-sI-d9Y" id="GOc-bf-aBY"/>
+                                            <outlet property="removeItemBtn" destination="aLN-sI-d9Y" id="Cq9-UF-7ou"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

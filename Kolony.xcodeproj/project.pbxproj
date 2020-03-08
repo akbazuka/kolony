@@ -15,9 +15,9 @@
 		7E2DC2DF23DD6E6C004FEEC2 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DC2DE23DD6E6B004FEEC2 /* MainVC.swift */; };
 		7E3ADB542409F47F0003D7CF /* Pods_Kolony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD4C3163AFC2C4F610DF410 /* Pods_Kolony.framework */; };
 		7E5AA298240B978A00F07843 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5AA297240B978A00F07843 /* PickerView.swift */; };
-		7E8F48CD2411094F00A42EC5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E8F48CC2411094F00A42EC5 /* GoogleService-Info.plist */; };
 		7E8F48D12414813100A42EC5 /* SizeProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F48D02414813100A42EC5 /* SizeProductModel.swift */; };
 		7E8F48D32414D6A700A42EC5 /* CartProductsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F48D22414D6A700A42EC5 /* CartProductsModel.swift */; };
+		7E8F48D72415200F00A42EC5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E8F48D62415200F00A42EC5 /* GoogleService-Info.plist */; };
 		7EB48AE423E67311003C6530 /* ProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB48AE323E67311003C6530 /* ProductVC.swift */; };
 		7ED747E9240FCFC100FBA3BC /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED747E8240FCFC100FBA3BC /* SignUpVC.swift */; };
 		7EE6116023D6ED2500DBA511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE6115F23D6ED2500DBA511 /* AppDelegate.swift */; };
@@ -37,9 +37,9 @@
 		7E225AC7240CFA87002F74D9 /* ProductsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsModel.swift; sourceTree = "<group>"; };
 		7E2DC2DE23DD6E6B004FEEC2 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		7E5AA297240B978A00F07843 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
-		7E8F48CC2411094F00A42EC5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7E8F48D02414813100A42EC5 /* SizeProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeProductModel.swift; sourceTree = "<group>"; };
 		7E8F48D22414D6A700A42EC5 /* CartProductsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartProductsModel.swift; sourceTree = "<group>"; };
+		7E8F48D62415200F00A42EC5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7EB48AE323E67311003C6530 /* ProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductVC.swift; sourceTree = "<group>"; };
 		7ED747E8240FCFC100FBA3BC /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		7EE6115C23D6ED2500DBA511 /* Kolony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kolony.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,8 +116,8 @@
 				7E0F1A26240E080D0092F6D5 /* CartCell.swift */,
 				7EE6116823D6ED2800DBA511 /* Assets.xcassets */,
 				7EE6116A23D6ED2800DBA511 /* LaunchScreen.storyboard */,
+				7E8F48D62415200F00A42EC5 /* GoogleService-Info.plist */,
 				7EE6116D23D6ED2800DBA511 /* Info.plist */,
-				7E8F48CC2411094F00A42EC5 /* GoogleService-Info.plist */,
 				7E5AA297240B978A00F07843 /* PickerView.swift */,
 				7E225AC5240CFA74002F74D9 /* HomeModel.swift */,
 				7E225AC7240CFA87002F74D9 /* ProductsModel.swift */,
@@ -188,7 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EE6116C23D6ED2800DBA511 /* LaunchScreen.storyboard in Resources */,
-				7E8F48CD2411094F00A42EC5 /* GoogleService-Info.plist in Resources */,
+				7E8F48D72415200F00A42EC5 /* GoogleService-Info.plist in Resources */,
 				7EE6116923D6ED2800DBA511 /* Assets.xcassets in Resources */,
 				7EE6116723D6ED2500DBA511 /* Main.storyboard in Resources */,
 			);
