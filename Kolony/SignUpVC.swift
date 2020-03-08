@@ -15,6 +15,9 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passText: UITextField!
     @IBOutlet weak var confirmPassText: UITextField!
+    @IBOutlet weak var usernameText: UITextField!
+    
+    static var dataURL = "http://192.168.0.20/kolony.php?type="
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +27,7 @@ class SignUpVC: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //usernameText.endEditing(true)
+        usernameText.endEditing(true)
         emailText.endEditing(true)
         passText.endEditing(true)
         confirmPassText.endEditing(true)
@@ -37,15 +40,15 @@ class SignUpVC: UIViewController {
 //        let conPassword = confirmPassText.text
         
         //if email and password fields are not empty and if password matches confirm password, register user
-        if /*let username = usernameText.text,*/ let email = emailText.text, let password = passText.text, let confirmPassword = confirmPassText.text,
-            !password.isEmpty, !email.isEmpty, /*!username.isEmpty,*/ password == confirmPassword {
+        if let username = usernameText.text, let email = emailText.text, let password = passText.text, let confirmPassword = confirmPassText.text,
+            !password.isEmpty, !email.isEmpty, !username.isEmpty, password == confirmPassword {
     
             //Calls authenticateNewUser method
-            authenticateNewUser(email: email, password: password)
+            authenticateNewUser(email: email, password: password, username: username)
         }
             
         //Error if email and password fields are empty
-        else if /*let username = usernameText.text,*/ let email = emailText.text, let password = passText.text, let confirmPassword = confirmPassText.text, password.isEmpty || email.isEmpty || confirmPassword.isEmpty /*|| username.isEmpty*/{
+        else if let username = usernameText.text, let email = emailText.text, let password = passText.text, let confirmPassword = confirmPassText.text, password.isEmpty || email.isEmpty || confirmPassword.isEmpty || username.isEmpty{
             
             //Error Message
             alert(title: "Error", message: "Text fields cannot be empty")
@@ -70,7 +73,7 @@ class SignUpVC: UIViewController {
     }
     
     //Authenticate User Sign-ups
-    func authenticateNewUser(email: String, password: String) {
+    func authenticateNewUser(email: String, password: String, username: String) {
         
         Auth.auth().createUser(withEmail: email, password: password) {
             
@@ -86,6 +89,9 @@ class SignUpVC: UIViewController {
                 //Navigates to MainVC through Navigation Controller (NavVC)
                 MainVC.goTo("NavVC", animate: true)
                 //print("User is NOT NIL")
+                
+                //Add user to personal database
+                self.insertUser(uID: UserDefaults.standard.string(forKey: "uID") ?? "-1", userName: username, email: email)
             }
                 
             else {
@@ -93,5 +99,23 @@ class SignUpVC: UIViewController {
                 self.alert( title: "Error", message: "\(error?.localizedDescription ?? "Error registering account")")
             }
         }
+    }
+    
+    //Push user to database
+    func insertUser(uID: String, userName: String, email: String){
+        
+        //Create url string
+        let urlString = SignUpVC.self.dataURL + "insertUser&uID=\(uID)&userName=\(userName)&email=\(email)"
+        
+        //Encode url
+        let result = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "Error"
+        
+        //Create url
+        guard let url = URL(string: result) else { return }
+        
+        //Send url
+        URLSession.shared.dataTask(with: url).resume()
+        
+        print("URL Sent: \(url)")
     }
 }

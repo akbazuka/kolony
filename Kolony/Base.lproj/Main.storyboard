@@ -189,7 +189,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SaU-SR-hlj">
-                                <rect key="frame" x="98" y="516" width="218" height="34"/>
+                                <rect key="frame" x="98" y="602" width="218" height="34"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="218" id="Ydb-rq-ehL"/>
@@ -199,7 +199,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rP7-7T-4hq">
-                                <rect key="frame" x="166" y="611" width="81" height="52"/>
+                                <rect key="frame" x="166.5" y="697" width="81" height="52"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="52" id="CDM-tR-2ch"/>
                                     <constraint firstAttribute="width" constant="81" id="gWf-Rr-Z5Z"/>
@@ -221,7 +221,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="E-mail" adjustsFontForContentSizeCategory="YES" minimumFontSize="19" translatesAutoresizingMaskIntoConstraints="NO" id="I5Z-3q-Mtv">
-                                <rect key="frame" x="98" y="426" width="218" height="34"/>
+                                <rect key="frame" x="98" y="512" width="218" height="34"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="Dy7-Ce-Uzy"/>
@@ -231,7 +231,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lk3-Go-WCq">
-                                <rect key="frame" x="98" y="558" width="218" height="34"/>
+                                <rect key="frame" x="98" y="644" width="218" height="34"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="ExR-1d-Rse"/>
@@ -241,7 +241,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a Password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uRM-OL-VC3">
-                                <rect key="frame" x="98" y="487" width="165" height="25"/>
+                                <rect key="frame" x="98" y="573" width="165" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="165" id="BE1-Ti-nhV"/>
                                     <constraint firstAttribute="height" constant="25" id="dh9-hh-0gN"/>
@@ -251,7 +251,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your E-mail Address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kr1-ay-W4c">
-                                <rect key="frame" x="98" y="397" width="171" height="25"/>
+                                <rect key="frame" x="98" y="483" width="171" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="55s-Ih-Te9"/>
                                     <constraint firstAttribute="width" constant="171" id="Y80-nX-igL"/>
@@ -260,24 +260,48 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" adjustsFontForContentSizeCategory="YES" minimumFontSize="19" translatesAutoresizingMaskIntoConstraints="NO" id="03s-cI-2EK">
+                                <rect key="frame" x="98" y="417" width="218" height="34"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="IE0-v4-Sma"/>
+                                    <constraint firstAttribute="width" constant="218" id="P0K-0C-Bk1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tell us Your Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ruT-Za-QxR">
+                                <rect key="frame" x="98" y="388" width="152" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="152" id="6B2-wM-AAX"/>
+                                    <constraint firstAttribute="height" constant="25" id="DHc-fZ-E02"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="lk3-Go-WCq" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="127" id="4cw-4M-dn2"/>
+                            <constraint firstItem="lk3-Go-WCq" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="213" id="4cw-4M-dn2"/>
                             <constraint firstItem="VNY-Q9-uG2" firstAttribute="centerX" secondItem="CYM-YG-tis" secondAttribute="centerX" id="732-aT-LPv"/>
-                            <constraint firstItem="I5Z-3q-Mtv" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="-5" id="JRZ-mr-qbp"/>
+                            <constraint firstItem="I5Z-3q-Mtv" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="81" id="JRZ-mr-qbp"/>
+                            <constraint firstItem="03s-cI-2EK" firstAttribute="centerX" secondItem="CYM-YG-tis" secondAttribute="centerX" id="JVp-Dr-QRE"/>
                             <constraint firstItem="Qte-8B-GRE" firstAttribute="centerX" secondItem="CYM-YG-tis" secondAttribute="centerX" id="VxX-05-tb8"/>
                             <constraint firstItem="VNY-Q9-uG2" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="-128.5" id="W8E-QI-BKa"/>
                             <constraint firstItem="SaU-SR-hlj" firstAttribute="centerX" secondItem="CYM-YG-tis" secondAttribute="centerX" id="XAF-zL-frN"/>
-                            <constraint firstItem="Kr1-ay-W4c" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="-38.5" id="ZlV-27-tL7"/>
+                            <constraint firstItem="Kr1-ay-W4c" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="47.5" id="ZlV-27-tL7"/>
+                            <constraint firstItem="03s-cI-2EK" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="-14" id="aYr-cG-6aI"/>
                             <constraint firstItem="I5Z-3q-Mtv" firstAttribute="centerX" secondItem="CYM-YG-tis" secondAttribute="centerX" id="gZ8-GG-Fsf"/>
                             <constraint firstItem="Qte-8B-GRE" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="-230.5" id="gdL-Rm-nQO"/>
                             <constraint firstItem="uRM-OL-VC3" firstAttribute="centerX" secondItem="CYM-YG-tis" secondAttribute="centerX" constant="-26.5" id="hKh-9e-bwg"/>
-                            <constraint firstItem="SaU-SR-hlj" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="85" id="jX5-cT-xNN"/>
-                            <constraint firstItem="rP7-7T-4hq" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="189" id="k6d-yr-hjP"/>
+                            <constraint firstItem="ruT-Za-QxR" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="-47.5" id="j2C-0C-uaS"/>
+                            <constraint firstItem="SaU-SR-hlj" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="171" id="jX5-cT-xNN"/>
+                            <constraint firstItem="ruT-Za-QxR" firstAttribute="centerX" secondItem="CYM-YG-tis" secondAttribute="centerX" constant="-33" id="jxB-P4-ZHh"/>
+                            <constraint firstItem="rP7-7T-4hq" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="275" id="k6d-yr-hjP"/>
                             <constraint firstItem="Kr1-ay-W4c" firstAttribute="centerX" secondItem="CYM-YG-tis" secondAttribute="centerX" constant="-23.5" id="ktO-1g-id9"/>
                             <constraint firstItem="lk3-Go-WCq" firstAttribute="centerX" secondItem="CYM-YG-tis" secondAttribute="centerX" id="lt7-jo-YLB"/>
-                            <constraint firstItem="uRM-OL-VC3" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="51.5" id="scJ-M7-kLI"/>
+                            <constraint firstItem="uRM-OL-VC3" firstAttribute="centerY" secondItem="CYM-YG-tis" secondAttribute="centerY" constant="137.5" id="scJ-M7-kLI"/>
                             <constraint firstItem="rP7-7T-4hq" firstAttribute="centerX" secondItem="CYM-YG-tis" secondAttribute="centerX" id="xPs-J5-pdA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="S34-hr-uWS"/>
@@ -286,6 +310,7 @@
                         <outlet property="confirmPassText" destination="lk3-Go-WCq" id="wxf-dG-FJT"/>
                         <outlet property="emailText" destination="I5Z-3q-Mtv" id="xQr-lN-Phl"/>
                         <outlet property="passText" destination="SaU-SR-hlj" id="orK-vF-Nfl"/>
+                        <outlet property="usernameText" destination="03s-cI-2EK" id="eAz-Nh-mcw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q9C-tR-RdR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
