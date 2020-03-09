@@ -50,10 +50,12 @@ class ProductVC: UIViewController {
     
     static var prodRetail = ""
     
-    //Only used when product coming from CartVC
-    static var prodSize = ""
+    ////Use only if want to display size of item in cart in detail view as well
+    ////Only used when product coming from CartVC
+    //static var prodSize = ""
     
-    static var sizeSelected = 0 //To make sure that user chooses size from picker before adding to cart
+    //Use only if want to display size of item in cart in detail view as well
+    //static var sizeSelected = 0 //To make sure that user chooses size from picker before adding to cart
     
     var feedItems: NSArray = NSArray() //(Uncomment if using database)
     var selectedLocation1 : SizeProductModel = SizeProductModel() //(Uncomment if using database)
@@ -73,7 +75,8 @@ class ProductVC: UIViewController {
         
         //Changes back button title in navigation controller to "Back"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
-
+        //Refresh Size picker every time user navigates to ProductVC
+        didTapCancel()
         
         //Wrap text to next line if doesn't fit on same line
         productName.lineBreakMode = .byWordWrapping // notice the 'b' instead of 'B'
@@ -116,7 +119,8 @@ class ProductVC: UIViewController {
         colorwayLabel.text = ProductVC.prodColorway.uppercased()
         releaseLabel.text = ProductVC.prodRelease
         retailLabel.text = ProductVC.prodRetail
-        sizeText.text = ProductVC.prodSize //Only displays a size when information sent from CartVC
+        ////Use only if want to display size of item in cart in detail view as well
+        //sizeText.text = ProductVC.prodSize //Only displays a size when information sent from CartVC
         
         //UINavigationBar.appearance().titleTextAttributes = attributes //Changes font of navigation bar title
         
@@ -141,17 +145,26 @@ class ProductVC: UIViewController {
         //if(isKeyPresentInUserDefaults(key: "uID")){ //Not as good as validating if guest user
         
         //Only allows to add to cart if user is logged in with a valid account and not as guest user and size is picked
-        if LoginVC.isGuest == 0, let size = sizeText.text, !size.isEmpty, ProductVC.sizeSelected == 1 {
+        if LoginVC.isGuest == 0, let size = sizeText.text, !size.isEmpty/*, ProductVC.sizeSelected == 1 */{
             //Add item to cart in the database
             insertCart(uID: UserDefaults.standard.string(forKey: "uID") ?? "-1", selectedProductID: self.selectedItemID)
+            
+            //Refresh Size picker so that when user navigates back, they cannot re-add to cart
+            self.didTapCancel()
+            
+            ////Use only if want to display size of item in cart in detail view as well
+            //ProductVC.sizeSelected = 0 //Does not allow user to add to cart again without reselecting size
+            
             //Show alert saying item was added to cart
-            alert(title: "Added to Cart", message: "This item was successfully added to your shopping cart!" )
+            alertNavToVC(title: "Added to Cart", message: "This item was successfully added to your shopping cart!",toVC: "CartVC")
+            
         } else if (LoginVC.isGuest != 0) {
             alert(title: "Error", message: "You must be logged in with a registered account if you would like to add this item to your shopping cart.")
-        } else if (ProductVC.sizeSelected == 0){
+        }   ////Use only if want to display size of item in cart in detail view as well
+            /*else if ProductVC.sizeSelected == 0, let size = sizeText.text, !size.isEmpty{ //Does not allow user to add to cart if coming straight from CartVC and has not manually rechose a size
             self.didTapCancel()
             alert(title: "This item is already in your Cart", message: "Please select a size again if you wish to add the item once more.")
-        } else {
+        } */else {
             alert(title: "Please select a Size", message: "You must select a size for the product you wish to add to your cart.")
         }
     }
@@ -191,7 +204,36 @@ class ProductVC: UIViewController {
         //Action Title
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         //Present to Screen
-        present(alert,animated: true,completion: nil)
+        present(alert,animated: true, completion: nil)
+    }
+    
+    //Navigate to VC after Alert
+    func alertNavToVC(title:String, message: String, toVC: String) {
+        //Error Title
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        //Action Title
+        //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default){UIAlertAction in self.navGoTo(toVC, animate: true)})
+        
+        //Present to Screen
+        present(alert,animated: true, completion: nil)
+    }
+    
+    //Navigate to different VC manually (With Navigation Controller)
+    func navGoTo(_ view: String, animate: Bool){
+        OperationQueue.main.addOperation {
+            func topMostController() -> UIViewController {
+                var topController: UIViewController = UIApplication.shared.windows.filter {$0.isKeyWindow}.first!.rootViewController!
+                while (topController.presentedViewController != nil) {
+                    topController = topController.presentedViewController!
+                }
+                return topController
+            }
+            if let second = topMostController().storyboard?.instantiateViewController(withIdentifier: view) {
+        self.navigationController?.pushViewController(second, animated: animate)
+                
+            }
+        }
     }
     
 }
@@ -252,7 +294,8 @@ extension ProductVC: ToolbarPickerViewDelegate {
         //Selects product according to size chosen
         self.selectedItemID = item.individualID ?? "0"
         
-        ProductVC.sizeSelected = 1 //User has selected a size; allow it to be added ot cart
+        ////Use only if want to display size of item in cart in detail view as well
+        //ProductVC.sizeSelected = 1 //User has selected a size; allow it to be added ot cart
     }
 
     func didTapCancel() {

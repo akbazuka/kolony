@@ -268,6 +268,8 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         ProductVC.prodRelease = item.release ?? "Release Date"
         ProductVC.prodRetail = item.retail ?? "Retail Price"
         ProductVC.prodID = item.id ?? "Product ID"
+        ////Use only if want to display size of item in cart in detail view as well
+        //ProductVC.prodSize = "" //Sets size field back to empty String by default
         
         navGoTo("ProductVC", animate: true)
     }

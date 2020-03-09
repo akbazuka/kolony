@@ -91,6 +91,11 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
         //Image View
         //cartCell.cartImage.image = ...
         
+        //Give Each Product in CartVC a black rounded border
+        cartCell.layer.borderColor = UIColor.black.cgColor
+        cartCell.layer.borderWidth = 1.5
+        cartCell.layer.cornerRadius = 7
+        
         return cartCell
     }
     
@@ -141,7 +146,8 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
         ProductVC.prodRelease = item.prodRelease ?? "Release Date"
         ProductVC.prodRetail = item.retail ?? "Retail Price"
         ProductVC.prodID = item.prodID ?? "Product ID"
-        ProductVC.prodSize = item.size ?? "-1"
+        ////Use only if want to display size of item in cart in detail view as well
+        //ProductVC.prodSize = item.size ?? "-1"
         
         //Go to Detail View of Product
         navGoTo("ProductVC", animate: true)
