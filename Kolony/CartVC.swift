@@ -18,7 +18,7 @@ class CartVC: UIViewController {
     
     var feedItems: NSArray = NSArray()
     var selectedLocation : CartProductsModel = CartProductsModel()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,6 +45,15 @@ class CartVC: UIViewController {
         }
     }
     
+    //#selector method to navigate to checkout
+    @objc func goToCheckout(){
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let checkoutViewController = storyBoard.instantiateViewController(withIdentifier: "MainVC") as! MainVC
+        //self.present(nextViewController, animated:true, completion:nil)
+        print("Hola")
+        self.navigationController?.pushViewController(checkoutViewController, animated: true)
+    }
+    
 }
 
 //MARK: Products View Stuff (Collection View)
@@ -57,9 +66,18 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
         //Hide cart empty label if user not logged in as guest and if user is logged in, change the label's text
         if LoginVC.isGuest == 0 && feedItems.count != 0{
             cartEmptyLabel.isHidden = true
+        
+            //Create bar button item for checkout
+            let checkoutBtn = UIBarButtonItem(title: "Checkout", style: .done, target: self, action: #selector(goToCheckout))
+            //Show checkout button in Navigation Bar only if cart is not empty and user is logged in
+            self.navigationItem.rightBarButtonItem  = checkoutBtn
+            
         } else if LoginVC.isGuest == 0 && feedItems.count == 0 {
             cartEmptyLabel.isHidden = false
             cartEmptyLabel.text = "Your cart is empty."
+            
+            //Remove checkput button if cart is empty
+            self.navigationItem.rightBarButtonItem = nil
         }
         return feedItems.count
     }
