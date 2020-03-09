@@ -225,7 +225,12 @@ class HomeModel: NSObject, URLSessionDataDelegate {
                 let price = jsonElement["productprice"] as? String,
                 let size = jsonElement["productsizes"] as? String,
                 let individualID = jsonElement["eachproductid"] as? String,
-                let prodID = jsonElement["productid"] as? String
+                let prodID = jsonElement["productid"] as? String,
+                let brand = jsonElement["productbrand"] as? String,
+                let colorway = jsonElement["productcolorway"] as? String,
+                let retail = jsonElement["productretail"] as? String,
+                let style = jsonElement["productstyle"] as? String,
+                let release = jsonElement["productrelease"] as? String
             {
 
                 cartProduct.name = name
@@ -233,6 +238,11 @@ class HomeModel: NSObject, URLSessionDataDelegate {
                 cartProduct.size = size
                 cartProduct.individualID = individualID
                 cartProduct.prodID = prodID
+                cartProduct.productBrand = brand
+                cartProduct.colorway = colorway
+                cartProduct.retail = "$"+retail
+                cartProduct.style = style
+                cartProduct.prodRelease = release
 
             }
 

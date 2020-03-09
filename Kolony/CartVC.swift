@@ -28,6 +28,23 @@ class CartVC: UIViewController {
         homeModel.downloadItemsCart()
     }
     
+    //Navigate to different VC manually (With Navigation Controller)
+    func navGoTo(_ view: String, animate: Bool){
+        OperationQueue.main.addOperation {
+            func topMostController() -> UIViewController {
+                var topController: UIViewController = UIApplication.shared.windows.filter {$0.isKeyWindow}.first!.rootViewController!
+                while (topController.presentedViewController != nil) {
+                    topController = topController.presentedViewController!
+                }
+                return topController
+            }
+            if let second = topMostController().storyboard?.instantiateViewController(withIdentifier: view) {
+        self.navigationController?.pushViewController(second, animated: animate)
+                
+            }
+        }
+    }
+    
 }
 
 //MARK: Products View Stuff (Collection View)
@@ -87,7 +104,7 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
         //self.collectionView.reloadData() //Not working; don't understand why
         
         //Reload screen immediately to reflect changes made in database
-        self.viewDidLoad()
+        self.viewDidLoad() //Doesn't always work
     }
     
     //Remove product from user's cart in database
@@ -109,22 +126,26 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        /*
-           //Get data of product by cell (from database)
-           let item: ProductsModel = feedItems[indexPath.row] as! ProductsModel //(Uncomment if using database)
+        
+        //Get data of product by cell (from database)
+        let item: CartProductsModel = feedItems[indexPath.row] as! CartProductsModel //(Uncomment if using database)
            
-           ProductVC.prodPic = images[indexPath.row]
-           ProductVC.prodName = item.name ?? "Name"
-           ProductVC.prodPrice = item.price ?? "$$$"
-           ProductVC.prodBrand = item.brand ?? "Brand"
-           ProductVC.prodStyle = item.style ?? "Style"
-           ProductVC.prodColorway = item.colorway ?? "Colorway"
-           ProductVC.prodRelease = item.release ?? "Release Date"
-           ProductVC.prodRetail = item.retail ?? "Retail Price"
-           ProductVC.prodID = item.id ?? "Product ID"
-           
-           navGoTo("ProductVC", animate: true) */
-       }
+        //Sending infromation to be displayed on ProductVC
+        
+        //ProductVC.prodPic = images[indexPath.row] //Implement image
+        ProductVC.prodName = item.name ?? "Name"
+        ProductVC.prodPrice = item.price ?? "$$$"
+        ProductVC.prodBrand = item.productBrand ?? "Brand"
+        ProductVC.prodStyle = item.style ?? "Style"
+        ProductVC.prodColorway = item.colorway ?? "Colorway"
+        ProductVC.prodRelease = item.prodRelease ?? "Release Date"
+        ProductVC.prodRetail = item.retail ?? "Retail Price"
+        ProductVC.prodID = item.prodID ?? "Product ID"
+        ProductVC.prodSize = item.size ?? "-1"
+        
+        //Go to Detail View of Product
+        navGoTo("ProductVC", animate: true)
+    }
 }
 
 //MARK: Database Model

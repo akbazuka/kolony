@@ -50,6 +50,11 @@ class ProductVC: UIViewController {
     
     static var prodRetail = ""
     
+    //Only used when product coming from CartVC
+    static var prodSize = ""
+    
+    static var sizeSelected = 0 //To make sure that user chooses size from picker before adding to cart
+    
     var feedItems: NSArray = NSArray() //(Uncomment if using database)
     var selectedLocation1 : SizeProductModel = SizeProductModel() //(Uncomment if using database)
     
@@ -57,6 +62,7 @@ class ProductVC: UIViewController {
     //fileprivate let sizes = ["5","6", "7", "8", "9", "10", "11"]
     var selectedItemID = ""
     
+    //Text box that allows you to select size and then displays it
     @IBOutlet weak var sizeText: UITextField!
     
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
@@ -110,6 +116,7 @@ class ProductVC: UIViewController {
         colorwayLabel.text = ProductVC.prodColorway.uppercased()
         releaseLabel.text = ProductVC.prodRelease
         retailLabel.text = ProductVC.prodRetail
+        sizeText.text = ProductVC.prodSize //Only displays a size when information sent from CartVC
         
         //UINavigationBar.appearance().titleTextAttributes = attributes //Changes font of navigation bar title
         
@@ -134,15 +141,18 @@ class ProductVC: UIViewController {
         //if(isKeyPresentInUserDefaults(key: "uID")){ //Not as good as validating if guest user
         
         //Only allows to add to cart if user is logged in with a valid account and not as guest user and size is picked
-        if LoginVC.isGuest == 0, let size = sizeText.text, !size.isEmpty {
+        if LoginVC.isGuest == 0, let size = sizeText.text, !size.isEmpty, ProductVC.sizeSelected == 1 {
             //Add item to cart in the database
             insertCart(uID: UserDefaults.standard.string(forKey: "uID") ?? "-1", selectedProductID: self.selectedItemID)
             //Show alert saying item was added to cart
             alert(title: "Added to Cart", message: "This item was successfully added to your shopping cart!" )
         } else if (LoginVC.isGuest != 0) {
             alert(title: "Error", message: "You must be logged in with a registered account if you would like to add this item to your shopping cart.")
+        } else if (ProductVC.sizeSelected == 0){
+            self.didTapCancel()
+            alert(title: "This item is already in your Cart", message: "Please select a size again if you wish to add the item once more.")
         } else {
-            alert(title: "Select a Size", message: "You must select a size for the product you wish to add to your cart")
+            alert(title: "Please select a Size", message: "You must select a size for the product you wish to add to your cart.")
         }
     }
     
@@ -241,6 +251,8 @@ extension ProductVC: ToolbarPickerViewDelegate {
         
         //Selects product according to size chosen
         self.selectedItemID = item.individualID ?? "0"
+        
+        ProductVC.sizeSelected = 1 //User has selected a size; allow it to be added ot cart
     }
 
     func didTapCancel() {
