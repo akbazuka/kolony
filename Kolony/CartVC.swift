@@ -12,6 +12,8 @@ class CartVC: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var checkoutView: UIView!
+    
     @IBOutlet weak var cartEmptyLabel: UILabel!
     
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
@@ -21,6 +23,18 @@ class CartVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Hide checkout view if user is logged in as guest
+        if (LoginVC.isGuest == 1) {
+            checkoutView.isHidden = true
+        }
+        else {
+            checkoutView.isHidden = false
+        }
+        
+        //Border for checkoutView
+        checkoutView.layer.borderWidth = 0.5
+        checkoutView.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
         
         //For getting data from database
         let homeModel = HomeModel()
@@ -45,6 +59,7 @@ class CartVC: UIViewController {
         }
     }
     
+    /*//Only need if using Checkout button in Navigation Bars
     //#selector method to navigate to checkout
     @objc func goToCheckout(){
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -53,6 +68,7 @@ class CartVC: UIViewController {
         print("Hola")
         self.navigationController?.pushViewController(checkoutViewController, animated: true)
     }
+ */
     
 }
 
@@ -67,14 +83,20 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
         if LoginVC.isGuest == 0 && feedItems.count != 0{
             cartEmptyLabel.isHidden = true
         
-            //Create bar button item for checkout
-            let checkoutBtn = UIBarButtonItem(title: "Checkout", style: .done, target: self, action: #selector(goToCheckout))
-            //Show checkout button in Navigation Bar only if cart is not empty and user is logged in
-            self.navigationItem.rightBarButtonItem  = checkoutBtn
+            ////Create bar button item for checkout
+            //let checkoutBtn = UIBarButtonItem(title: "Checkout", style: .done, target: self, action: #selector(goToCheckout))
+            ////Show checkout button in Navigation Bar only if cart is not empty and user is logged in
+            //self.navigationItem.rightBarButtonItem  = checkoutBtn
+            
+            //Show checkout view if items in cart
+            checkoutView.isHidden = false
             
         } else if LoginVC.isGuest == 0 && feedItems.count == 0 {
             cartEmptyLabel.isHidden = false
             cartEmptyLabel.text = "Your cart is empty."
+            
+            //Hide checkout view if cart is empty
+            checkoutView.isHidden = true
             
             //Remove checkput button if cart is empty
             self.navigationItem.rightBarButtonItem = nil
@@ -110,9 +132,16 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
         //cartCell.cartImage.image = ...
         
         //Give Each Product in CartVC a black rounded border
-        cartCell.layer.borderColor = UIColor.black.cgColor
-        cartCell.layer.borderWidth = 1.5
+        cartCell.layer.borderColor = UIColor.black.withAlphaComponent(0.4).cgColor
+        cartCell.layer.borderWidth = 0.5
         cartCell.layer.cornerRadius = 7
+        
+//        //Add shadow to each cell
+//        cartCell.layer.shadowColor = UIColor.black.cgColor
+//        cartCell.layer.shadowOffset = CGSize(width: 0, height: 0.5)
+//        cartCell.layer.shadowRadius = 1.0
+//        cartCell.layer.shadowOpacity = 0.5
+//        cartCell.layer.masksToBounds = false
         
         return cartCell
     }
