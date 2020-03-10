@@ -115,6 +115,7 @@
 				7E2DC2DE23DD6E6B004FEEC2 /* MainVC.swift */,
 				7E0AD94223E2C91900244520 /* ProductCell.swift */,
 				7E0F1A22240DFF700092F6D5 /* CartVC.swift */,
+				7E00323B2417499200094264 /* StripeClient.swift */,
 				7E0F1A26240E080D0092F6D5 /* CartCell.swift */,
 				7EE6116823D6ED2800DBA511 /* Assets.xcassets */,
 				7EE6116A23D6ED2800DBA511 /* LaunchScreen.storyboard */,
@@ -125,7 +126,6 @@
 				7E225AC7240CFA87002F74D9 /* ProductsModel.swift */,
 				7E8F48D02414813100A42EC5 /* SizeProductModel.swift */,
 				7E8F48D22414D6A700A42EC5 /* CartProductsModel.swift */,
-				7E00323B2417499200094264 /* StripeClient.swift */,
 			);
 			path = Kolony;
 			sourceTree = "<group>";

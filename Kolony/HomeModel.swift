@@ -132,8 +132,8 @@ class HomeModel: NSObject, URLSessionDataDelegate {
                 product.name = name
                 product.brand = brand
                 product.colorway = colorway
-                product.price = "$"+price
-                product.retail = "$"+retail
+                product.price = price
+                product.retail = retail
                 product.style = style
                 product.release = release
                 product.id = id
@@ -234,13 +234,13 @@ class HomeModel: NSObject, URLSessionDataDelegate {
             {
 
                 cartProduct.name = name
-                cartProduct.price = "$"+price
+                cartProduct.price = price
                 cartProduct.size = size
                 cartProduct.individualID = individualID
                 cartProduct.prodID = prodID
                 cartProduct.productBrand = brand
                 cartProduct.colorway = colorway
-                cartProduct.retail = "$"+retail
+                cartProduct.retail = retail
                 cartProduct.style = style
                 cartProduct.prodRelease = release
 

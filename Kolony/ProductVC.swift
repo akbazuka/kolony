@@ -113,12 +113,12 @@ class ProductVC: UIViewController {
         //Sets product info according to what product was clicked on in collection view of MainVC
         productImages.image = ProductVC.prodPic
         productName.text = ProductVC.prodName
-        productPrice.text = ProductVC.prodPrice
+        productPrice.text = "$"+ProductVC.prodPrice
         brandLabel.text = ProductVC.prodBrand.uppercased()
         styleLabel.text = ProductVC.prodStyle.uppercased()
         colorwayLabel.text = ProductVC.prodColorway.uppercased()
         releaseLabel.text = ProductVC.prodRelease
-        retailLabel.text = ProductVC.prodRetail
+        retailLabel.text = "$"+ProductVC.prodRetail
         ////Use only if want to display size of item in cart in detail view as well
         //sizeText.text = ProductVC.prodSize //Only displays a size when information sent from CartVC
         

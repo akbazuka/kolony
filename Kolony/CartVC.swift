@@ -16,15 +16,17 @@ class CartVC: UIViewController {
     @IBOutlet weak var checkoutView: UIView!
     
     @IBOutlet weak var cartEmptyLabel: UILabel!
+
+    @IBOutlet weak var checkoutBtn: UIButton!
+    
+    @IBOutlet weak var checkoutTotal: UILabel!
     
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
     
     var feedItems: NSArray = NSArray()
     var selectedLocation : CartProductsModel = CartProductsModel()
 
-    @IBOutlet weak var checkoutBtn: UIButton!
-    
-    @IBOutlet weak var checkoutTotal: UILabel!
+    var cartTotalAmount = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +52,6 @@ class CartVC: UIViewController {
         let homeModel = HomeModel()
         homeModel.delegate = self
         homeModel.downloadItemsCart()
-        
     }
     
     @IBAction func checkoutOnClick(_ sender: Any) {
@@ -109,6 +110,18 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
             //Show checkout view if items in cart
             checkoutView.isHidden = false
             
+            //Calculates total price by looping through items in cart and summing the price of each product
+            for product in feedItems {
+                let item: CartProductsModel = product as! CartProductsModel
+                cartTotalAmount += Double(item.price ?? "-1") ?? -1.0
+            }
+            
+            //Set Checkout Amount label to display to total amount of items in cart
+            checkoutTotal.text = "$"+String(cartTotalAmount)
+            
+            //Fits Checkout Total in text label
+            checkoutTotal.adjustsFontSizeToFitWidth = true
+            
         } else if LoginVC.isGuest == 0 && feedItems.count == 0 {
             cartEmptyLabel.isHidden = false
             cartEmptyLabel.text = "Your cart is empty."
@@ -133,7 +146,8 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cartCell.cartName.text = item.name
         //print("The name is: "+(cartCell.cartName.text ?? "Does not exist"))
         
-        cartCell.cartPrice.text = item.price
+        cartCell.cartPrice.text = "$ \(item.price ?? "-1")"
+        //cartTotalAmount += Int(item.price ?? "0") ?? 0 //Checkout total is increased every time item is added to cart
         
         cartCell.cartSize.text = "Size: \(item.size ?? "-1")"
         
@@ -160,6 +174,9 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
 //        cartCell.layer.shadowRadius = 1.0
 //        cartCell.layer.shadowOpacity = 0.5
 //        cartCell.layer.masksToBounds = false
+        
+        //Sets checkput total to the total amount of the items in the cart
+        //checkoutTotal.text = "$"+String(cartTotalAmount)
         
         return cartCell
     }
@@ -240,15 +257,13 @@ extension CartVC: STPAddCardViewControllerDelegate {
                              completion: @escaping STPErrorBlock) {
         /*
          This code calls completeCharge(with:amount:completion:) and when it receives the result:
-
-         1. If the Stripe client returns with a success result, it calls completion(nil) to inform STPAddCardViewController the request was successful and then presents a message to the user.
-         2. If the Stripe client returns with a failure result, it simply calls completion(error) letting STPAddCardViewController handle the error since it has internal logic for this.
          */
-        StripeClient.shared.completeCharge(with: token, amount: 100) { result in
+        StripeClient.shared.completeCharge(with: token, amount: Int(cartTotalAmount)) { result in
           switch result {
-          // 1
+          //If the Stripe client returns with a success result, it calls completion(nil) to inform STPAddCardViewController the request was successful and then presents a message to the user.
           case .success:
             completion(nil)
+            print("Ello luv")
 
             let alertController = UIAlertController(title: "Congrats",
                                   message: "Your payment was successful!",
@@ -258,9 +273,10 @@ extension CartVC: STPAddCardViewControllerDelegate {
             })
             alertController.addAction(alertAction)
             self.present(alertController, animated: true)
-          // 2
+          //If the Stripe client returns with a failure result, it simply calls completion(error) letting STPAddCardViewController handle the error since it has internal logic for this.
           case .failure(let error):
             completion(error)
+            print("No luv")
           }
         }
     }

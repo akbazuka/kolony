@@ -238,7 +238,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.productDescription.text = item.name
         
         //cell.productPrice.text = price[indexPath.row] //Comment if using database
-        cell.productPrice.text = item.price
+        cell.productPrice.text = "$\(item.price ?? "-1")"
         
         return cell
     }

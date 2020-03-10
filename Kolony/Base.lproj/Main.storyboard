@@ -438,7 +438,9 @@
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Mtz-5Y-JRA"/>
-                        <barButtonItem title="Item" image="homePic" id="rH1-Oa-xdN"/>
+                        <barButtonItem title="Item" image="homePic" id="rH1-Oa-xdN">
+                            <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="579-gV-4ZG"/>
                         <barButtonItem title="Item" image="cartPic1" id="cLW-8V-Hkt">
                             <connections>
@@ -914,10 +916,10 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$-1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIw-08-Ssp">
-                                        <rect key="frame" x="301" y="10" width="72" height="34"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lIw-08-Ssp">
+                                        <rect key="frame" x="275" y="10" width="98" height="34"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="72" id="Imr-10-nQB"/>
+                                            <constraint firstAttribute="width" constant="98" id="Imr-10-nQB"/>
                                             <constraint firstAttribute="height" constant="34" id="XRJ-ab-uSS"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="21"/>
@@ -943,7 +945,7 @@
                                 <constraints>
                                     <constraint firstItem="l3q-lN-uI1" firstAttribute="bottom" secondItem="YFK-i0-g5D" secondAttribute="bottomMargin" constant="-2" id="Q03-8V-n4Q"/>
                                     <constraint firstItem="lIw-08-Ssp" firstAttribute="bottom" secondItem="iy1-t7-Ksy" secondAttribute="bottom" id="Uv0-Zn-QpQ"/>
-                                    <constraint firstItem="lIw-08-Ssp" firstAttribute="centerX" secondItem="YFK-i0-g5D" secondAttribute="centerX" constant="130" id="V7h-xr-SJ9"/>
+                                    <constraint firstItem="lIw-08-Ssp" firstAttribute="centerX" secondItem="YFK-i0-g5D" secondAttribute="centerX" constant="117" id="V7h-xr-SJ9"/>
                                     <constraint firstItem="l3q-lN-uI1" firstAttribute="leading" secondItem="iy1-t7-Ksy" secondAttribute="leading" id="cXG-HK-8Ce"/>
                                     <constraint firstAttribute="trailing" secondItem="l3q-lN-uI1" secondAttribute="trailing" constant="27" id="kRS-gI-DMM"/>
                                     <constraint firstItem="iy1-t7-Ksy" firstAttribute="centerX" secondItem="YFK-i0-g5D" secondAttribute="centerX" constant="-148.5" id="u75-Dx-Ywv"/>
@@ -973,7 +975,9 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="x4J-7W-fwS"/>
-                        <barButtonItem title="Item" image="cartPic1" id="MTL-75-o8O"/>
+                        <barButtonItem title="Item" image="cartPic1" id="MTL-75-o8O">
+                            <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="oZh-cJ-uj4"/>
                         <barButtonItem title="Item" image="personPic" id="IMd-gr-4O1"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Hrs-ew-CwM"/>

@@ -17,7 +17,7 @@ class CartCell: UICollectionViewCell {
     @IBOutlet weak var removeItemBtn: UIButton!
     
     override func layoutSubviews() {
-        cartName.lineBreakMode = .byWordWrapping
+        //cartName.lineBreakMode = .byWordWrapping
         cartName.adjustsFontSizeToFitWidth = true
         
         ////Add border and change color of remove Item Button
