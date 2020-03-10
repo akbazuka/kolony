@@ -852,7 +852,7 @@
                                                         <constraint firstAttribute="width" constant="117" id="hqk-vM-kUc"/>
                                                         <constraint firstAttribute="height" constant="30" id="maf-1a-hp9"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
                                                     <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" title="Remove" image="deletePic">
                                                         <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -901,7 +901,7 @@
                                     <outlet property="delegate" destination="GXr-IU-euD" id="W1h-HN-ts3"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YFK-i0-g5D">
+                            <view contentMode="scaleToFill" restorationIdentifier="CheckoutView" translatesAutoresizingMaskIntoConstraints="NO" id="YFK-i0-g5D">
                                 <rect key="frame" x="0.0" y="660" width="414" height="104"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iy1-t7-Ksy">
@@ -933,6 +933,10 @@
                                         <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="21"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="CHECKOUT"/>
+                                        <connections>
+                                            <action selector="checkoutBtn:" destination="imd-9M-qG8" eventType="touchUpInside" id="C8r-C7-EmZ"/>
+                                            <action selector="checkoutOnClick:" destination="GXr-IU-euD" eventType="touchUpInside" id="BzF-JS-4lc"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -980,11 +984,14 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cartEmptyLabel" destination="rbr-Pj-JON" id="Ut8-QG-O4R"/>
+                        <outlet property="checkoutBtn" destination="l3q-lN-uI1" id="Kgd-Yp-P39"/>
+                        <outlet property="checkoutTotal" destination="lIw-08-Ssp" id="RkC-Sy-TM2"/>
                         <outlet property="checkoutView" destination="YFK-i0-g5D" id="7C0-sz-9rH"/>
                         <outlet property="collectionView" destination="6fk-iY-Qfy" id="5pn-pe-BlO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QaU-c1-NUk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="imd-9M-qG8" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3556.521739130435" y="-260.49107142857144"/>
         </scene>

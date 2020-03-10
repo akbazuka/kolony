@@ -19,7 +19,7 @@ class HomeModel: NSObject, URLSessionDataDelegate {
 
     //var data = Data() //What is this??
 
-    let urlPath: String = "http://192.168.0.20/kolony.php?type=pullProducts" //this will be changed to the path where service.php lives
+    let urlPath: String = "http://localhost/kolony.php?type=pullProducts" //this will be changed to the path where service.php lives
 
     func downloadItems() {
 
@@ -43,7 +43,7 @@ class HomeModel: NSObject, URLSessionDataDelegate {
         task.resume()
     }
     
-    let urlPathSizes: String = "http://192.168.0.20/kolony.php?type=pullProductSizes&productID="+ProductVC.prodID
+    let urlPathSizes: String = "http://localhost/kolony.php?type=pullProductSizes&productID="+ProductVC.prodID
     
     func downloadItemSizes() {
 
@@ -67,7 +67,7 @@ class HomeModel: NSObject, URLSessionDataDelegate {
         task.resume()
     }
     
-    let urlPathCart: String = "http://192.168.0.20/kolony.php?type=pullCart&uID="+(UserDefaults.standard.string(forKey: "uID") ?? "-1")
+    let urlPathCart: String = "http://localhost/kolony.php?type=pullCart&uID="+(UserDefaults.standard.string(forKey: "uID") ?? "-1")
     
     func downloadItemsCart() {
 

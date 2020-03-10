@@ -17,7 +17,7 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var confirmPassText: UITextField!
     @IBOutlet weak var usernameText: UITextField!
     
-    static var dataURL = "http://192.168.0.20/kolony.php?type="
+    static var dataURL = "http://localhost/kolony.php?type="
     
     override func viewDidLoad() {
         super.viewDidLoad()

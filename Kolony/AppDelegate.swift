@@ -8,16 +8,26 @@
 
 import UIKit
 import Firebase
+import Stripe
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     //var window: UIWindow? //Maybe needed for FIrebase?; was in FIrebase initialization code given by Google
-
+    static let stripePublishableKey = "pk_test_9PVPskJyQnuh45S4se8Q57ay00SETGm1Xl"
+    
+    //Base URL of App
+    static let baseURLString = "YOUR_BASE_URL_STRING"
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         FirebaseApp.configure() //Firebase
+        
+        //Strip test publish key
+        Stripe.setDefaultPublishableKey("pk_test_9PVPskJyQnuh45S4se8Q57ay00SETGm1Xl")
+        
         return true
     }
 

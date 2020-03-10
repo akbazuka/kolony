@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Stripe
 
 class CartVC: UIViewController {
     
@@ -21,6 +22,10 @@ class CartVC: UIViewController {
     var feedItems: NSArray = NSArray()
     var selectedLocation : CartProductsModel = CartProductsModel()
 
+    @IBOutlet weak var checkoutBtn: UIButton!
+    
+    @IBOutlet weak var checkoutTotal: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,10 +41,23 @@ class CartVC: UIViewController {
         checkoutView.layer.borderWidth = 0.5
         checkoutView.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
         
+        //Border for Checkout Button
+        checkoutBtn.layer.borderWidth = 3
+        checkoutBtn.layer.borderColor = UIColor.black.cgColor
+        checkoutBtn.layer.cornerRadius = 7
+        
         //For getting data from database
         let homeModel = HomeModel()
         homeModel.delegate = self
         homeModel.downloadItemsCart()
+        
+    }
+    
+    @IBAction func checkoutOnClick(_ sender: Any) {
+        //Create an instance of STPAddCardViewController, set its delegate and present it to the user.
+        let addCardViewController = STPAddCardViewController()
+        addCardViewController.delegate = (self as STPAddCardViewControllerDelegate)
+        navigationController?.pushViewController(addCardViewController, animated: true)
     }
     
     //Navigate to different VC manually (With Navigation Controller)
@@ -206,6 +224,45 @@ extension CartVC: HomeModelProtocol {
     func itemsDownloaded(items: NSArray) {
         feedItems = items
         self.collectionView.reloadData()
+    }
+}
+
+//MARK: Stripe Payment View Delegate
+extension CartVC: STPAddCardViewControllerDelegate {
+
+    //When user cancels adding card
+    func addCardViewControllerDidCancel(_ addCardViewController: STPAddCardViewController) {
+    navigationController?.popViewController(animated: true)
+    }
+    //When user successfully adds a card and your app receives a token from Stripe.
+    func addCardViewController(_ addCardViewController: STPAddCardViewController,
+                             didCreateToken token: STPToken,
+                             completion: @escaping STPErrorBlock) {
+        /*
+         This code calls completeCharge(with:amount:completion:) and when it receives the result:
+
+         1. If the Stripe client returns with a success result, it calls completion(nil) to inform STPAddCardViewController the request was successful and then presents a message to the user.
+         2. If the Stripe client returns with a failure result, it simply calls completion(error) letting STPAddCardViewController handle the error since it has internal logic for this.
+         */
+        StripeClient.shared.completeCharge(with: token, amount: 100) { result in
+          switch result {
+          // 1
+          case .success:
+            completion(nil)
+
+            let alertController = UIAlertController(title: "Congrats",
+                                  message: "Your payment was successful!",
+                                  preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+              self.navigationController?.popViewController(animated: true)
+            })
+            alertController.addAction(alertAction)
+            self.present(alertController, animated: true)
+          // 2
+          case .failure(let error):
+            completion(error)
+          }
+        }
     }
 }
 

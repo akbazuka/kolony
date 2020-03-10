@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.0.2)
   - Firebase/Analytics (6.17.0):
     - Firebase/Core
   - Firebase/Auth (6.17.0):
@@ -81,13 +82,17 @@ PODS:
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
   - PromisesObjC (1.2.8)
+  - Stripe (19.0.0)
 
 DEPENDENCIES:
+  - Alamofire
   - Firebase/Analytics
   - Firebase/Auth
+  - Stripe
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -104,8 +109,10 @@ SPEC REPOS:
     - GTMSessionFetcher
     - nanopb
     - PromisesObjC
+    - Stripe
 
 SPEC CHECKSUMS:
+  Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
   Firebase: 2672e5636b42f977177716317e68346ae5e9de25
   FirebaseAnalytics: cf95d3aab897612783020fbd98401d5366f135ee
   FirebaseAuth: 5ce2b03a3d7fe56b7a6e4c5ec7ff1522890b1d6f
@@ -122,7 +129,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
+  Stripe: 5afd38a520f7a1a16b609127165d517fa9f7de32
 
-PODFILE CHECKSUM: 5389b50e0440ac0093ca127aefe4f51068120f86
+PODFILE CHECKSUM: ad171602f4290955eac6d96d0fc62800cf8c689e
 
 COCOAPODS: 1.8.4
