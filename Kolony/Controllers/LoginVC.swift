@@ -15,6 +15,8 @@ class LoginVC: UIViewController {
     @IBOutlet weak var passTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var signAsGusetBtn: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     //static var UID = String?
     static var isGuest = 0
     
@@ -46,34 +48,24 @@ class LoginVC: UIViewController {
     @IBAction func signInBtnOnClick(_ sender: Any) {
         
         //if email and password fields are not empty
-        if let email = emailText.text, let password = passTextField.text, !password.isEmpty, !email.isEmpty {
-            
-            //If using username to login instead of email, pull email from database for that person's username and the pass the email as argument in the authenticateUser method below
-            
-            //Calls authenticateNewUser method
-            authenticateUser(email: email, password: password)
-        }
-        
-        else{
+        guard let email = emailText.text, let password = passTextField.text, !password.isEmpty, !email.isEmpty else{
             print("Nope")
             //Error message
             alert(title:"Error", message: "Please fill in Login information")
+            return
         }
-    }
+        
+        activityIndicator.startAnimating()
+            
+        //Calls authenticateNewUser method
+        authenticateUser(email: email, password: password)
+        }
     
     @IBAction func guestBtnOnClick(_ sender: Any) {
         LoginVC.isGuest = 1
         //Resets user defaults
         UserDefaults.standard.set(nil, forKey: "uID")
     }
-    
-    /*
-    //Loads UID
-    static func loadUID()-> Bool{
-        LoginVC.UID = UserDefaults.standard.string(forKey:"uID")
-        return LoginVC.UID != nil
-    }
- */
     
     //Login User
     func authenticateUser(email: String, password: String){
@@ -84,12 +76,14 @@ class LoginVC: UIViewController {
                 //print("Email:\(email)")
                 
                 //save uID using key 'uID'; can quit the app then re-launch and they'll still be there on each phone
+                
                 UserDefaults.standard.set(user?.user.uid, forKey: "uID")
 
                 //Go to MainVC through Navigation Controller (NavVC)
-                MainVC.goTo("NavVC", animate: true)
-                
+                self.activityIndicator.stopAnimating()
                 LoginVC.isGuest = 0 //Not a guest if login succesfully
+                
+                MainVC.goTo("NavVC", animate: true)
                 
             } else {
                 //print("ERROR")
@@ -107,7 +101,7 @@ class LoginVC: UIViewController {
                     default:
                         errorMsg = "\(error?.localizedDescription ?? "Error signing into Account")"
                 }
-                
+                self.activityIndicator.stopAnimating()
                 self.alert(title:"Error", message: errorMsg)
             }
         }

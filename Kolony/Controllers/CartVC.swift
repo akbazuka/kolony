@@ -221,12 +221,12 @@ extension CartVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         //ProductVC.prodPic = images[indexPath.row] //Implement image
         ProductVC.prodName = item.name ?? "Name"
-        ProductVC.prodPrice = item.price ?? "$$$"
+        ProductVC.prodPrice = Double(item.price ?? "$$$") ?? 0.00
         ProductVC.prodBrand = item.productBrand ?? "Brand"
         ProductVC.prodStyle = item.style ?? "Style"
         ProductVC.prodColorway = item.colorway ?? "Colorway"
         ProductVC.prodRelease = item.prodRelease ?? "Release Date"
-        ProductVC.prodRetail = item.retail ?? "Retail Price"
+        ProductVC.prodRetail = Int(item.retail ?? "Retail Price") ?? 0
         ProductVC.prodID = item.prodID ?? "Product ID"
         ////Use only if want to display size of item in cart in detail view as well
         //ProductVC.prodSize = item.size ?? "-1"

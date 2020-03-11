@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MainVC: UIViewController{
     
@@ -41,22 +42,6 @@ class MainVC: UIViewController{
     
     //Product Information (Hard Coded) Uncomment below section if not using database
     var images = [UIImage(named: "nikeAir"), UIImage(named: "yeezy")] //Array to test no. of cells in UICOllectionVew; Comment line when implement storing references to images in database
-    /*
-    var name = ["Jordan 1 Retro High Off-White University Blue", "adidas Yeezy Boost 350 V2 Yecheil (Non-Reflective)"]
-    
-    var price = ["$1,190","$270"]
-    
-    var brand = ["Nike", "adidas"]
-    
-    var style = ["AQ0818-148","FW5190"]
-    
-    var colorway = ["WHITE/DARK POWDER BLUE-CONE","Yecheil"]
-    
-    var release = ["06/23/2018","12/20/2019"]
-    
-    var retail = ["$190","$220"]
- */
-    /*******************************************/
 
     var menuOptions = ["Settings", "Rate Us", "Sign Out"]
     
@@ -64,6 +49,8 @@ class MainVC: UIViewController{
     
     var feedItems: NSArray = NSArray() //(Uncomment if using database)
     var selectedLocation : ProductsModel = ProductsModel() //(Uncomment if using database)
+    
+    var products = [Product]()
     
     //ViewDidLoad
     override func viewDidLoad() {
@@ -190,8 +177,7 @@ class MainVC: UIViewController{
                 return topController
             }
             if let second = topMostController().storyboard?.instantiateViewController(withIdentifier: view) {
-        self.navigationController?.pushViewController(second, animated: animate)
-                
+                self.navigationController?.pushViewController(second, animated: animate)
             }
         }
     }
@@ -230,12 +216,10 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         cell.productImage.image = images[indexPath.row] //Places image of a certain index of image array in indexPath of imageview of cell
         
-        //cell.productDescription.text = name[indexPath.row] //Places text of a certain index of text array in indexPath of Label of cell (Comment if using database)
-        
         //Get data of product by cell (from database)
         let item: ProductsModel = feedItems[indexPath.row] as! ProductsModel //(Uncomment if using database)
         // Get references to labels of cell
-        cell.productDescription.text = item.name
+        cell.productName.text = item.name
         
         //cell.productPrice.text = price[indexPath.row] //Comment if using database
         cell.productPrice.text = "$\(item.price ?? "-1")"
@@ -246,28 +230,19 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     //Information sent to ProductVC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchBar.endEditing(true)
-        /* If not using database, uncomment this code; hard coded variables
-        ProductVC.prodPic = images[indexPath.row]
-        ProductVC.prodName = name[indexPath.row]
-        ProductVC.prodPrice = price[indexPath.row]
-        ProductVC.prodBrand = brand[indexPath.row]
-        ProductVC.prodStyle = style[indexPath.row]
-        ProductVC.prodColorway = colorway[indexPath.row]
-        ProductVC.prodRelease = release[indexPath.row]
-        ProductVC.prodRetail = retail[indexPath.row]
- */
-        //Get data of product by cell (from database)
-        let item: ProductsModel = feedItems[indexPath.row] as! ProductsModel //(Uncomment if using database)
         
-        ProductVC.prodPic = images[indexPath.row]
-        ProductVC.prodName = item.name ?? "Name"
-        ProductVC.prodPrice = item.price ?? "$$$"
-        ProductVC.prodBrand = item.brand ?? "Brand"
-        ProductVC.prodStyle = item.style ?? "Style"
-        ProductVC.prodColorway = item.colorway ?? "Colorway"
-        ProductVC.prodRelease = item.release ?? "Release Date"
-        ProductVC.prodRetail = item.retail ?? "Retail Price"
-        ProductVC.prodID = item.id ?? "Product ID"
+        //Get data of product by cell (from database)
+        let item: Product = products[indexPath.row]
+    
+        //ProductVC.prodPic = item.images //Send images here
+        ProductVC.prodName = item.name
+        ProductVC.prodPrice = item.price
+        ProductVC.prodBrand = item.brand
+        ProductVC.prodStyle = item.style
+        ProductVC.prodColorway = item.colorway
+        ProductVC.prodRelease = item.release
+        ProductVC.prodRetail = item.retail
+        ProductVC.prodID = item.id
         ////Use only if want to display size of item in cart in detail view as well
         //ProductVC.prodSize = "" //Sets size field back to empty String by default
         
@@ -313,6 +288,9 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         case "Rate Us":
             print("Rate Us pressed")
         case "Sign Out":
+            //Sign out of Firebase account here
+            //...
+            
             //Navigates back to Login screen
             MainVC.goTo("LoginVC", animate: true)
             //Resets user defaults

@@ -38,7 +38,7 @@ class ProductVC: UIViewController {
     
     static var prodName = ""            //static to reference in MainVC
     
-    static var prodPrice = ""           //""
+    static var prodPrice = Double()
     
     static var prodBrand = ""
     
@@ -48,7 +48,7 @@ class ProductVC: UIViewController {
     
     static var prodRelease = ""
     
-    static var prodRetail = ""
+    static var prodRetail = Int()
     
     ////Use only if want to display size of item in cart in detail view as well
     ////Only used when product coming from CartVC
@@ -113,12 +113,25 @@ class ProductVC: UIViewController {
         //Sets product info according to what product was clicked on in collection view of MainVC
         productImages.image = ProductVC.prodPic
         productName.text = ProductVC.prodName
-        productPrice.text = "$"+ProductVC.prodPrice
+        
+        //Convert Price fro Double to Currency to be displayed
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        if let price = formatter.string(from: ProductVC.prodPrice as NSNumber) {
+            productPrice.text = "$"+price
+        }
         brandLabel.text = ProductVC.prodBrand.uppercased()
         styleLabel.text = ProductVC.prodStyle.uppercased()
         colorwayLabel.text = ProductVC.prodColorway.uppercased()
-        releaseLabel.text = ProductVC.prodRelease
-        retailLabel.text = "$"+ProductVC.prodRetail
+
+        releaseLabel.text = String(ProductVC.prodRelease)
+        
+        //Convert Retail from Int to Currency to be displayed
+        formatter.numberStyle = .currency
+        if let retail = formatter.string(from: ProductVC.prodRetail as NSNumber) {
+            productPrice.text = "$"+retail
+        }
+        
         ////Use only if want to display size of item in cart in detail view as well
         //sizeText.text = ProductVC.prodSize //Only displays a size when information sent from CartVC
         
