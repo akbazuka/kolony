@@ -22,7 +22,8 @@ class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        activityIndicator.isHidden = true
+        
         registerButton.layer.cornerRadius = 5
         registerButton.layer.borderWidth = 1
         registerButton.layer.borderColor = UIColor.black.cgColor
@@ -55,6 +56,7 @@ class LoginVC: UIViewController {
             return
         }
         
+        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
             
         //Calls authenticateNewUser method
@@ -64,7 +66,7 @@ class LoginVC: UIViewController {
     @IBAction func guestBtnOnClick(_ sender: Any) {
         LoginVC.isGuest = 1
         //Resets user defaults
-        UserDefaults.standard.set(nil, forKey: "uID")
+        //UserDefaults.standard.set(nil, forKey: "uID")
     }
     
     //Login User
@@ -77,7 +79,7 @@ class LoginVC: UIViewController {
                 
                 //save uID using key 'uID'; can quit the app then re-launch and they'll still be there on each phone
                 
-                UserDefaults.standard.set(user?.user.uid, forKey: "uID")
+                //UserDefaults.standard.set(user?.user.uid, forKey: "uID")
 
                 //Go to MainVC through Navigation Controller (NavVC)
                 self.activityIndicator.stopAnimating()
@@ -86,23 +88,16 @@ class LoginVC: UIViewController {
                 MainVC.goTo("NavVC", animate: true)
                 
             } else {
-                //print("ERROR")
                 
                 //Show alert according to error thrown
-                let errCode = AuthErrorCode(rawValue: error!._code)
-                
-                var errorMsg = ""
-                
-                switch errCode {
-                    case .userNotFound:
-                        errorMsg = "Invalid E-mail address entered"
-                    case .wrongPassword:
-                        errorMsg = "Incorrect Password entered"
-                    default:
-                        errorMsg = "\(error?.localizedDescription ?? "Error signing into Account")"
+                if let error = error {
+                    debugPrint(error)
+                    Auth.auth().handleFireAuthError(error: error, vc: self)
+                    self.activityIndicator.stopAnimating()
+                    return
                 }
                 self.activityIndicator.stopAnimating()
-                self.alert(title:"Error", message: errorMsg)
+                //self.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -123,7 +118,7 @@ class LoginVC: UIViewController {
             Auth.auth().sendPasswordReset(withEmail: email) {(error) in
                 if let error = error {
                     //Error occured
-                    self.alert(title: "Error", message: "\(error.localizedDescription)")
+                    Auth.auth().handleFireAuthError(error: error, vc: self)
                 } else {
                     self.alert(title: "Email Sent", message: "Email sent to reset password.")
                 }

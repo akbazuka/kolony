@@ -17,9 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //var window: UIWindow? //Maybe needed for FIrebase?; was in FIrebase initialization code given by Google
     static let stripePublishableKey = "pk_test_9PVPskJyQnuh45S4se8Q57ay00SETGm1Xl"
     
-    //Base URL of App
-    static let baseURLString = "http://localhost:4567/" //Change this to heroku app url once web.rb is deployed
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         

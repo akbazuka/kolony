@@ -5,7 +5,8 @@ target 'Kolony' do
 
 	pod 'Firebase/Auth' 		#Firebase Authentication
 	pod 'Firebase/Analytics'	#Firebase Analytics
+	pod 'Firebase/Firestore'	#Firebase Firestore Serverless Data Storage
 	pod 'Stripe'			#Stripe Payment
-	pod 'Alamofire' 		#Alamofire Backend Communication
+	#pod 'Alamofire' 		#Alamofire Backend Communication
 
 end

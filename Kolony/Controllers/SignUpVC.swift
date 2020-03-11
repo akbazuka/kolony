@@ -17,16 +17,13 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var confirmPassText: UITextField!
     @IBOutlet weak var usernameText: UITextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var passCheckImg: UIImageView!
-    @IBOutlet weak var confirmPassCheckImg: UIImageView!
     
     static var dataURL = "http://localhost/kolony.php?type="
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //backBtn.setTitle("Back", for: .normal)
-        //.setTitleColor(UIColor.systemBlue, for: UIControl.State.highlighted)
+        activityIndicator.isHidden = true
+
         passText.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         confirmPassText.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
     }
@@ -34,24 +31,31 @@ class SignUpVC: UIViewController {
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard let passTxt = passText.text else { return }
         
-        // If we have started typing int he confirm pass text field.
+        // If we have started typing in the confirm pass text field.
         if textField == confirmPassText {
-            passCheckImg.isHidden = false
-            confirmPassCheckImg.isHidden = false
+            //When the passwords match, the text fields border color turn green.
+            if passTxt == confirmPassText.text {
+
+                passText.layer.borderWidth = 1
+                passText.layer.cornerRadius = 5
+                passText.layer.borderColor = UIColor(hue: 0.3639, saturation: 0.69, brightness: 0.94, alpha: 1.0).cgColor /* #4aef68: Green */
+
+                confirmPassText.layer.borderWidth = 1
+                confirmPassText.layer.cornerRadius = 5
+                confirmPassText.layer.borderColor = UIColor(hue: 0.3639, saturation: 0.69, brightness: 0.94, alpha: 1.0).cgColor /* #4aef68: Green */
+            } else {
+
+                passText.layer.borderColor = UIColor(hue: 0.0167, saturation: 0.73, brightness: 1, alpha: 1.0) /* #ff5743 */.cgColor
+
+                confirmPassText.layer.borderColor = UIColor(hue: 0.0167, saturation: 0.73, brightness: 1, alpha: 1.0) /* #ff5743 */.cgColor
+            }
         } else {
             if passTxt.isEmpty {
-                passCheckImg.isHidden = true
-                confirmPassCheckImg.isHidden = true
+                passText.layer.borderColor = UIColor(red:204/255, green:204/255, blue:204/255, alpha:1.0).cgColor /* Text fireld default border color*/
+
+                confirmPassText.layer.borderColor = UIColor(red:204/255, green:204/255, blue:204/255, alpha:1.0).cgColor /* Text fireld default border color*/
                 confirmPassText.text = ""
             }
-        }
-        //When the passwords match, the checkmarks turn green.
-        if passText.text == confirmPassText.text {
-            passCheckImg.image = UIImage(named: "greenCheck")
-            confirmPassCheckImg.image = UIImage(named: "greenCheck")
-        } else {
-            passCheckImg.image = UIImage(named: "redCheck")
-            confirmPassCheckImg.image = UIImage(named: "redCheck")
         }
     }
 
@@ -76,6 +80,7 @@ class SignUpVC: UIViewController {
             return
         }
         
+        activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
         guard let authUser = Auth.auth().currentUser else {
@@ -86,8 +91,10 @@ class SignUpVC: UIViewController {
         
         authUser.link(with: credential) { (result, error) in
         if let error = error {
+            Auth.auth().handleFireAuthError(error: error, vc: self)
             debugPrint(error)
-            self.alert( title: "Error", message: "\(error.localizedDescription )")
+            debugPrint(error)
+            self.activityIndicator.stopAnimating()
             return
         }
             guard let firUser = result?.user else { return }
@@ -107,7 +114,7 @@ class SignUpVC: UIViewController {
         // Step 3: Upload to Firestore.
         newUserRef.setData(data) { (error) in
             if let error = error {
-                self.alert( title: "Error", message: "\(error.localizedDescription )")
+                Auth.auth().handleFireAuthError(error: error, vc: self)
                 debugPrint("Error signing in: \(error.localizedDescription)")
             } else {
                 self.dismiss(animated: true, completion: nil)

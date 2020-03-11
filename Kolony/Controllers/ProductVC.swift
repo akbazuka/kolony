@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class ProductVC: UIViewController {
     
@@ -46,9 +47,9 @@ class ProductVC: UIViewController {
     
     static var prodColorway = ""
     
-    static var prodRelease = ""
+    static var prodRelease = Timestamp()
     
-    static var prodRetail = Int()
+    static var prodRetail = Double()
     
     ////Use only if want to display size of item in cart in detail view as well
     ////Only used when product coming from CartVC
@@ -118,18 +119,22 @@ class ProductVC: UIViewController {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         if let price = formatter.string(from: ProductVC.prodPrice as NSNumber) {
-            productPrice.text = "$"+price
+            productPrice.text = price
         }
         brandLabel.text = ProductVC.prodBrand.uppercased()
         styleLabel.text = ProductVC.prodStyle.uppercased()
         colorwayLabel.text = ProductVC.prodColorway.uppercased()
-
-        releaseLabel.text = String(ProductVC.prodRelease)
+        
+        //Convert Firebase Timestamp() to Date() to String and set it release label's text
+        let theFormatter = DateFormatter()
+        theFormatter.dateStyle = .medium
+        let theDate = theFormatter.string(from: ProductVC.prodRelease.dateValue())
+        releaseLabel.text = theDate
         
         //Convert Retail from Int to Currency to be displayed
         formatter.numberStyle = .currency
         if let retail = formatter.string(from: ProductVC.prodRetail as NSNumber) {
-            productPrice.text = "$"+retail
+            retailLabel.text = retail
         }
         
         ////Use only if want to display size of item in cart in detail view as well
@@ -146,12 +151,7 @@ class ProductVC: UIViewController {
         self.pickerView.toolbarDelegate = self
 
         self.pickerView.reloadAllComponents()
-        /***********************************************/
-        
-        //For getting data from database
-        let homeModel = HomeModel() //(Uncomment if using database)
-        homeModel.delegate = self   //(Uncomment if using database)
-        homeModel.downloadItemSizes()   //(Uncomment if using database)
+
     }
 
     @IBAction func addToCartOnClick(_ sender: Any) {
@@ -276,11 +276,6 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
         return item.size
     }
     
-    /*
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.sizeText.text = self.sizes[row]
-    }*/
-    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let item: SizeProductModel = feedItems[row] as! SizeProductModel
         self.sizeText.text = item.size
@@ -318,14 +313,5 @@ extension ProductVC: ToolbarPickerViewDelegate {
         //Resets selected item
         self.selectedItemID = ""
         
-    }
-}
-
-// (Uncomment if using database)
-//MARK: Database Stuff
-extension ProductVC: HomeModelProtocol {
-    func itemsDownloaded(items: NSArray) {
-        feedItems = items
-        self.pickerView.reloadAllComponents()
     }
 }

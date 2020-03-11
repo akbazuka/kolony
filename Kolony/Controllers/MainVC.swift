@@ -47,14 +47,15 @@ class MainVC: UIViewController{
     
     var menuImages = [UIImage(named: "settingsPic"), UIImage(named: "ratePic"), UIImage(named: "exitPic")]
     
-    var feedItems: NSArray = NSArray() //(Uncomment if using database)
-    var selectedLocation : ProductsModel = ProductsModel() //(Uncomment if using database)
-    
+    var db : Firestore!
     var products = [Product]()
+    var listener : ListenerRegistration!
     
     //ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        db = Firestore.firestore()
         
         //Change "Sign Out" button to "Login" if user enters as guest
         if (LoginVC.isGuest == 1){
@@ -77,20 +78,103 @@ class MainVC: UIViewController{
         
         swipeLeft.direction = .left
         menuView.addGestureRecognizer(swipeLeft)
-
         menuView.layer.cornerRadius = 10
         
         //Pan Right to open menu
         screenEdgeRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.openMenu))
-        
         screenEdgeRecognizer.edges = .left
-
         mainView.addGestureRecognizer(screenEdgeRecognizer)
         
-        //For getting data from database
-        let homeModel = HomeModel() //(Uncomment if using database)
-        homeModel.delegate = self   //(Uncomment if using database)
-        homeModel.downloadItems()   //(Uncomment if using database)
+        //Initial setup of guest user
+        guestUserSetup()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        //Pulls data from database
+        setProductsListener()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        listener.remove()       //Removes listeners to save data in Firestore; stops real time updates
+        products.removeAll()    //Delete data from Firestore cache to avoind duplicating data every time view appears
+        collectionView.reloadData()
+    }
+    
+    func guestUserSetup() {
+        if Auth.auth().currentUser == nil {
+            Auth.auth().signInAnonymously { (result, error) in
+                if let error = error {
+                    Auth.auth().handleFireAuthError(error: error, vc: self)
+                    debugPrint(error)
+                }
+            }
+        }
+    }
+    
+    //Fetch all document of a certain collection Firestore Database and Listens for Real-Time Updates
+    func setProductsListener() {
+        /* - Snapshot Listeners allows Real-Time Updates; assign listener variable and do something with it when view appears and is destroyed
+           - .order(by: "timeStamp", descending: true) is a Firestore query that orders products by date;
+                in this case, descending will order products from most recently added (newest) to first added
+                (oldest).
+            */
+        listener = db.collection("products").order(by: "timeStamp", descending: true).addSnapshotListener({ (snap, error) in
+            
+            if let error = error {
+                debugPrint(error.localizedDescription)
+            }
+            
+            //Get all documents
+            snap?.documentChanges.forEach({ (change) in //Loop through documents
+
+                let data = change.document.data()                 //Get data after change made
+                let product = Product.init(data: data)            //Each product in data array
+                
+                //What type pf change made to database
+                switch change.type {
+                case .added:
+                    self.onDocumentAdded(change: change, product: product)
+                case .modified:
+                    self.onDocumentModified(change: change, product: product)
+                case .removed:
+                    self.onDocumentRemoved(change: change)
+                }
+            })
+        })
+    }
+    
+    //When new document is added to database
+    func onDocumentAdded(change: DocumentChange, product: Product){
+        let newIndex = Int(change.newIndex) //Returns UInt so cast to Int
+        products.insert(product, at: newIndex) //Insert into correct position of products array
+        collectionView.insertItems(at: [IndexPath(item: newIndex, section: 0)]) //Insert at bottom of collectionview
+
+    }
+    
+    func onDocumentModified(change: DocumentChange, product: Product){
+        //Item remained at the same location (position) in the databse
+        if change.newIndex == change.oldIndex {
+            let index = Int(change.newIndex)
+            products[index] = product //Replace new (changed) product with old
+            collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+        } else {
+            
+            let oldIndex = Int(change.oldIndex)
+            let newIndex = Int(change.newIndex)
+            
+            products.remove(at: oldIndex)           //Remove old product at its index
+            products.insert(product, at: newIndex)  //Add new item at the index of the old item
+            
+            collectionView.moveItem(at: IndexPath(item: oldIndex, section: 0), to: IndexPath(item: newIndex, section: 0))
+        }
+        
+    }
+    
+    //When new document is deleted from database
+    func onDocumentRemoved(change: DocumentChange){
+        let oldIndex = Int(change.oldIndex)
+        products.remove(at: oldIndex)
+        collectionView.deleteItems(at: [IndexPath(item: oldIndex, section: 0)]) //Reload collectionViewData after delete
     }
 
     //Menu opens and closes as hamburger button is pressed
@@ -206,23 +290,27 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         //return images.count //Creates no. of cells based on length of images array
-        //print("We have: \(feedItems.count)")
-        return feedItems.count
+        //print("We have: \(products.count)")
+        return products.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //Create cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ProductCell
         
-        cell.productImage.image = images[indexPath.row] //Places image of a certain index of image array in indexPath of imageview of cell
+        //cell.productImage.image = images[indexPath.row] //Places image of a certain index of image array in indexPath of imageview of cell
         
         //Get data of product by cell (from database)
-        let item: ProductsModel = feedItems[indexPath.row] as! ProductsModel //(Uncomment if using database)
+        let item: Product = products[indexPath.row]
         // Get references to labels of cell
         cell.productName.text = item.name
-        
-        //cell.productPrice.text = price[indexPath.row] //Comment if using database
-        cell.productPrice.text = "$\(item.price ?? "-1")"
+
+        //Convert Price fro Double to Currency to be displayed
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        if let price = formatter.string(from: item.price as NSNumber) {
+            cell.productPrice.text = price
+        }
         
         return cell
     }
@@ -243,19 +331,8 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         ProductVC.prodRelease = item.release
         ProductVC.prodRetail = item.retail
         ProductVC.prodID = item.id
-        ////Use only if want to display size of item in cart in detail view as well
-        //ProductVC.prodSize = "" //Sets size field back to empty String by default
         
         navGoTo("ProductVC", animate: true)
-    }
-}
-
-// (Uncomment if using database)
-//MARK: Database Stuff
-extension MainVC: HomeModelProtocol {
-    func itemsDownloaded(items: NSArray) {
-        feedItems = items
-        self.collectionView.reloadData()
     }
 }
 

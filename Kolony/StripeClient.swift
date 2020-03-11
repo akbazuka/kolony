@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 import Stripe
 
 enum Result {
@@ -24,14 +23,14 @@ final class StripeClient {
   }
   
   private lazy var baseURL: URL = {
-    guard let url = URL(string: AppDelegate.baseURLString) else {
+    guard let url = URL(string: "") else {
       fatalError("Invalid URL")
     }
     return url
   }()
 
     func completeCharge(with token: STPToken, amount: Int, completion: @escaping (Result) -> Void) {
-      // First, append the charge method path to the baseURL, in order to invoke the charge API available in your back end. You will implement this API shortly.
+      /*// First, append the charge method path to the baseURL, in order to invoke the charge API available in your back end.
       let url = baseURL.appendingPathComponent("charge")
       // Next, build a dictionary containing the parameters needed for the charge API. token, amount and currency are mandatory fields.
       let params: [String: Any] = [
@@ -51,6 +50,6 @@ final class StripeClient {
           case .failure(let error):
             completion(Result.failure(error))
           }
-      }
+      }*/
     }
 }
