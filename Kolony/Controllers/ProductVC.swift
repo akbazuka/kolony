@@ -58,11 +58,8 @@ class ProductVC: UIViewController {
     //Use only if want to display size of item in cart in detail view as well
     //static var sizeSelected = 0 //To make sure that user chooses size from picker before adding to cart
     
-    var feedItems: NSArray = NSArray() //(Uncomment if using database)
-    var selectedLocation1 : SizeProductModel = SizeProductModel() //(Uncomment if using database)
-    
     fileprivate let pickerView = ToolbarPickerView()
-    //fileprivate let sizes = ["5","6", "7", "8", "9", "10", "11"]
+
     var selectedItemID = ""
     
     //Text box that allows you to select size and then displays it
@@ -70,15 +67,36 @@ class ProductVC: UIViewController {
     
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
     
+    var db: Firestore!
+    var productInventory = [ProductInventory]()
+    var product: Product!
+    var listener : ListenerRegistration!
+    
     //ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        db = Firestore.firestore()  //Initialize the database
+        intuitiveDataVariables() //Fit data in UI fields no matter the size
         
         //Changes back button title in navigation controller to "Back"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
-        //Refresh Size picker every time user navigates to ProductVC
-        didTapCancel()
         
+        setData()           //Display data sent over by MainVC
+        createPickerView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        setProductsInventoryListener()  //Pulls data from database
+        didTapCancel()                  //Refresh Size picker every time user navigates to ProductVC
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        listener.remove()               //Removes listeners to save data in Firestore; stops real time updates
+        productInventory.removeAll()    //Delete data from Firestore cache to avoind duplicating data every time view appears
+        pickerView.reloadAllComponents()
+    }
+    
+    func intuitiveDataVariables() {
         //Wrap text to next line if doesn't fit on same line
         productName.lineBreakMode = .byWordWrapping // notice the 'b' instead of 'B'
         productName.numberOfLines = 0
@@ -108,9 +126,9 @@ class ProductVC: UIViewController {
         colorwayLabel.adjustsFontSizeToFitWidth = true
         releaseLabel.adjustsFontSizeToFitWidth = true
         retailLabel.adjustsFontSizeToFitWidth = true
-        
-        /***********************************************/
-        
+    }
+    
+    func setData() {
         //Sets product info according to what product was clicked on in collection view of MainVC
         productImages.image = ProductVC.prodPic
         productName.text = ProductVC.prodName
@@ -139,9 +157,9 @@ class ProductVC: UIViewController {
         
         ////Use only if want to display size of item in cart in detail view as well
         //sizeText.text = ProductVC.prodSize //Only displays a size when information sent from CartVC
-        
-        //UINavigationBar.appearance().titleTextAttributes = attributes //Changes font of navigation bar title
-        
+    }
+    
+    func createPickerView() {
         //UIPickerView with Done Button
         self.sizeText.inputView = self.pickerView
         self.sizeText.inputAccessoryView = self.pickerView.toolbar
@@ -150,8 +168,35 @@ class ProductVC: UIViewController {
         self.pickerView.delegate = self
         self.pickerView.toolbarDelegate = self
 
-        self.pickerView.reloadAllComponents()
+        //self.pickerView.reloadAllComponents()
+    }
+    
+    //Fetch all documents of a certain product in Firestore Database and Listens for Real-Time Updates
+    func setProductsInventoryListener() {
 
+        listener = db.productInventory(product: ProductVC.prodID).addSnapshotListener({ (snap, error) in
+            
+            if let error = error {
+                debugPrint(error.localizedDescription)
+            }
+            
+            //Get all documents
+            snap?.documentChanges.forEach({ (change) in //Loop through documents
+
+                let data = change.document.data()                 //Get data after change made
+                let inventory = ProductInventory.init(data: data)            //Each product in data array
+                
+                //What type pf change made to database
+                switch change.type {
+                case .added:
+                    self.onDocumentAdded(change: change, inventory: inventory)
+                case .modified:
+                    self.onDocumentModified(change: change, inventory: inventory)
+                case .removed:
+                    self.onDocumentRemoved(change: change)
+                }
+            })
+        })
     }
 
     @IBAction func addToCartOnClick(_ sender: Any) {
@@ -182,10 +227,11 @@ class ProductVC: UIViewController {
         }
     }
     
+    /*
     //To check if a user defualt exists
     func isKeyPresentInUserDefaults(key: String) -> Bool {
         return UserDefaults.standard.object(forKey: key) != nil
-    }
+    }*/
     
     @IBAction func tryOnClicked(_ sender: Any) {
         //
@@ -254,10 +300,43 @@ class ProductVC: UIViewController {
 /*Delegate methods of UIPickerView*/
 //MARK: UIPickerView Delegates
 extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    //When new document is added to database
+    func onDocumentAdded(change: DocumentChange, inventory: ProductInventory){
+        let newIndex = Int(change.newIndex) //Returns UInt so cast to Int
+        productInventory.insert(inventory, at: newIndex) //Insert into correct position of products array
+        pickerView.reloadAllComponents()
+    }
+    //When a document is changed in the database
+    func onDocumentModified(change: DocumentChange, inventory: ProductInventory){
+        //Item remained at the same location (position) in the databse
+        if change.newIndex == change.oldIndex {
+            let index = Int(change.newIndex)
+            productInventory[index] = inventory //Replace new (changed) product with old
+            pickerView.reloadComponent(index)
+        } else {
+            let oldIndex = Int(change.oldIndex)
+            let newIndex = Int(change.newIndex)
+            
+            productInventory.remove(at: oldIndex)               //Remove old product at its index
+            productInventory.insert(inventory, at: newIndex)    //Add new item at the index of the old item
+            
+            pickerView.reloadAllComponents()
+        }
+        
+    }
+    
+    //When new document is deleted from database
+    func onDocumentRemoved(change: DocumentChange){
+        let oldIndex = Int(change.oldIndex)
+        productInventory.remove(at: oldIndex)
+        pickerView.reloadAllComponents()
+    }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
-        return feedItems.count
+        print("This is the count: \(productInventory.count)")
+        return productInventory.count
         //return sizes.count
         
     }
@@ -272,12 +351,12 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
     }*/
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let item: SizeProductModel = feedItems[row] as! SizeProductModel
+        let item: ProductInventory = productInventory[row]
         return item.size
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let item: SizeProductModel = feedItems[row] as! SizeProductModel
+        let item: ProductInventory = productInventory[row]
         self.sizeText.text = item.size
     }
 }
@@ -294,13 +373,13 @@ extension ProductVC: ToolbarPickerViewDelegate {
         //self.sizeBtn.setTitle(self.titles[row], for: .normal)
         //self.sizeBtn.resignFirstResponder()
         
-        let item: SizeProductModel = feedItems[row] as! SizeProductModel
+        let item: ProductInventory = productInventory[row]
         
         self.sizeText.text = item.size
         self.sizeText.resignFirstResponder()
         
-        //Selects product according to size chosen
-        self.selectedItemID = item.individualID ?? "0"
+        ////Selects product according to size chosen
+        //self.selectedItemID = item.individualID ?? "0"
         
         ////Use only if want to display size of item in cart in detail view as well
         //ProductVC.sizeSelected = 1 //User has selected a size; allow it to be added ot cart
@@ -310,8 +389,8 @@ extension ProductVC: ToolbarPickerViewDelegate {
         self.sizeText.text = nil
         self.sizeText.resignFirstResponder()
         
-        //Resets selected item
-        self.selectedItemID = ""
+        ////Resets selected item
+        //self.selectedItemID = ""
         
     }
 }

@@ -21,6 +21,7 @@
 		7E8F48D12414813100A42EC5 /* SizeProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F48D02414813100A42EC5 /* SizeProductModel.swift */; };
 		7E8F48D32414D6A700A42EC5 /* CartProductsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8F48D22414D6A700A42EC5 /* CartProductsModel.swift */; };
 		7E8F48D72415200F00A42EC5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E8F48D62415200F00A42EC5 /* GoogleService-Info.plist */; };
+		7E91604A24190E15006E9076 /* ProductInventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91604924190E15006E9076 /* ProductInventory.swift */; };
 		7EB48AE423E67311003C6530 /* ProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB48AE323E67311003C6530 /* ProductVC.swift */; };
 		7ED747E9240FCFC100FBA3BC /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED747E8240FCFC100FBA3BC /* SignUpVC.swift */; };
 		7EE6116023D6ED2500DBA511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE6115F23D6ED2500DBA511 /* AppDelegate.swift */; };
@@ -46,6 +47,7 @@
 		7E8F48D02414813100A42EC5 /* SizeProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeProductModel.swift; sourceTree = "<group>"; };
 		7E8F48D22414D6A700A42EC5 /* CartProductsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartProductsModel.swift; sourceTree = "<group>"; };
 		7E8F48D62415200F00A42EC5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7E91604924190E15006E9076 /* ProductInventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInventory.swift; sourceTree = "<group>"; };
 		7EB48AE323E67311003C6530 /* ProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductVC.swift; sourceTree = "<group>"; };
 		7ED747E8240FCFC100FBA3BC /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		7EE6115C23D6ED2500DBA511 /* Kolony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kolony.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +98,7 @@
 				7E00323F2418354F00094264 /* Product.swift */,
 				7E8F48D02414813100A42EC5 /* SizeProductModel.swift */,
 				7E8F48D22414D6A700A42EC5 /* CartProductsModel.swift */,
+				7E91604924190E15006E9076 /* ProductInventory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E91604A24190E15006E9076 /* ProductInventory.swift in Sources */,
 				7E00324424185C3000094264 /* UserService.swift in Sources */,
 				7EE6116423D6ED2500DBA511 /* LoginVC.swift in Sources */,
 				7E8F48D32414D6A700A42EC5 /* CartProductsModel.swift in Sources */,

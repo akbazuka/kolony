@@ -8,17 +8,19 @@
 
 import Firebase
 
-/*
+
 extension Firestore {
-    var categories: Query {
-        return collection("categories").order(by: "timeStamp", descending: true)
+    //Firestore query used in MainVC to Pull Data
+    var products: Query {
+        return collection("products").order(by: "timeStamp", descending: true)
     }
-    
-    func products(category: String) -> Query {
-        return collection("products").whereField("category", isEqualTo: category).order(by: "timeStamp", descending: true)
+
+    func productInventory(product: String) -> Query {
+        //Pull shoesizes in ascending order
+        return collection("productInventory").whereField("product", isEqualTo: product).order(by: "size", descending: false)
     }
 }
- */
+ 
 
 extension Auth {
     func handleFireAuthError(error: Error, vc: UIViewController) {

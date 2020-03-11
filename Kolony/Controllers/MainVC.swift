@@ -55,38 +55,10 @@ class MainVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        db = Firestore.firestore()
-        
-        //Change "Sign Out" button to "Login" if user enters as guest
-        if (LoginVC.isGuest == 1){
-            menuOptions[2] = "Login"
-        }
-
-        MenuLeadingConstraint.constant = -218 //Presents (default) menu bar to hide
-
-        mainTintedV.isHidden = true //Hides tinted VC by default
-        
+        db = Firestore.firestore()  //Initialize the database
+        interactionWithMenu()       //Sets up menu and allows intuitive interaction
         UINavigationBar.appearance().titleTextAttributes = attributes //Changes font of navigation bar title
-
-        //Initialization of tap gesture for tinted view
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapOutsideMenu(_:)))
-        mainTintedV.addGestureRecognizer(tapGesture)
-        mainTintedV.isUserInteractionEnabled = true
-        
-        //Swipe left to close menu
-        swipeLeft = UISwipeGestureRecognizer(target : self, action : #selector(self.leftSwipeMenu))
-        
-        swipeLeft.direction = .left
-        menuView.addGestureRecognizer(swipeLeft)
-        menuView.layer.cornerRadius = 10
-        
-        //Pan Right to open menu
-        screenEdgeRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.openMenu))
-        screenEdgeRecognizer.edges = .left
-        mainView.addGestureRecognizer(screenEdgeRecognizer)
-        
-        //Initial setup of guest user
-        guestUserSetup()
+        guestUserSetup()            //Initial setup of guest user
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -108,17 +80,41 @@ class MainVC: UIViewController{
                     debugPrint(error)
                 }
             }
+            menuOptions[2] = "Login"  //Change "Sign Out" button to "Login" if user enters as guest
         }
     }
     
-    //Fetch all document of a certain collection Firestore Database and Listens for Real-Time Updates
+    func interactionWithMenu() {
+        MenuLeadingConstraint.constant = -218 //Presents (default) menu bar to hide
+        
+        mainTintedV.isHidden = true //Hides tinted VC by default
+        
+        //Initialization of tap gesture for tinted view
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapOutsideMenu(_:)))
+        mainTintedV.addGestureRecognizer(tapGesture)
+        mainTintedV.isUserInteractionEnabled = true
+        
+        //Swipe left to close menu
+        swipeLeft = UISwipeGestureRecognizer(target : self, action : #selector(self.leftSwipeMenu))
+        
+        swipeLeft.direction = .left
+        menuView.addGestureRecognizer(swipeLeft)
+        menuView.layer.cornerRadius = 10
+        
+        //Pan Right to open menu
+        screenEdgeRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.openMenu))
+        screenEdgeRecognizer.edges = .left
+        mainView.addGestureRecognizer(screenEdgeRecognizer)
+    }
+    
+    //Fetch all documents of a certain collection Firestore Database and Listens for Real-Time Updates
     func setProductsListener() {
         /* - Snapshot Listeners allows Real-Time Updates; assign listener variable and do something with it when view appears and is destroyed
            - .order(by: "timeStamp", descending: true) is a Firestore query that orders products by date;
                 in this case, descending will order products from most recently added (newest) to first added
                 (oldest).
             */
-        listener = db.collection("products").order(by: "timeStamp", descending: true).addSnapshotListener({ (snap, error) in
+        listener = db.products.addSnapshotListener({ (snap, error) in
             
             if let error = error {
                 debugPrint(error.localizedDescription)
@@ -141,40 +137,6 @@ class MainVC: UIViewController{
                 }
             })
         })
-    }
-    
-    //When new document is added to database
-    func onDocumentAdded(change: DocumentChange, product: Product){
-        let newIndex = Int(change.newIndex) //Returns UInt so cast to Int
-        products.insert(product, at: newIndex) //Insert into correct position of products array
-        collectionView.insertItems(at: [IndexPath(item: newIndex, section: 0)]) //Insert at bottom of collectionview
-
-    }
-    
-    func onDocumentModified(change: DocumentChange, product: Product){
-        //Item remained at the same location (position) in the databse
-        if change.newIndex == change.oldIndex {
-            let index = Int(change.newIndex)
-            products[index] = product //Replace new (changed) product with old
-            collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
-        } else {
-            
-            let oldIndex = Int(change.oldIndex)
-            let newIndex = Int(change.newIndex)
-            
-            products.remove(at: oldIndex)           //Remove old product at its index
-            products.insert(product, at: newIndex)  //Add new item at the index of the old item
-            
-            collectionView.moveItem(at: IndexPath(item: oldIndex, section: 0), to: IndexPath(item: newIndex, section: 0))
-        }
-        
-    }
-    
-    //When new document is deleted from database
-    func onDocumentRemoved(change: DocumentChange){
-        let oldIndex = Int(change.oldIndex)
-        products.remove(at: oldIndex)
-        collectionView.deleteItems(at: [IndexPath(item: oldIndex, section: 0)]) //Reload collectionViewData after delete
     }
 
     //Menu opens and closes as hamburger button is pressed
@@ -286,6 +248,40 @@ class MainVC: UIViewController{
 
 //MARK: Products View Stuff (Collection View)
 extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    //When new document is added to database
+    func onDocumentAdded(change: DocumentChange, product: Product){
+        let newIndex = Int(change.newIndex) //Returns UInt so cast to Int
+        products.insert(product, at: newIndex) //Insert into correct position of products array
+        collectionView.insertItems(at: [IndexPath(item: newIndex, section: 0)]) //Insert at bottom of collectionview
+
+    }
+    //When a document is changed in the database
+    func onDocumentModified(change: DocumentChange, product: Product){
+        //Item remained at the same location (position) in the databse
+        if change.newIndex == change.oldIndex {
+            let index = Int(change.newIndex)
+            products[index] = product //Replace new (changed) product with old
+            collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+        } else {
+            
+            let oldIndex = Int(change.oldIndex)
+            let newIndex = Int(change.newIndex)
+            
+            products.remove(at: oldIndex)           //Remove old product at its index
+            products.insert(product, at: newIndex)  //Add new item at the index of the old item
+            
+            collectionView.moveItem(at: IndexPath(item: oldIndex, section: 0), to: IndexPath(item: newIndex, section: 0))
+        }
+        
+    }
+    
+    //When new document is deleted from database
+    func onDocumentRemoved(change: DocumentChange){
+        let oldIndex = Int(change.oldIndex)
+        products.remove(at: oldIndex)
+        collectionView.deleteItems(at: [IndexPath(item: oldIndex, section: 0)]) //Reload collectionViewData after delete
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
