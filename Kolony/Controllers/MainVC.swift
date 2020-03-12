@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Kingfisher
 
 class MainVC: UIViewController{
     
@@ -43,7 +44,7 @@ class MainVC: UIViewController{
     //Product Information (Hard Coded) Uncomment below section if not using database
     var images = [UIImage(named: "nikeAir"), UIImage(named: "yeezy")] //Array to test no. of cells in UICOllectionVew; Comment line when implement storing references to images in database
 
-    var menuOptions = ["Settings", "Rate Us", "Sign Out"]
+    var menuOptions = ["Settings", "Rate Us", ""]
     
     var menuImages = [UIImage(named: "settingsPic"), UIImage(named: "ratePic"), UIImage(named: "exitPic")]
     
@@ -64,6 +65,15 @@ class MainVC: UIViewController{
     override func viewDidAppear(_ animated: Bool) {
         //Pulls data from database
         setProductsListener()
+        if let user = Auth.auth().currentUser , !user.isAnonymous {
+            // We are logged in
+            menuOptions[2] = "Logout"
+            if UserService.userListener == nil {
+                UserService.getCurrentUser()
+            }
+        } else {
+            menuOptions[2] = "Login"
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,7 +90,6 @@ class MainVC: UIViewController{
                     debugPrint(error)
                 }
             }
-            menuOptions[2] = "Login"  //Change "Sign Out" button to "Login" if user enters as guest
         }
     }
     
@@ -293,11 +302,16 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //Create cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ProductCell
-        
-        //cell.productImage.image = images[indexPath.row] //Places image of a certain index of image array in indexPath of imageview of cell
+
         
         //Get data of product by cell (from database)
         let item: Product = products[indexPath.row]
+        
+        //Pulls image from URL that was given as a String and displays in image view
+        if let imageURL = URL(string: item.images){
+            cell.productImage.kf.indicatorType = .activity
+            cell.productImage.kf.setImage(with: imageURL)
+        }
         // Get references to labels of cell
         cell.productName.text = item.name
 
@@ -318,7 +332,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         //Get data of product by cell (from database)
         let item: Product = products[indexPath.row]
     
-        //ProductVC.prodPic = item.images //Send images here
+        ProductVC.prodPic = item.images //Send images here
         ProductVC.prodName = item.name
         ProductVC.prodPrice = item.price
         ProductVC.prodBrand = item.brand
@@ -360,21 +374,49 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
             print("Settings pressed")
         case "Rate Us":
             print("Rate Us pressed")
+            /*
         case "Sign Out":
-            //Sign out of Firebase account here
-            //...
-            
-            //Navigates back to Login screen
-            MainVC.goTo("LoginVC", animate: true)
-            //Resets user defaults
-            UserDefaults.standard.set(nil, forKey: "uID")
-            //print("Sign Out pressed")
+            //Sign out of Firebase account
+            do {
+                try Auth.auth().signOut()
+                UserService.logoutUser()
+                Auth.auth().signInAnonymously { (result, error) in
+                    if let error = error {
+                        Auth.auth().handleFireAuthError(error: error, vc: self)
+                        debugPrint(error)
+                    }
+                    //Navigates back to Login screen
+                    MainVC.goTo("LoginVC", animate: true)
+                }
+            } catch {
+                Auth.auth().handleFireAuthError(error: error, vc: self)
+                debugPrint(error)
+            }
+
         case "Login":
             //Navigates back to Login screen
             MainVC.goTo("LoginVC", animate: true)
-        default:
-            print("Nada")
-        }
+ */
+        default: //For login and logout cases(combined to one)
+            guard let user = Auth.auth().currentUser else { return }
+            if user.isAnonymous {
+                MainVC.goTo("LoginVC", animate: true)
+            } else {
+                do {
+                    try Auth.auth().signOut()
+                    UserService.logoutUser()
+                    Auth.auth().signInAnonymously { (result, error) in
+                        if let error = error {
+                            Auth.auth().handleFireAuthError(error: error, vc: self)
+                            debugPrint(error)
+                        }
+                        MainVC.goTo("LoginVC", animate: true)
+                    }
+                } catch {
+                    Auth.auth().handleFireAuthError(error: error, vc: self)
+                    debugPrint(error)
+                }
+            }        }
     }
     
 }

@@ -83,24 +83,21 @@ class SignUpVC: UIViewController {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         
-        guard let authUser = Auth.auth().currentUser else {
-            return
-        }
+        guard let authUser = Auth.auth().currentUser else { return }
         
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         
         authUser.link(with: credential) { (result, error) in
         if let error = error {
+            debugPrint(error)
             Auth.auth().handleFireAuthError(error: error, vc: self)
-            debugPrint(error)
-            debugPrint(error)
             self.activityIndicator.stopAnimating()
             return
         }
-            guard let firUser = result?.user else { return }
-            let artUser = User.init(id: firUser.uid, email: email, username: username, stripeId: "")
+            guard let firUser = result?.user else { return } //firUser is the Firebase authenticated user
+            let kolonyUser = User.init(id: firUser.uid, email: email, username: username, stripeId: "")
             // Upload to Firestore
-            self.createFirestoreUser(user: artUser)
+            self.createFirestoreUser(user: kolonyUser)
         }
     }
     

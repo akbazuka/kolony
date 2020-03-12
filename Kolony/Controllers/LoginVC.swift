@@ -17,54 +17,56 @@ class LoginVC: UIViewController {
     @IBOutlet weak var signAsGusetBtn: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    //static var UID = String?
-    static var isGuest = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.isHidden = true
+        buttonLayouts()
         
+    }
+    
+    func buttonLayouts(){
         registerButton.layer.cornerRadius = 5
         registerButton.layer.borderWidth = 1
         registerButton.layer.borderColor = UIColor.black.cgColor
         
-//        registerButton.titleEdgeInsets = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1);
-        
-        //registerButton.frame = CGRect(x: 80, y: 80, width: 90, height: 30)
-        
         signAsGusetBtn.layer.cornerRadius = 5
         signAsGusetBtn.layer.borderWidth = 1
         signAsGusetBtn.layer.borderColor = UIColor.black.cgColor
-        
-        
     }
     
-    //To show and hide keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         emailText.endEditing(true)
         passTextField.endEditing(true)
-    
     }
     
     @IBAction func signInBtnOnClick(_ sender: Any) {
         
         //if email and password fields are not empty
-        guard let email = emailText.text, let password = passTextField.text, !password.isEmpty, !email.isEmpty else{
-            print("Nope")
-            //Error message
-            alert(title:"Error", message: "Please fill in Login information")
-            return
+        guard let email = emailText.text , !email.isEmpty ,
+            let password = passTextField.text , !password.isEmpty else {
+                alert(title: "Error", message: "Please fill in Login information.")
+                return
         }
         
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             
-        //Calls authenticateNewUser method
-        authenticateUser(email: email, password: password)
+            if let error = error {
+                debugPrint(error)
+                Auth.auth().handleFireAuthError(error: error, vc: self)
+                self.activityIndicator.stopAnimating()
+                return
+            }
+            
+            self.activityIndicator.stopAnimating()
+            MainVC.goTo("NavVC", animate: true)
+            self.dismiss(animated: true, completion: nil)
         }
+    }
     
     @IBAction func guestBtnOnClick(_ sender: Any) {
-        LoginVC.isGuest = 1
+        dismiss(animated: true, completion: nil)
         //Resets user defaults
         //UserDefaults.standard.set(nil, forKey: "uID")
     }
@@ -83,7 +85,6 @@ class LoginVC: UIViewController {
 
                 //Go to MainVC through Navigation Controller (NavVC)
                 self.activityIndicator.stopAnimating()
-                LoginVC.isGuest = 0 //Not a guest if login succesfully
                 
                 MainVC.goTo("NavVC", animate: true)
                 

@@ -16,8 +16,8 @@ extension Firestore {
     }
 
     func productInventory(product: String) -> Query {
-        //Pull shoesizes in ascending order
-        return collection("productInventory").whereField("product", isEqualTo: product).order(by: "size", descending: false)
+        //Pull shoesizes
+        return collection("productInventory").whereField("product", isEqualTo: product).order(by: "size", descending: true)
     }
 }
  

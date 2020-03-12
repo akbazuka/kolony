@@ -8,6 +8,8 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseAuth
+import Kingfisher
 
 class ProductVC: UIViewController {
     
@@ -33,7 +35,7 @@ class ProductVC: UIViewController {
     
     @IBOutlet weak var productPrice: UILabel!
     
-    static var prodPic : UIImage? = nil //static to reference in MainVC
+    static var prodPic = "" //static to reference in MainVC
     
     static var prodID = ""
     
@@ -130,7 +132,10 @@ class ProductVC: UIViewController {
     
     func setData() {
         //Sets product info according to what product was clicked on in collection view of MainVC
-        productImages.image = ProductVC.prodPic
+        if let imageURL = URL(string: ProductVC.prodPic){
+            productImages.kf.indicatorType = .activity
+            productImages.kf.setImage(with: imageURL)
+        }
         productName.text = ProductVC.prodName
         
         //Convert Price fro Double to Currency to be displayed
@@ -203,7 +208,9 @@ class ProductVC: UIViewController {
         //if(isKeyPresentInUserDefaults(key: "uID")){ //Not as good as validating if guest user
         
         //Only allows to add to cart if user is logged in with a valid account and not as guest user and size is picked
-        if LoginVC.isGuest == 0, let size = sizeText.text, !size.isEmpty/*, ProductVC.sizeSelected == 1 */{
+        guard let user = Auth.auth().currentUser else { return }
+        
+        if !user.isAnonymous, let size = sizeText.text, !size.isEmpty/*, ProductVC.sizeSelected == 1 */{
             //Add item to cart in the database
             insertCart(uID: UserDefaults.standard.string(forKey: "uID") ?? "-1", selectedProductID: self.selectedItemID)
             
@@ -216,7 +223,7 @@ class ProductVC: UIViewController {
             //Show alert saying item was added to cart
             alertNavToVC(title: "Added to Cart", message: "This item was successfully added to your shopping cart!",toVC: "CartVC")
             
-        } else if (LoginVC.isGuest != 0) {
+        } else if (!user.isAnonymous) {
             alert(title: "Error", message: "You must be logged in with a registered account if you would like to add this item to your shopping cart.")
         }   ////Use only if want to display size of item in cart in detail view as well
             /*else if ProductVC.sizeSelected == 0, let size = sizeText.text, !size.isEmpty{ //Does not allow user to add to cart if coming straight from CartVC and has not manually rechose a size
