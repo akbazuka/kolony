@@ -10,8 +10,7 @@ import UIKit
 import Firebase
 
 class SignUpVC: UIViewController {
-    
-    //@IBOutlet weak var usernameText: UITextField!
+
     @IBOutlet weak var emailText: UITextField!
     @IBOutlet weak var passText: UITextField!
     @IBOutlet weak var confirmPassText: UITextField!
@@ -26,6 +25,10 @@ class SignUpVC: UIViewController {
 
         passText.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         confirmPassText.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+    }
+    
+    @IBAction func backBtnOnClick(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {

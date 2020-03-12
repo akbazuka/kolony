@@ -11,9 +11,6 @@ import Firebase
 import Kingfisher
 
 class MainVC: UIViewController{
-    
-    //Store userID
-    static var user = ""
 
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -28,8 +25,6 @@ class MainVC: UIViewController{
     @IBOutlet weak var menuView: UITableView!
 
     @IBOutlet var mainView: UIView!
-    
-    @IBOutlet weak var searchBar: UISearchBar!
     
     var showMenu = false
     
@@ -59,12 +54,37 @@ class MainVC: UIViewController{
         db = Firestore.firestore()  //Initialize the database
         interactionWithMenu()       //Sets up menu and allows intuitive interaction
         UINavigationBar.appearance().titleTextAttributes = attributes //Changes font of navigation bar title
+        
+        setupNavBar()
+        
         guestUserSetup()            //Initial setup of guest user
+        changeLogoutButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         //Pulls data from database
         setProductsListener()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        listener.remove()       //Removes listeners to save data in Firestore; stops real time updates
+        products.removeAll()    //Delete data from Firestore cache to avoind duplicating data every time view appears
+        collectionView.reloadData()
+    }
+    
+    func setupNavBar() {
+        let searchController = UISearchController(searchResultsController: self)
+        //navigationItem.searchController = searchController
+        navigationItem.titleView = searchController.searchBar
+        navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.hidesNavigationBarDuringPresentation = true //Not Working?
+        //searchController.searchBar.sizeToFit()
+        searchController.automaticallyShowsCancelButton = true //Clear Button
+        searchController.searchBar.placeholder = "Search Kolony"
+        searchController.searchBar.returnKeyType = .search
+    }
+    
+    func changeLogoutButton(){
         if let user = Auth.auth().currentUser , !user.isAnonymous {
             // We are logged in
             menuOptions[2] = "Logout"
@@ -73,13 +93,8 @@ class MainVC: UIViewController{
             }
         } else {
             menuOptions[2] = "Login"
+            print("Hi there")
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        listener.remove()       //Removes listeners to save data in Firestore; stops real time updates
-        products.removeAll()    //Delete data from Firestore cache to avoind duplicating data every time view appears
-        collectionView.reloadData()
     }
     
     func guestUserSetup() {
@@ -327,7 +342,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     //Information sent to ProductVC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        searchBar.endEditing(true)
+        //searchBar.endEditing(true)
         
         //Get data of product by cell (from database)
         let item: Product = products[indexPath.row]
@@ -374,32 +389,12 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
             print("Settings pressed")
         case "Rate Us":
             print("Rate Us pressed")
-            /*
-        case "Sign Out":
-            //Sign out of Firebase account
-            do {
-                try Auth.auth().signOut()
-                UserService.logoutUser()
-                Auth.auth().signInAnonymously { (result, error) in
-                    if let error = error {
-                        Auth.auth().handleFireAuthError(error: error, vc: self)
-                        debugPrint(error)
-                    }
-                    //Navigates back to Login screen
-                    MainVC.goTo("LoginVC", animate: true)
-                }
-            } catch {
-                Auth.auth().handleFireAuthError(error: error, vc: self)
-                debugPrint(error)
-            }
-
-        case "Login":
-            //Navigates back to Login screen
-            MainVC.goTo("LoginVC", animate: true)
- */
+            
         default: //For login and logout cases(combined to one)
             guard let user = Auth.auth().currentUser else { return }
             if user.isAnonymous {
+                tableView.deselectRow(at: indexPath, animated: true)
+                self.closeMenu()
                 MainVC.goTo("LoginVC", animate: true)
             } else {
                 do {
@@ -410,13 +405,16 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
                             Auth.auth().handleFireAuthError(error: error, vc: self)
                             debugPrint(error)
                         }
+                        tableView.deselectRow(at: indexPath, animated: true)
+                        self.closeMenu()
                         MainVC.goTo("LoginVC", animate: true)
                     }
                 } catch {
                     Auth.auth().handleFireAuthError(error: error, vc: self)
                     debugPrint(error)
                 }
-            }        }
+            }
+        }
     }
     
 }
