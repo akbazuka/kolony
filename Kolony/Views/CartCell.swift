@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CartCell: UICollectionViewCell {
+class CartCell: UITableViewCell {
     
     @IBOutlet weak var cartImage: UIImageView!
     @IBOutlet weak var cartName: UILabel!
@@ -24,5 +24,7 @@ class CartCell: UICollectionViewCell {
         //removeItemBtn.layer.cornerRadius = 5
         //removeItemBtn.layer.borderWidth = 2
         //removeItemBtn.layer.borderColor = UIColor.black.cgColor
+    }
+    @IBAction func removeItemOnClick(_ sender: Any) {
     }
 }

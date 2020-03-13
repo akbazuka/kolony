@@ -84,10 +84,14 @@ final class _UserService {
     func logoutUser() {
         userListener?.remove()
         userListener = nil
-        favsListener?.remove()
-        favsListener = nil
+        //favsListener?.remove()
+        //favsListener = nil
         user = User()
-        favorites.removeAll()
+        //favorites.removeAll()
+        
+        //Reset user defaults
+        UserDefaults.standard.set(nil, forKey: "email")
+        UserDefaults.standard.set(nil, forKey: "password")
     }
 }
 

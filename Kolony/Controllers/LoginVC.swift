@@ -22,6 +22,18 @@ class LoginVC: UIViewController {
         activityIndicator.isHidden = true
         buttonLayouts()
         
+        //Checks if user defaults exists before the view is shown
+        //ifUserDefaultExists()
+        UserDefaults.standard.set(nil, forKey: "email")
+        UserDefaults.standard.set(nil, forKey: "password")
+    }
+    
+    //Login User with existing credentials if they exist
+    func ifUserDefaultExists(){
+        if UserDefaults.standard.object(forKey: "email") != nil{
+            
+            authenticateUser(email: UserDefaults.standard.object(forKey: "email") as! String, password: UserDefaults.standard.object(forKey: "password") as! String)
+        }
     }
     
     func buttonLayouts(){
@@ -50,23 +62,12 @@ class LoginVC: UIViewController {
         
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
-        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-            
-            if let error = error {
-                debugPrint(error)
-                Auth.auth().handleFireAuthError(error: error, vc: self)
-                self.activityIndicator.stopAnimating()
-                return
-            }
-            
-            self.activityIndicator.stopAnimating()
-            MainVC.goTo("NavVC", animate: true)
-            self.dismiss(animated: true, completion: nil)
-        }
+        
+        authenticateUser(email: email, password: password)
     }
     
     @IBAction func guestBtnOnClick(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         //Resets user defaults
         //UserDefaults.standard.set(nil, forKey: "uID")
     }
@@ -83,10 +84,14 @@ class LoginVC: UIViewController {
                 
                 //UserDefaults.standard.set(user?.user.uid, forKey: "uID")
 
-                //Go to MainVC through Navigation Controller (NavVC)
                 self.activityIndicator.stopAnimating()
+                //Set user defaults
+                UserDefaults.standard.set(email, forKey: "email")
+                UserDefaults.standard.set(password, forKey: "password")
                 
+                //Go to MainVC through Navigation Controller (NavVC)
                 MainVC.goTo("NavVC", animate: true)
+                self.dismiss(animated: true, completion: nil)
                 
             } else {
                 

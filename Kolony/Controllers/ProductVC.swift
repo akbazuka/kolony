@@ -88,7 +88,9 @@ class ProductVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        //print("Aloha: \(ProductVC.prodID)")
         setProductsInventoryListener()  //Pulls data from database
+        //print("Count 1: \(productInventory.count)")
         didTapCancel()                  //Refresh Size picker every time user navigates to ProductVC
     }
     
@@ -173,11 +175,19 @@ class ProductVC: UIViewController {
         self.pickerView.delegate = self
         self.pickerView.toolbarDelegate = self
 
-        //self.pickerView.reloadAllComponents()
+        self.pickerView.reloadAllComponents()
     }
     
     //Fetch all documents of a certain product in Firestore Database and Listens for Real-Time Updates
     func setProductsInventoryListener() {
+        
+        //If trying to make different queries on same page
+        //var ref: Query!
+        //if showFavorites {
+            //ref = db.collection("users").document(UserService.user.id).collection("favorites")
+        //} else {
+        //ref = db.productInventory(product: ProductVC.prodID)
+        //}
 
         listener = db.productInventory(product: ProductVC.prodID).addSnapshotListener({ (snap, error) in
             
@@ -320,6 +330,7 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
         if change.newIndex == change.oldIndex {
             let index = Int(change.newIndex)
             productInventory[index] = inventory //Replace new (changed) product with old
+            print("New added: \(productInventory.count)")
             pickerView.reloadComponent(index)
         } else {
             let oldIndex = Int(change.oldIndex)
@@ -342,7 +353,7 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
-        print("This is the count: \(productInventory.count)")
+        //print("This is the count: \(productInventory.count)")
         return productInventory.count
         //return sizes.count
         
@@ -359,12 +370,12 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let item: ProductInventory = productInventory[row]
-        return item.size
+        return NSNumber(value: item.size).stringValue //Covert Double to string and format to Whole number if .0
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let item: ProductInventory = productInventory[row]
-        self.sizeText.text = item.size
+        self.sizeText.text = NSNumber(value: item.size).stringValue
     }
 }
 
@@ -382,7 +393,7 @@ extension ProductVC: ToolbarPickerViewDelegate {
         
         let item: ProductInventory = productInventory[row]
         
-        self.sizeText.text = item.size
+        self.sizeText.text = NSNumber(value: item.size).stringValue
         self.sizeText.resignFirstResponder()
         
         ////Selects product according to size chosen

@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-import Stripe
+//import Stripe
 import IQKeyboardManagerSwift
 
 @UIApplicationMain
@@ -26,8 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure() //Firebase
         
         //Strip test publish key
-        Stripe.setDefaultPublishableKey("pk_test_9PVPskJyQnuh45S4se8Q57ay00SETGm1Xl")
-        
+        //Stripe.setDefaultPublishableKey("pk_test_9PVPskJyQnuh45S4se8Q57ay00SETGm1Xl")
         return true
     }
 

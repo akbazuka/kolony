@@ -95,12 +95,17 @@ class SignUpVC: UIViewController {
             debugPrint(error)
             Auth.auth().handleFireAuthError(error: error, vc: self)
             self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
             return
         }
             guard let firUser = result?.user else { return } //firUser is the Firebase authenticated user
             let kolonyUser = User.init(id: firUser.uid, email: email, username: username, stripeId: "")
             // Upload to Firestore
             self.createFirestoreUser(user: kolonyUser)
+            
+            //Set user defaults
+            UserDefaults.standard.set(email, forKey: "email")
+            UserDefaults.standard.set(password, forKey: "password")
         }
     }
     

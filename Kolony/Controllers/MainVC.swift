@@ -74,27 +74,15 @@ class MainVC: UIViewController{
     
     func setupNavBar() {
         let searchController = UISearchController(searchResultsController: self)
-        //navigationItem.searchController = searchController
-        navigationItem.titleView = searchController.searchBar
-        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.searchController = searchController
+        searchController.searchBar.placeholder = "Search Kolony"
+        //navigationItem.titleView = searchController.searchBar
+        //navigationItem.hidesSearchBarWhenScrolling = true
         searchController.hidesNavigationBarDuringPresentation = true //Not Working?
         //searchController.searchBar.sizeToFit()
-        searchController.automaticallyShowsCancelButton = true //Clear Button
-        searchController.searchBar.placeholder = "Search Kolony"
+        //.automaticallyShowsCancelButton = true //Clear Button
+        searchController.searchBar.showsCancelButton = true
         searchController.searchBar.returnKeyType = .search
-    }
-    
-    func changeLogoutButton(){
-        if let user = Auth.auth().currentUser , !user.isAnonymous {
-            // We are logged in
-            menuOptions[2] = "Logout"
-            if UserService.userListener == nil {
-                UserService.getCurrentUser()
-            }
-        } else {
-            menuOptions[2] = "Login"
-            print("Hi there")
-        }
     }
     
     func guestUserSetup() {
@@ -104,6 +92,17 @@ class MainVC: UIViewController{
                     Auth.auth().handleFireAuthError(error: error, vc: self)
                     debugPrint(error)
                 }
+            }
+        }
+        menuOptions[2] = "Login"
+    }
+    
+    func changeLogoutButton(){
+        if let user = Auth.auth().currentUser , !user.isAnonymous {
+            // We are logged in
+            menuOptions[2] = "Logout"
+            if UserService.userListener == nil {
+                UserService.getCurrentUser()
             }
         }
     }
@@ -396,6 +395,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
                 tableView.deselectRow(at: indexPath, animated: true)
                 self.closeMenu()
                 MainVC.goTo("LoginVC", animate: true)
+                //self.dismiss(animated: true, completion: nil)
             } else {
                 do {
                     try Auth.auth().signOut()
@@ -408,6 +408,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
                         tableView.deselectRow(at: indexPath, animated: true)
                         self.closeMenu()
                         MainVC.goTo("LoginVC", animate: true)
+                        //self.dismiss(animated: true, completion: nil)
                     }
                 } catch {
                     Auth.auth().handleFireAuthError(error: error, vc: self)

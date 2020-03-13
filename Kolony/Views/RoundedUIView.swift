@@ -16,8 +16,18 @@ class RoundedShadowView : UIView {
         //layer.shadowOpacity = 0.4
         //layer.shadowOffset = CGSize.zero
         //layer.shadowRadius = 3
-        layer.borderWidth = 2.0
+        layer.borderWidth = 1.0
         layer.borderColor = UIColor.black.withAlphaComponent(0.14).cgColor
         //layer.masksToBounds = false
     }
 }
+
+class RoundedButton : UIButton {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        layer.cornerRadius = 5
+        layer.borderWidth = 2
+        layer.borderColor = UIColor.black.cgColor
+    }
+}
+
