@@ -343,20 +343,25 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //searchBar.endEditing(true)
         
-        //Get data of product by cell (from database)
+        //Data from database shown in collection view
         let item: Product = products[indexPath.row]
-    
-        ProductVC.prodPic = item.images //Send images here
-        ProductVC.prodName = item.name
-        ProductVC.prodPrice = item.price
-        ProductVC.prodBrand = item.brand
-        ProductVC.prodStyle = item.style
-        ProductVC.prodColorway = item.colorway
-        ProductVC.prodRelease = item.release
-        ProductVC.prodRetail = item.retail
-        ProductVC.prodID = item.id
+        
+        ProductVC.product = item
         
         navGoTo("ProductVC", animate: true)
+    }
+    
+    //Change color of cell when user taps on it
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) {
+            cell.contentView.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+        }
+    }
+    //Change color of cell back when user lifts finger off of screen
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) {
+            cell.contentView.backgroundColor = UIColor.white
+        }
     }
 }
 
@@ -374,8 +379,6 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = menuOptions[indexPath.row]
         
         cell.textLabel?.font = UIFont(name: "Avenir-Book", size: 18)
-        
-        //cell.textLabel?.textAlignment = .center //centres text label in table view
         
         cell.imageView?.image = menuImages[indexPath.row]
         

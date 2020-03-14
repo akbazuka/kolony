@@ -35,24 +35,6 @@ class ProductVC: UIViewController {
     
     @IBOutlet weak var productPrice: UILabel!
     
-    static var prodPic = "" //static to reference in MainVC
-    
-    static var prodID = ""
-    
-    static var prodName = ""            //static to reference in MainVC
-    
-    static var prodPrice = Double()
-    
-    static var prodBrand = ""
-    
-    static var prodStyle = ""
-    
-    static var prodColorway = ""
-    
-    static var prodRelease = Timestamp()
-    
-    static var prodRetail = Double()
-    
     ////Use only if want to display size of item in cart in detail view as well
     ////Only used when product coming from CartVC
     //static var prodSize = ""
@@ -62,7 +44,7 @@ class ProductVC: UIViewController {
     
     fileprivate let pickerView = ToolbarPickerView()
 
-    var selectedItemID = ""
+    //var selectedItemID = ""
     
     //Text box that allows you to select size and then displays it
     @IBOutlet weak var sizeText: UITextField!
@@ -71,7 +53,8 @@ class ProductVC: UIViewController {
     
     var db: Firestore!
     var productInventory = [ProductInventory]()
-    var product: Product!
+    static var product: Product!
+    var selectedItem : ProductInventory!
     var listener : ListenerRegistration!
     
     //ViewDidLoad
@@ -134,31 +117,31 @@ class ProductVC: UIViewController {
     
     func setData() {
         //Sets product info according to what product was clicked on in collection view of MainVC
-        if let imageURL = URL(string: ProductVC.prodPic){
+        if let imageURL = URL(string: ProductVC.product.images){
             productImages.kf.indicatorType = .activity
             productImages.kf.setImage(with: imageURL)
         }
-        productName.text = ProductVC.prodName
+        productName.text = ProductVC.product.name
         
         //Convert Price fro Double to Currency to be displayed
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        if let price = formatter.string(from: ProductVC.prodPrice as NSNumber) {
+        if let price = formatter.string(from: ProductVC.product.price as NSNumber) {
             productPrice.text = price
         }
-        brandLabel.text = ProductVC.prodBrand.uppercased()
-        styleLabel.text = ProductVC.prodStyle.uppercased()
-        colorwayLabel.text = ProductVC.prodColorway.uppercased()
+        brandLabel.text = ProductVC.product.brand.uppercased()
+        styleLabel.text = ProductVC.product.style.uppercased()
+        colorwayLabel.text = ProductVC.product.colorway.uppercased()
         
         //Convert Firebase Timestamp() to Date() to String and set it release label's text
         let theFormatter = DateFormatter()
         theFormatter.dateStyle = .medium
-        let theDate = theFormatter.string(from: ProductVC.prodRelease.dateValue())
+        let theDate = theFormatter.string(from: ProductVC.product.release.dateValue())
         releaseLabel.text = theDate
         
         //Convert Retail from Int to Currency to be displayed
         formatter.numberStyle = .currency
-        if let retail = formatter.string(from: ProductVC.prodRetail as NSNumber) {
+        if let retail = formatter.string(from: ProductVC.product.retail as NSNumber) {
             retailLabel.text = retail
         }
         
@@ -189,7 +172,7 @@ class ProductVC: UIViewController {
         //ref = db.productInventory(product: ProductVC.prodID)
         //}
 
-        listener = db.productInventory(product: ProductVC.prodID).addSnapshotListener({ (snap, error) in
+        listener = db.productInventory(product: ProductVC.product.id).addSnapshotListener({ (snap, error) in
             
             if let error = error {
                 debugPrint(error.localizedDescription)
@@ -221,8 +204,10 @@ class ProductVC: UIViewController {
         guard let user = Auth.auth().currentUser else { return }
         
         if !user.isAnonymous, let size = sizeText.text, !size.isEmpty/*, ProductVC.sizeSelected == 1 */{
-            //Add item to cart in the database
-            insertCart(uID: UserDefaults.standard.string(forKey: "uID") ?? "-1", selectedProductID: self.selectedItemID)
+            //print("This is the selected item: \(selectedItem.id)")
+            //print("This is the product name: \(product.name)")
+            //Add item to cart
+            StripeCart.addItemToCart(item:selectedItem, product: ProductVC.product)
             
             //Refresh Size picker so that when user navigates back, they cannot re-add to cart
             self.didTapCancel()
@@ -231,7 +216,7 @@ class ProductVC: UIViewController {
             //ProductVC.sizeSelected = 0 //Does not allow user to add to cart again without reselecting size
             
             //Show alert saying item was added to cart
-            alertNavToVC(title: "Added to Cart", message: "This item was successfully added to your shopping cart!",toVC: "CartVC")
+            alertNavToVC(title: "Added to Cart", message: "This item was successfully added to your shopping cart!",toVC: "CheckoutVC")
             
         } else if (!user.isAnonymous) {
             alert(title: "Error", message: "You must be logged in with a registered account if you would like to add this item to your shopping cart.")
@@ -240,7 +225,7 @@ class ProductVC: UIViewController {
             self.didTapCancel()
             alert(title: "This item is already in your Cart", message: "Please select a size again if you wish to add the item once more.")
         } */else {
-            alert(title: "Please select a Size", message: "You must select a size for the product you wish to add to your cart.")
+                alert(title: "Please select a Size", message: "You must select a size for the product you wish to add to your cart.")
         }
     }
     
@@ -252,24 +237,6 @@ class ProductVC: UIViewController {
     
     @IBAction func tryOnClicked(_ sender: Any) {
         //
-    }
-    
-    //Push product into user's cart in database
-    func insertCart(uID: String, selectedProductID: String){
-        
-        //Create url string
-        let urlString = SignUpVC.self.dataURL + "insertCart&uID=\(uID)&indiProductID=\(selectedProductID)"
-        
-        //Encode url
-        let result = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "Error"
-        
-        //Create url
-        guard let url = URL(string: result) else { return }
-        
-        //Send url
-        URLSession.shared.dataTask(with: url).resume()
-        
-        print("URL Sent: \(url)")
     }
     
     //Alert Popup
@@ -311,7 +278,6 @@ class ProductVC: UIViewController {
             }
         }
     }
-    
 }
 
 /*Delegate methods of UIPickerView*/
@@ -341,7 +307,6 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
             
             pickerView.reloadAllComponents()
         }
-        
     }
     
     //When new document is deleted from database
@@ -376,6 +341,7 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let item: ProductInventory = productInventory[row]
         self.sizeText.text = NSNumber(value: item.size).stringValue
+        self.selectedItem = item
     }
 }
 
@@ -401,11 +367,15 @@ extension ProductVC: ToolbarPickerViewDelegate {
         
         ////Use only if want to display size of item in cart in detail view as well
         //ProductVC.sizeSelected = 1 //User has selected a size; allow it to be added ot cart
+        
+        //To paas correct item to add to cart
+        self.selectedItem = item
     }
 
     func didTapCancel() {
         self.sizeText.text = nil
         self.sizeText.resignFirstResponder()
+        self.selectedItem = nil
         
         ////Resets selected item
         //self.selectedItemID = ""

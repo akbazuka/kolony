@@ -177,6 +177,9 @@ PODS:
   - Firebase/Firestore (6.17.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.10.2)
+  - Firebase/Functions (6.17.0):
+    - Firebase/CoreOnly
+    - FirebaseFunctions (~> 2.5.1)
   - FirebaseAnalytics (6.2.2):
     - FirebaseCore (~> 6.6)
     - FirebaseInstanceID (~> 4.3)
@@ -218,6 +221,10 @@ PODS:
     - "gRPC-C++ (= 0.0.9)"
     - leveldb-library (~> 1.22)
     - nanopb (~> 0.3.901)
+  - FirebaseFunctions (2.5.1):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.0)
+    - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseInstallations (1.1.0):
     - FirebaseCore (~> 6.6)
     - GoogleUtilities/UserDefaults (~> 6.5)
@@ -289,6 +296,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Firestore
+  - Firebase/Functions
   - IQKeyboardManagerSwift
   - Kingfisher
   - Stripe
@@ -305,6 +313,7 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
     - FirebaseFirestore
+    - FirebaseFunctions
     - FirebaseInstallations
     - FirebaseInstanceID
     - GoogleAppMeasurement
@@ -332,6 +341,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 5e78803ab276bc5b50340e3c539c06c3de35c649
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseFirestore: 2ee644acccde18e49b2fb5d434c709b1f1171b13
+  FirebaseFunctions: 5af7c35d1c5e41608fecbb667eb6c4e672e318d0
   FirebaseInstallations: 575cd32f2aec0feeb0e44f5d0110a09e5e60b47b
   FirebaseInstanceID: 031d7d0c8e7b5c030bbeb4d2a690550375e83fec
   GoogleAppMeasurement: d0560d915abf15e692e8538ba1d58442217b6aff
@@ -348,6 +358,6 @@ SPEC CHECKSUMS:
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Stripe: 5afd38a520f7a1a16b609127165d517fa9f7de32
 
-PODFILE CHECKSUM: 91cf747bbcb29400df4237bd6464f087f7a099a3
+PODFILE CHECKSUM: 8d6894f53ff4441c906c26989fa6b8435f1482d2
 
 COCOAPODS: 1.9.1

@@ -13,7 +13,7 @@ let StripeCart = _StripeCart()
 final class _StripeCart {
     
     var cartItems = [ProductInventory]()
-    var itemPrices = [Double]()
+    var cartProducts = [Product]()
     private let stripeCreditCardCut = 0.029
     private let flatFeeCents = 30
     var shippingFees = 0
@@ -23,8 +23,8 @@ final class _StripeCart {
     //Note: Stripe takes payment in cents
     var subtotal: Int{
         var amount = 0
-        for price in itemPrices{
-            let pricePennies = Int(price*100)
+        for price in cartProducts{
+            let pricePennies = Int(price.price*100)
             amount += pricePennies
         }
         return amount //Returns subtotal of all items in Strip Cart
@@ -44,19 +44,21 @@ final class _StripeCart {
         return subtotal + processingFees + shippingFees
     }
     
-    func addItemToCart(item: ProductInventory, price: Double){
+    func addItemToCart(item: ProductInventory, product: Product){
         cartItems.append(item)
-        itemPrices.append(price)
+        cartProducts.append(product)
     }
     
     func removeItemFromCart(item: ProductInventory){
         if let index = cartItems.firstIndex(of: item){
             cartItems.remove(at: index)
+            cartProducts.remove(at: index)
         }
     }
     
-    func removeAllItems(){
+    func clearCart(){
         cartItems.removeAll()
+        cartProducts.removeAll()
     }
     
 }

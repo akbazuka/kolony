@@ -23,7 +23,7 @@ class LoginVC: UIViewController {
         buttonLayouts()
         
         //Checks if user defaults exists before the view is shown
-        //ifUserDefaultExists()
+        ifUserDefaultExists()
         UserDefaults.standard.set(nil, forKey: "email")
         UserDefaults.standard.set(nil, forKey: "password")
     }
@@ -100,8 +100,10 @@ class LoginVC: UIViewController {
                     debugPrint(error)
                     Auth.auth().handleFireAuthError(error: error, vc: self)
                     self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
                     return
                 }
+                self.activityIndicator.isHidden = true
                 self.activityIndicator.stopAnimating()
                 //self.dismiss(animated: true, completion: nil)
             }

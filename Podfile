@@ -9,6 +9,7 @@ target 'Kolony' do
 	pod 'Stripe'					#Stripe Payment
 	pod 'Kingfisher'				#Kingfisher pod to pull picture from URL
 	pod 'IQKeyboardManagerSwift'	#Smart Keyboard
+  pod 'Firebase/Functions'    #Firebase Functions
 	#pod 'Alamofire' 				#Alamofire Backend Communication
 
 end
