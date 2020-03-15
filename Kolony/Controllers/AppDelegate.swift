@@ -22,8 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure() //Firebase
         
-        //Strip test publish key
+        //Stripe test publish key
         Stripe.setDefaultPublishableKey("pk_test_9PVPskJyQnuh45S4se8Q57ay00SETGm1Xl")
+        
+        //Override Stripe's default theme to customize
+        //STPTheme.default().primaryBackgroundColor = UIColor(hue: 0.7667, saturation: 0, brightness: 0.25, alpha: 1.0)
+        //STPTheme.default().accentColor = UIColor.white
+        
+        //STPTheme.default().primaryForegroundColor = UIColor.white
+        //STPTheme.default().secondaryBackgroundColor = UIColor(hue: 0.8972, saturation: 0, brightness: 0.43, alpha: 1.0)
+        
+        //STPTheme.default().font = UIFont(name: "Avenir-Next", size: 18)
+        //STPTheme.default().emphasisFont = UIFont(name: "Avenir-Next-Medium", size: 18)
+        
         return true
     }
 

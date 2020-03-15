@@ -22,6 +22,20 @@ class RoundedShadowView : UIView {
     }
 }
 
+class RoundedShadowCartView : UIView {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        layer.cornerRadius = 7
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.4
+        layer.shadowOffset = CGSize.zero
+        layer.shadowRadius = 3
+        layer.borderWidth = 1.0
+        layer.borderColor = UIColor.black.withAlphaComponent(0.14).cgColor
+        //layer.masksToBounds = false
+    }
+}
+
 class RoundedButton : UIButton {
     override func awakeFromNib() {
         super.awakeFromNib()

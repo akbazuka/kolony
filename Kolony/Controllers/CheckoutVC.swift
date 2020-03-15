@@ -133,18 +133,22 @@ extension CheckoutVC: STPPaymentContextDelegate{
     func paymentContext(_ paymentContext: STPPaymentContext, didFailToLoadWithError error: Error) {
         activityIndicator.stopAnimating()
         
-        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        //let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Hi friend!", message: "This is a user only feature. Please create an account with us to be able to access all of our features.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             self.navigationController?.popViewController(animated: true) //Dismiss VC
         }
         
-        let retry = UIAlertAction(title: "Retry", style: .default) { (action) in
-            self.paymentContext.retryLoading() //Try loading again
+        //let retry = UIAlertAction(title: "Retry", style: .default) { (action) in
+            //self.paymentContext.retryLoading() //Try loading again
+        let signup = UIAlertAction(title: "Sign-Up", style: .cancel) { (action) in
+            MainVC.goTo("SignUpVC", animate: true)
         }
         
         alertController.addAction(cancel)
-        alertController.addAction(retry)
+        alertController.addAction(signup)
+        //alertController.addAction(retry)
         present(alertController,animated: true,completion: nil)
     }
     

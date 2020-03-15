@@ -219,7 +219,7 @@ class ProductVC: UIViewController {
             alertNavToVC(title: "Added to Cart", message: "This item was successfully added to your shopping cart!",toVC: "CheckoutVC")
             
         } else if (user.isAnonymous) {
-            alertToVC(title: "Hi friend!", message: "This is a user only feature. Please create an acoount with us to be able to access all of our features.", toVC: "SignUpVC")
+            alertToVC(title: "Hi friend!", message: "This is a user only feature. Please create an account with us to be able to access all of our features.", toVC: "SignUpVC")
         }   ////Use only if want to display size of item in cart in detail view as well
             /*else if ProductVC.sizeSelected == 0, let size = sizeText.text, !size.isEmpty{ //Does not allow user to add to cart if coming straight from CartVC and has not manually rechose a size
             self.didTapCancel()
