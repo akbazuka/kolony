@@ -35,9 +35,6 @@ class MainVC: UIViewController{
     var screenEdgeRecognizer: UIScreenEdgePanGestureRecognizer!
 
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 24)!] //For changing font of navigation bar title
-    
-    //Product Information (Hard Coded) Uncomment below section if not using database
-    var images = [UIImage(named: "nikeAir"), UIImage(named: "yeezy")] //Array to test no. of cells in UICOllectionVew; Comment line when implement storing references to images in database
 
     var menuOptions = ["Settings", "Rate Us", "Logout"]
     
@@ -56,7 +53,6 @@ class MainVC: UIViewController{
         UINavigationBar.appearance().titleTextAttributes = attributes //Changes font of navigation bar title
         
         setupNavBar()
-        
         guestUserSetup()            //Initial setup of guest user
     }
     
@@ -263,7 +259,7 @@ class MainVC: UIViewController{
             }
             if let second = topMostController().storyboard?.instantiateViewController(withIdentifier: view) {
                 topMostController().present(second, animated: animate, completion: nil)
-                // topMostController().navigationController?.pushViewController(second, animated: animate)
+                //topMostController().navigationController?.pushViewController(second, animated: animate)
             }
         }
     }
@@ -296,7 +292,6 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
             
             collectionView.moveItem(at: IndexPath(item: oldIndex, section: 0), to: IndexPath(item: newIndex, section: 0))
         }
-        
     }
     
     //When new document is deleted from database
