@@ -24,8 +24,6 @@ class LoginVC: UIViewController {
         
         //Checks if user defaults exists before the view is shown
         ifUserDefaultExists()
-        UserDefaults.standard.set(nil, forKey: "email")
-        UserDefaults.standard.set(nil, forKey: "password")
     }
     
     //Login User with existing credentials if they exist
@@ -33,6 +31,9 @@ class LoginVC: UIViewController {
         if UserDefaults.standard.object(forKey: "email") != nil{
             
             authenticateUser(email: UserDefaults.standard.object(forKey: "email") as! String, password: UserDefaults.standard.object(forKey: "password") as! String)
+        } else {
+            UserDefaults.standard.set(nil, forKey: "email")
+            UserDefaults.standard.set(nil, forKey: "password")
         }
     }
     
@@ -68,8 +69,6 @@ class LoginVC: UIViewController {
     
     @IBAction func guestBtnOnClick(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
-        //Resets user defaults
-        //UserDefaults.standard.set(nil, forKey: "uID")
     }
     
     //Login User
@@ -77,12 +76,6 @@ class LoginVC: UIViewController {
         
         Auth.auth().signIn(withEmail: email, password: password){(user,error) in
             if user != nil {
-                //print("User is authenticated (user has an account)")
-                //print("Email:\(email)")
-                
-                //save uID using key 'uID'; can quit the app then re-launch and they'll still be there on each phone
-                
-                //UserDefaults.standard.set(user?.user.uid, forKey: "uID")
 
                 self.activityIndicator.stopAnimating()
                 //Set user defaults
@@ -105,7 +98,8 @@ class LoginVC: UIViewController {
                 }
                 self.activityIndicator.isHidden = true
                 self.activityIndicator.stopAnimating()
-                //self.dismiss(animated: true, completion: nil)
+                
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }

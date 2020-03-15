@@ -39,7 +39,7 @@ class MainVC: UIViewController{
     //Product Information (Hard Coded) Uncomment below section if not using database
     var images = [UIImage(named: "nikeAir"), UIImage(named: "yeezy")] //Array to test no. of cells in UICOllectionVew; Comment line when implement storing references to images in database
 
-    var menuOptions = ["Settings", "Rate Us", ""]
+    var menuOptions = ["Settings", "Rate Us", "Logout"]
     
     var menuImages = [UIImage(named: "settingsPic"), UIImage(named: "ratePic"), UIImage(named: "exitPic")]
     
@@ -58,12 +58,12 @@ class MainVC: UIViewController{
         setupNavBar()
         
         guestUserSetup()            //Initial setup of guest user
-        changeLogoutButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         //Pulls data from database
         setProductsListener()
+        changeLogoutButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,17 +93,17 @@ class MainVC: UIViewController{
                     debugPrint(error)
                 }
             }
+            menuOptions[2] = "Login"
         }
-        menuOptions[2] = "Login"
     }
     
     func changeLogoutButton(){
         if let user = Auth.auth().currentUser , !user.isAnonymous {
             // We are logged in
-            menuOptions[2] = "Logout"
             if UserService.userListener == nil {
-                UserService.getCurrentUser()
+                UserService.getCurrentUser() //Get current user information
             }
+            menuOptions[2] = "Logout"
         }
     }
     
@@ -410,8 +410,13 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
                         }
                         tableView.deselectRow(at: indexPath, animated: true)
                         self.closeMenu()
+                        
+                        if UserService.userListener == nil {
+                                print("Aloha1")
+                        }
+                        print("Aloha1 User is: \(UserService.user.email)")
+                        
                         MainVC.goTo("LoginVC", animate: true)
-                        //self.dismiss(animated: true, completion: nil)
                     }
                 } catch {
                     Auth.auth().handleFireAuthError(error: error, vc: self)
@@ -419,6 +424,5 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
-    }
-    
+    }    
 }

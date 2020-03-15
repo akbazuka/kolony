@@ -35,6 +35,10 @@ class CartCell: UITableViewCell {
         //removeItemBtn.layer.borderColor = UIColor.black.cgColor
     }
     
+    override func awakeFromNib() {
+           super.awakeFromNib()
+       }
+    
     func configureCell(productInventory: ProductInventory, product: Product, delegate: CartCellDelegate){
         self.delegate = delegate
         self.item = productInventory
@@ -55,6 +59,7 @@ class CartCell: UITableViewCell {
     }
     
     @IBAction func removeItemOnClick(_ sender: Any) {
+        //print("Yeet")
         delegate?.removeItem(productInventory: item)
     }
 }

@@ -16,8 +16,7 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var confirmPassText: UITextField!
     @IBOutlet weak var usernameText: UITextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
-    static var dataURL = "http://localhost/kolony.php?type="
+    @IBOutlet weak var haveAccBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +24,10 @@ class SignUpVC: UIViewController {
 
         passText.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         confirmPassText.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
+        
+//        haveAccBtn.layer.cornerRadius = 5
+//        haveAccBtn.layer.borderWidth = 1
+//        haveAccBtn.layer.borderColor = UIColor.black.cgColor
     }
     
     @IBAction func backBtnOnClick(_ sender: Any) {
@@ -67,6 +70,11 @@ class SignUpVC: UIViewController {
         emailText.endEditing(true)
         passText.endEditing(true)
         confirmPassText.endEditing(true)
+    }
+    
+    @IBAction func haveAnAccOnClick(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+        MainVC.goTo("LoginVC", animate: true)
     }
     
     @IBAction func registerBtnOnClick(_ sender: Any) {

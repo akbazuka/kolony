@@ -218,14 +218,14 @@ class ProductVC: UIViewController {
             //Show alert saying item was added to cart
             alertNavToVC(title: "Added to Cart", message: "This item was successfully added to your shopping cart!",toVC: "CheckoutVC")
             
-        } else if (!user.isAnonymous) {
-            alert(title: "Error", message: "You must be logged in with a registered account if you would like to add this item to your shopping cart.")
+        } else if (user.isAnonymous) {
+            alertToVC(title: "Hi friend!", message: "This is a user only feature. Please create an acoount with us to be able to access all of our features.", toVC: "SignUpVC")
         }   ////Use only if want to display size of item in cart in detail view as well
             /*else if ProductVC.sizeSelected == 0, let size = sizeText.text, !size.isEmpty{ //Does not allow user to add to cart if coming straight from CartVC and has not manually rechose a size
             self.didTapCancel()
             alert(title: "This item is already in your Cart", message: "Please select a size again if you wish to add the item once more.")
         } */else {
-                alert(title: "Please select a Size", message: "You must select a size for the product you wish to add to your cart.")
+                alert(title: "Please select a Size", message: "Select a size for the product you wish to add to your cart.")
         }
     }
     
@@ -250,13 +250,29 @@ class ProductVC: UIViewController {
         present(alert,animated: true, completion: nil)
     }
     
-    //Navigate to VC after Alert
+    //Navigate to VC after Alert (to Navigation Controller)
     func alertNavToVC(title:String, message: String, toVC: String) {
         //Error Title
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         //Action Title
         //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
         alert.addAction(UIAlertAction(title: "OK", style: .default){UIAlertAction in self.navGoTo(toVC, animate: true)})
+        
+        //Present to Screen
+        present(alert,animated: true, completion: nil)
+    }
+    
+    //Navigate to VC after Alert (without navigation controller)
+    func alertToVC(title:String, message: String, toVC: String) {
+        //Error Title
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        //Action Title
+        //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "Sign-Up", style: .default){UIAlertAction in MainVC.goTo(toVC, animate: true)})
         
         //Present to Screen
         present(alert,animated: true, completion: nil)

@@ -30,6 +30,10 @@ class CheckoutVC: UIViewController, CartCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //print("Once again")
+        print("User: \(UserService.user.email)")
+        print("Userid: \(UserService.user.stripeId)")
+        
         setupTableView()
         setcheckoutData()
         setupStripeConfig()
@@ -45,6 +49,12 @@ class CheckoutVC: UIViewController, CartCellDelegate {
         processingFeeLabel.text = StripeCart.processingFees.penniesToFormattedCurrency()
         shippingLabel.text = StripeCart.shippingFees.penniesToFormattedCurrency()
         totalLabel.text = StripeCart.total.penniesToFormattedCurrency()
+        
+        buyBtn.isEnabled = true
+        
+        if (subtotalLabel.text == "$0.00"){
+            buyBtn.isEnabled = false
+        }
     }
     
     @IBAction func placeOrderOnClick(_ sender: Any) {
@@ -61,12 +71,13 @@ class CheckoutVC: UIViewController, CartCellDelegate {
     }
     
     func setupStripeConfig(){
+
         let config = STPPaymentConfiguration.shared()
         config.requiredBillingAddressFields = .none
         config.requiredShippingAddressFields = [.postalAddress]
 
         let customerContext = STPCustomerContext(keyProvider: StripeApi)
-        
+
         //Change theme here if you want to have a different theme
         paymentContext = STPPaymentContext(customerContext: customerContext, configuration: config, theme: .default())
         //Set payment amount in Stripe
@@ -100,10 +111,6 @@ class CheckoutVC: UIViewController, CartCellDelegate {
 
 extension CheckoutVC: STPPaymentContextDelegate{
     
-    func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPPaymentStatusBlock) {
-        //print("Aloha")
-    }
-    
     func paymentContextDidChange(_ paymentContext: STPPaymentContext) {
         //Update selected payment method
         if let paymentMethod = paymentContext.selectedPaymentOption{
@@ -131,6 +138,7 @@ extension CheckoutVC: STPPaymentContextDelegate{
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             self.navigationController?.popViewController(animated: true) //Dismiss VC
         }
+        
         let retry = UIAlertAction(title: "Retry", style: .default) { (action) in
             self.paymentContext.retryLoading() //Try loading again
         }
@@ -138,82 +146,49 @@ extension CheckoutVC: STPPaymentContextDelegate{
         alertController.addAction(cancel)
         alertController.addAction(retry)
         present(alertController,animated: true,completion: nil)
-        
     }
     
-//    //Send payment information to cloud function
-//    func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, status: STPPaymentStatus, completion: @escaping STPPaymentStatusBlock) {
-//
-//        //Idempotency safely retries requests without performing same operatin twice
-//        let idempotency = UUID().uuidString.replacingOccurrences(of: "-", with: "") //uuid returns with hyphens, so remove them
-//
-//        let data: [String: Any] = [
-//            "total": StripeCart.total,
-//            "customerId": UserService.user.stripeId,
-//            "idempotency": idempotency
-//        ]
-//
-//        //If payment request was not successful
-//        Functions.functions().httpsCallable("createCharge").call(data) { (result, error) in
-//
-//            if let error = error {
-//                debugPrint(error.localizedDescription)
-//                self.alert(title: "Error", message: "Unable to make charge.")
-//                completion(status, error)
-//                return
-//            }
-//
-//            //If request was successful
-//            StripeCart.clearCart()
-//            self.tableView.reloadData()
-//            self.setcheckoutData()
-//            completion(status, error)
-//        }
-//    }
-    
-//    //Send payment information to cloud function
-//    func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, status: STPPaymentStatus, completion: @escaping STPErrorBlock) {
-//
-//        //Idempotency safely retries requests without performing same operatin twice
-//        let idempotency = UUID().uuidString.replacingOccurrences(of: "-", with: "") //uuid returns with hyphens, so remove them
-//
-//        let data: [String: Any] = [
-//            "total": StripeCart.total,
-//            "customerId": UserService.user.stripeId,
-//            "idempotency": idempotency
-//        ]
-//
-//        //If payment request was not successful
-//        Functions.functions().httpsCallable("createCharge").call(data) { (result, error) in
-//
-//            if let error = error {
-//                debugPrint(error.localizedDescription)
-//                self.alert(title: "Error", message: "Unable to make charge.")
-//                completion(error)
-//                return
-//            }
-//
-//            //If request was successful
-//            StripeCart.clearCart()
-//            self.tableView.reloadData()
-//            self.setcheckoutData()
-//            completion(error)
-//        }
-//    }
-    
+    //Send payment information to cloud function
+    func paymentContext(_ paymentContext: STPPaymentContext, didCreatePaymentResult paymentResult: STPPaymentResult, completion: @escaping STPPaymentStatusBlock) {
+        
+        //Idempotency safely retries requests without performing same operatin twice
+        let idempotency = UUID().uuidString.replacingOccurrences(of: "-", with: "")
+        
+        let data : [String: Any] = [
+            "total_amount" : StripeCart.total,
+            "customer_id" : UserService.user.stripeId,
+            "payment_method_id" : paymentResult.paymentMethod?.stripeId ?? "",
+            "idempotency" : idempotency
+        ]
+                
+        Functions.functions().httpsCallable("createCharge").call(data) { (result, error) in
+            //If payment request was not successful
+            if let error = error {
+                debugPrint(error.localizedDescription)
+                self.alert(title: "Error", message: "Unable to make charge.")
+                completion(STPPaymentStatus.error, error)
+                return
+            }
+            //If request was successful
+            StripeCart.clearCart()
+            self.tableView.reloadData()
+            self.setcheckoutData()
+            completion(.success, nil)
+        }
+    }
+
     //Check on status after request was made about whether payment was successfully made
     func paymentContext(_ paymentContext: STPPaymentContext, didFinishWith status: STPPaymentStatus, error: Error?) {
         
         let title: String
         let message: String
+        activityIndicator.stopAnimating()
         
         switch status{
         case .error:
-            activityIndicator.stopAnimating()
             title = "Error"
             message = error?.localizedDescription ?? ""
         case .success:
-            activityIndicator.stopAnimating()
             title = "Success"
             message = "Thank you for your purchase."
         case .userCancellation:
@@ -223,7 +198,7 @@ extension CheckoutVC: STPPaymentContextDelegate{
         }
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Ok", style: .default) { (action) in
+        let action = UIAlertAction(title: "OK", style: .default) { (action) in
             self.navigationController?.popViewController(animated: true)
         }
         
@@ -253,8 +228,6 @@ extension CheckoutVC: STPPaymentContextDelegate{
             completion(.invalid,nil, nil, nil)
         }
     }
-    
-    
 }
 
 extension CheckoutVC: UITableViewDelegate, UITableViewDataSource {

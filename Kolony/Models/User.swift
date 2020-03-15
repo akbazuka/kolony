@@ -27,7 +27,7 @@ struct User {
     
     init(data: [String: Any]) {
         id = data["id"] as? String ?? ""
-        email = data["email"] as? String ?? ""
+        email = data["email"] as? String ?? "@"
         username = data["username"] as? String ?? ""
         stripeId = data["stripeId"] as? String ?? ""
     }

@@ -20,7 +20,7 @@ final class _UserService {
     let auth = Auth.auth()
     let db = Firestore.firestore()
     var userListener : ListenerRegistration? = nil
-    var favsListener : ListenerRegistration? = nil
+    //var favsListener : ListenerRegistration? = nil
     
     var isGuest : Bool {
         
@@ -37,17 +37,23 @@ final class _UserService {
     func getCurrentUser() {
         guard let authUser = auth.currentUser else { return }
         
+        //print("Authorized user")
+        
         let userRef = db.collection("users").document(authUser.uid)
+        //If user changes credentials like username or email
         userListener = userRef.addSnapshotListener({ (snap, error) in
             
             if let error = error {
                 debugPrint(error.localizedDescription)
+                //print("There is an error here.")
                 return
             }
             
             guard let data = snap?.data() else { return }
             self.user = User.init(data: data)
+            print("Success",self.user)
         })
+        
         
         /*//To implement favourites
         let favsRef = userRef.collection("favorites")
