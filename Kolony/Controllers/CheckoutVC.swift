@@ -30,18 +30,39 @@ class CheckoutVC: UIViewController, CartCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //print("Once again")
-        print("User: \(UserService.user.email)")
-        print("Userid: \(UserService.user.stripeId)")
-        
         setupTableView()
         setcheckoutData()
         setupStripeConfig()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        blockGuestUser()
+    }
+    
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    //Don't allow guest user to visit CheckoutVC
+    func blockGuestUser(){
+        if UserService.isGuest == true{
+            let alertController = UIAlertController(title: "Hi friend!", message: "This is a user only feature. Please create an account with us to be able to access all of our features.", preferredStyle: .alert)
+            
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+                self.navigationController?.popViewController(animated: true) //Dismiss VC
+            }
+            
+            let signup = UIAlertAction(title: "Sign-Up", style: .default) { (action) in
+                //Navigate to SignUpVC
+                let signUpVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC")
+                self.present(signUpVC, animated: true, completion: nil)
+            }
+            
+            alertController.addAction(cancel)
+            alertController.addAction(signup)
+            present(alertController,animated: true,completion: nil)
+        }
     }
     
     func setcheckoutData(){
@@ -55,6 +76,33 @@ class CheckoutVC: UIViewController, CartCellDelegate {
         if (subtotalLabel.text == "$0.00"){
             buyBtn.isEnabled = false
         }
+    }
+    
+    //Navigate back home
+    @IBAction func homeBtnOnClick(_ sender: Any) {
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers
+        for ViewController in viewControllers {
+            if ViewController is MainVC {
+                self.navigationController!.popToViewController(ViewController, animated: true)
+            }
+        }
+    }
+    
+    //Navigate to Account Page
+    @IBAction func acctBtnOnClick(_ sender: Any) {
+        //Pop VC if already exists in navigation stack
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers
+        for vc in viewControllers {
+            if vc is AccountVC {
+                self.navigationController!.popToViewController(vc, animated: true)
+                return
+            }
+        }
+        
+        //If VC does not exist in Navigation stack, psuh to VC
+        let accountVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AccountVC")
+        
+        self.navigationController?.pushViewController(accountVC, animated: true)
     }
     
     @IBAction func placeOrderOnClick(_ sender: Any) {
@@ -133,22 +181,19 @@ extension CheckoutVC: STPPaymentContextDelegate{
     func paymentContext(_ paymentContext: STPPaymentContext, didFailToLoadWithError error: Error) {
         activityIndicator.stopAnimating()
         
-        //let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-        let alertController = UIAlertController(title: "Hi friend!", message: "This is a user only feature. Please create an account with us to be able to access all of our features.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        //let alertController = UIAlertController(title: "Hi friend!", message: "This is a user only feature. Please create an account with us to be able to access all of our features.", preferredStyle: .alert)
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             self.navigationController?.popViewController(animated: true) //Dismiss VC
         }
         
-        //let retry = UIAlertAction(title: "Retry", style: .default) { (action) in
-            //self.paymentContext.retryLoading() //Try loading again
-        let signup = UIAlertAction(title: "Sign-Up", style: .cancel) { (action) in
-            MainVC.goTo("SignUpVC", animate: true)
+        let retry = UIAlertAction(title: "Retry", style: .default) { (action) in
+            self.paymentContext.retryLoading() //Try loading again
         }
-        
         alertController.addAction(cancel)
-        alertController.addAction(signup)
-        //alertController.addAction(retry)
+        //alertController.addAction(signup)
+        alertController.addAction(retry)
         present(alertController,animated: true,completion: nil)
     }
     

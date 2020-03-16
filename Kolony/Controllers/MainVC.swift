@@ -26,6 +26,8 @@ class MainVC: UIViewController{
 
     @IBOutlet var mainView: UIView!
     
+    var callCount = 1
+    
     var showMenu = false
     
     var tapGesture = UITapGestureRecognizer()
@@ -36,9 +38,9 @@ class MainVC: UIViewController{
 
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 24)!] //For changing font of navigation bar title
 
-    var menuOptions = ["Settings", "Rate Us", "Logout"]
+    var menuOptions = ["Settings", "Rate Us", "My Orders","Logout"]
     
-    var menuImages = [UIImage(named: "settingsPic"), UIImage(named: "ratePic"), UIImage(named: "exitPic")]
+    var menuImages = [UIImage(named: "settingsPic"), UIImage(named: "ratePic"), UIImage(named: "exitPic"), nil]
     
     var db : Firestore!
     var products = [Product]()
@@ -59,7 +61,7 @@ class MainVC: UIViewController{
     override func viewDidAppear(_ animated: Bool) {
         //Pulls data from database
         setProductsListener()
-        changeLogoutButton()
+        getUser()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,17 +91,23 @@ class MainVC: UIViewController{
                     debugPrint(error)
                 }
             }
-            menuOptions[2] = "Login"
         }
     }
     
-    func changeLogoutButton(){
+    func guestExperience() {
+        if UserService.isGuest == true{
+            print("Yes")
+            menuOptions.remove(at: 2) //Remove "My Oders" from menu if user is guest
+            menuOptions[2] = "Login"  //Change Logout button to Login if user is guest
+        }
+    }
+    
+    func getUser(){
         if let user = Auth.auth().currentUser , !user.isAnonymous {
             // We are logged in
             if UserService.userListener == nil {
                 UserService.getCurrentUser() //Get current user information
             }
-            menuOptions[2] = "Logout"
         }
     }
     
@@ -231,38 +239,38 @@ class MainVC: UIViewController{
             self.view.layoutIfNeeded()})
     }
     
-    //Navigate to different VC manually (With Navigation Controller)
-    func navGoTo(_ view: String, animate: Bool){
-        OperationQueue.main.addOperation {
-            func topMostController() -> UIViewController {
-                var topController: UIViewController = UIApplication.shared.windows.filter {$0.isKeyWindow}.first!.rootViewController!
-                while (topController.presentedViewController != nil) {
-                    topController = topController.presentedViewController!
-                }
-                return topController
-            }
-            if let second = topMostController().storyboard?.instantiateViewController(withIdentifier: view) {
-                self.navigationController?.pushViewController(second, animated: animate)
-            }
-        }
-    }
+//    //Navigate to different VC manually (With Navigation Controller)
+//    func navGoTo(_ view: String, animate: Bool){
+//        OperationQueue.main.addOperation {
+//            func topMostController() -> UIViewController {
+//                var topController: UIViewController = UIApplication.shared.windows.filter {$0.isKeyWindow}.first!.rootViewController!
+//                while (topController.presentedViewController != nil) {
+//                    topController = topController.presentedViewController!
+//                }
+//                return topController
+//            }
+//            if let second = topMostController().storyboard?.instantiateViewController(withIdentifier: view) {
+//                self.navigationController?.pushViewController(second, animated: animate)
+//            }
+//        }
+//    }
     
-    //Help Direct Initial VC to differentVC (Without Navigation Controller)
-    static func goTo(_ view: String, animate: Bool){
-        OperationQueue.main.addOperation {
-            func topMostController() -> UIViewController {
-                var topController: UIViewController = UIApplication.shared.windows.filter {$0.isKeyWindow}.first!.rootViewController!
-                while (topController.presentedViewController != nil) {
-                    topController = topController.presentedViewController!
-                }
-                return topController
-            }
-            if let second = topMostController().storyboard?.instantiateViewController(withIdentifier: view) {
-                topMostController().present(second, animated: animate, completion: nil)
-                //topMostController().navigationController?.pushViewController(second, animated: animate)
-            }
-        }
-    }
+//    //Help Direct Initial VC to differentVC (Without Navigation Controller)
+//    static func goTo(_ view: String, animate: Bool){
+//        OperationQueue.main.addOperation {
+//            func topMostController() -> UIViewController {
+//                var topController: UIViewController = UIApplication.shared.windows.filter {$0.isKeyWindow}.first!.rootViewController!
+//                while (topController.presentedViewController != nil) {
+//                    topController = topController.presentedViewController!
+//                }
+//                return topController
+//            }
+//            if let second = topMostController().storyboard?.instantiateViewController(withIdentifier: view) {
+//                topMostController().present(second, animated: animate, completion: nil)
+//                //topMostController().navigationController?.pushViewController(second, animated: animate)
+//            }
+//        }
+//    }
 }
 
 //MARK: Products View Stuff (Collection View)
@@ -343,7 +351,9 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         
         ProductVC.product = item
         
-        navGoTo("ProductVC", animate: true)
+        let productVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProductVC")
+        
+        self.navigationController?.pushViewController(productVC, animated: true)
     }
     
     //Change color of cell when user taps on it
@@ -363,7 +373,11 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
 //MARK: Menu View Stuff (Table View)
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        print("The count is \(self.callCount)")
+        if self.callCount == 1{
+            guestExperience()
+            self.callCount -= 1
+        }
         return menuOptions.count
     }
     
@@ -386,14 +400,15 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
             print("Settings pressed")
         case "Rate Us":
             print("Rate Us pressed")
-            
+        case "My Orders":
+            print("My Orders pressed")
         default: //For login and logout cases(combined to one)
             guard let user = Auth.auth().currentUser else { return }
+            
             if user.isAnonymous {
                 tableView.deselectRow(at: indexPath, animated: true)
                 self.closeMenu()
-                MainVC.goTo("LoginVC", animate: true)
-                //self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             } else {
                 do {
                     try Auth.auth().signOut()
@@ -405,13 +420,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
                         }
                         tableView.deselectRow(at: indexPath, animated: true)
                         self.closeMenu()
-                        
-                        if UserService.userListener == nil {
-                                print("Aloha1")
-                        }
-                        print("Aloha1 User is: \(UserService.user.email)")
-                        
-                        MainVC.goTo("LoginVC", animate: true)
+                        self.dismiss(animated: true, completion: nil)
                     }
                 } catch {
                     Auth.auth().handleFireAuthError(error: error, vc: self)

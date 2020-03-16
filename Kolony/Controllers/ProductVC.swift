@@ -258,8 +258,11 @@ class ProductVC: UIViewController {
         //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default){UIAlertAction in self.navGoTo(toVC, animate: true)})
-        
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { UIAlertAction in
+            //Go to view controller through naigation controller
+            let navToVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: toVC)
+            self.navigationController?.pushViewController(navToVC, animated: true)
+        })
         //Present to Screen
         present(alert,animated: true, completion: nil)
     }
@@ -272,27 +275,13 @@ class ProductVC: UIViewController {
         //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        alert.addAction(UIAlertAction(title: "Sign-Up", style: .default){UIAlertAction in MainVC.goTo(toVC, animate: true)})
+        alert.addAction(UIAlertAction(title: "Sign-Up", style: .default){UIAlertAction in let
+            //Present VC modally
+            goToVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: toVC)
+        self.present(goToVC, animated: true, completion: nil)})
         
         //Present to Screen
         present(alert,animated: true, completion: nil)
-    }
-    
-    //Navigate to different VC manually (With Navigation Controller)
-    func navGoTo(_ view: String, animate: Bool){
-        OperationQueue.main.addOperation {
-            func topMostController() -> UIViewController {
-                var topController: UIViewController = UIApplication.shared.windows.filter {$0.isKeyWindow}.first!.rootViewController!
-                while (topController.presentedViewController != nil) {
-                    topController = topController.presentedViewController!
-                }
-                return topController
-            }
-            if let second = topMostController().storyboard?.instantiateViewController(withIdentifier: view) {
-        self.navigationController?.pushViewController(second, animated: animate)
-                
-            }
-        }
     }
 }
 

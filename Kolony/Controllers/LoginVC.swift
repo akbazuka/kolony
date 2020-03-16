@@ -68,7 +68,8 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func guestBtnOnClick(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        //Go to MainVC through Navigation Controller (NavVC)
+        //self.dismiss(animated: true, completion: nil)
     }
     
     //Login User
@@ -83,8 +84,13 @@ class LoginVC: UIViewController {
                 UserDefaults.standard.set(password, forKey: "password")
                 
                 //Go to MainVC through Navigation Controller (NavVC)
-                MainVC.goTo("NavVC", animate: true)
-                self.dismiss(animated: true, completion: nil)
+                /*self.dismiss(animated: true){
+                    MainVC.goTo("NavVC", animate: true)
+                }*/
+                
+                //Go to MainVC
+                let navVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NavVC")
+                self.present(navVC, animated: true, completion: nil)
                 
             } else {
                 
@@ -105,8 +111,9 @@ class LoginVC: UIViewController {
     }
 
     @IBAction func registerBtnOnClick(_ sender: Any) {
-        //navGoTo("SignUpVC", animate: true)
-        MainVC.goTo("SignUpVC", animate: true)
+        //Present SignUpVC modally
+        let signUpVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC")
+        self.present(signUpVC, animated: true, completion: nil)
     }
     
     @IBAction func forgotPasswordBtnOnClick(_ sender: Any) {

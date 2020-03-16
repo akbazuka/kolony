@@ -17,6 +17,8 @@
 		7E2DC2DF23DD6E6C004FEEC2 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2DC2DE23DD6E6B004FEEC2 /* MainVC.swift */; };
 		7E3ADB542409F47F0003D7CF /* Pods_Kolony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BD4C3163AFC2C4F610DF410 /* Pods_Kolony.framework */; };
 		7E5AA298240B978A00F07843 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5AA297240B978A00F07843 /* PickerView.swift */; };
+		7E817852241F152500333322 /* OrdersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E817851241F152500333322 /* OrdersVC.swift */; };
+		7E817856241F407F00333322 /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E817855241F407F00333322 /* AccountVC.swift */; };
 		7E899644241BB6CE00BC7AD1 /* CheckoutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E899643241BB6CE00BC7AD1 /* CheckoutVC.swift */; };
 		7E899647241BBD1000BC7AD1 /* StripeCart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E899646241BBD1000BC7AD1 /* StripeCart.swift */; };
 		7E8F48D72415200F00A42EC5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E8F48D62415200F00A42EC5 /* GoogleService-Info.plist */; };
@@ -44,6 +46,8 @@
 		7E1FC42E241A46FA005F2C76 /* RoundedUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedUIView.swift; sourceTree = "<group>"; };
 		7E2DC2DE23DD6E6B004FEEC2 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		7E5AA297240B978A00F07843 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		7E817851241F152500333322 /* OrdersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersVC.swift; sourceTree = "<group>"; };
+		7E817855241F407F00333322 /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
 		7E899643241BB6CE00BC7AD1 /* CheckoutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutVC.swift; sourceTree = "<group>"; };
 		7E899646241BBD1000BC7AD1 /* StripeCart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeCart.swift; sourceTree = "<group>"; };
 		7E8F48D62415200F00A42EC5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -113,6 +117,8 @@
 				7EB48AE323E67311003C6530 /* ProductVC.swift */,
 				7E2DC2DE23DD6E6B004FEEC2 /* MainVC.swift */,
 				7E899643241BB6CE00BC7AD1 /* CheckoutVC.swift */,
+				7E817851241F152500333322 /* OrdersVC.swift */,
+				7E817855241F407F00333322 /* AccountVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -307,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E899647241BBD1000BC7AD1 /* StripeCart.swift in Sources */,
+				7E817852241F152500333322 /* OrdersVC.swift in Sources */,
 				7E91604A24190E15006E9076 /* ProductInventory.swift in Sources */,
 				7E1FC42F241A46FA005F2C76 /* RoundedUIView.swift in Sources */,
 				7E00324424185C3000094264 /* UserService.swift in Sources */,
@@ -322,6 +329,7 @@
 				7E0032402418354F00094264 /* Product.swift in Sources */,
 				7E0AD94323E2C91900244520 /* ProductCell.swift in Sources */,
 				7E899644241BB6CE00BC7AD1 /* CheckoutVC.swift in Sources */,
+				7E817856241F407F00333322 /* AccountVC.swift in Sources */,
 				7EE6116223D6ED2500DBA511 /* SceneDelegate.swift in Sources */,
 				7EB48AE423E67311003C6530 /* ProductVC.swift in Sources */,
 				7E2DC2DF23DD6E6C004FEEC2 /* MainVC.swift in Sources */,

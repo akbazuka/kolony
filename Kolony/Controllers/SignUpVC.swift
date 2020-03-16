@@ -18,6 +18,8 @@ class SignUpVC: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var haveAccBtn: UIButton!
     
+    let loginVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginVC")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.isHidden = true
@@ -73,8 +75,7 @@ class SignUpVC: UIViewController {
     }
     
     @IBAction func haveAnAccOnClick(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-        MainVC.goTo("LoginVC", animate: true)
+        self.present(loginVC, animated: true, completion: nil)
     }
     
     @IBAction func registerBtnOnClick(_ sender: Any) {
@@ -128,9 +129,12 @@ class SignUpVC: UIViewController {
         newUserRef.setData(data) { (error) in
             if let error = error {
                 Auth.auth().handleFireAuthError(error: error, vc: self)
-                debugPrint("Error signing in: \(error.localizedDescription)")
+                debugPrint("Error creating account: \(error.localizedDescription)")
             } else {
-                self.dismiss(animated: true, completion: nil)
+                //self.dismiss(animated: true, completion: nil)
+                //Go to MainVC through navigation controller
+                let loginVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginVC")
+                self.present(loginVC, animated: true, completion: nil)
             }
             self.activityIndicator.stopAnimating()
         }
