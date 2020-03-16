@@ -11,14 +11,19 @@ import Firebase
 
 extension Firestore {
     //Firestore query used in MainVC to Pull Data
-    var products: Query {
+    var products: Query{
         //return collection("products").order(by: "timeStamp", descending: true)
         return collection("products").whereField("inventoryExists", isEqualTo: true).order(by: "timeStamp", descending: true)
     }
 
-    func productInventory(product: String) -> Query {
+    func productInventory(product: String) -> Query{
         //Pull shoesizes in ascending order
         return collection("productInventory").whereField("product", isEqualTo: product).whereField("soldOut", isEqualTo: false).order(by: "size", descending: false)
+    }
+    
+    //Query to retrieve all orders for current user
+   func orders(userId: String) -> Query{
+        return collection("orders").whereField("user", isEqualTo: userId).order(by: "timeStamp", descending: true)
     }
 }
  

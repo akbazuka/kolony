@@ -24,6 +24,7 @@
 		7E8F48D72415200F00A42EC5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E8F48D62415200F00A42EC5 /* GoogleService-Info.plist */; };
 		7E91604A24190E15006E9076 /* ProductInventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91604924190E15006E9076 /* ProductInventory.swift */; };
 		7EB48AE423E67311003C6530 /* ProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB48AE323E67311003C6530 /* ProductVC.swift */; };
+		7ECEC59B241FD13C00F764D8 /* OrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECEC59A241FD13C00F764D8 /* OrderCell.swift */; };
 		7ED747E9240FCFC100FBA3BC /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED747E8240FCFC100FBA3BC /* SignUpVC.swift */; };
 		7EE6116023D6ED2500DBA511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE6115F23D6ED2500DBA511 /* AppDelegate.swift */; };
 		7EE6116223D6ED2500DBA511 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE6116123D6ED2500DBA511 /* SceneDelegate.swift */; };
@@ -53,6 +54,7 @@
 		7E8F48D62415200F00A42EC5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7E91604924190E15006E9076 /* ProductInventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInventory.swift; sourceTree = "<group>"; };
 		7EB48AE323E67311003C6530 /* ProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductVC.swift; sourceTree = "<group>"; };
+		7ECEC59A241FD13C00F764D8 /* OrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCell.swift; sourceTree = "<group>"; };
 		7ED747E8240FCFC100FBA3BC /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		7EE6115C23D6ED2500DBA511 /* Kolony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kolony.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EE6115F23D6ED2500DBA511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				7E0F1A26240E080D0092F6D5 /* CartCell.swift */,
 				7E5AA297240B978A00F07843 /* PickerView.swift */,
 				7E1FC42E241A46FA005F2C76 /* RoundedUIView.swift */,
+				7ECEC59A241FD13C00F764D8 /* OrderCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				7EF6A668241C67CB0072492B /* Extensions.swift in Sources */,
 				7ED747E9240FCFC100FBA3BC /* SignUpVC.swift in Sources */,
 				7E00324224185B1700094264 /* User.swift in Sources */,
+				7ECEC59B241FD13C00F764D8 /* OrderCell.swift in Sources */,
 				7E0F1A27240E080D0092F6D5 /* CartCell.swift in Sources */,
 				7E5AA298240B978A00F07843 /* PickerView.swift in Sources */,
 				7E0032402418354F00094264 /* Product.swift in Sources */,

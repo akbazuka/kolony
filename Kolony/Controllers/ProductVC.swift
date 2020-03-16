@@ -381,9 +381,7 @@ extension ProductVC: ToolbarPickerViewDelegate {
         self.sizeText.text = nil
         self.sizeText.resignFirstResponder()
         self.selectedItem = nil
-        
         ////Resets selected item
         //self.selectedItemID = ""
-        
     }
 }
