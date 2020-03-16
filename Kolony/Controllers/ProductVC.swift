@@ -182,7 +182,7 @@ class ProductVC: UIViewController {
             snap?.documentChanges.forEach({ (change) in //Loop through documents
 
                 let data = change.document.data()                 //Get data after change made
-                let inventory = ProductInventory.init(data: data)            //Each product in data array
+                let inventory = ProductInventory.init(data: data) //Each product in data array
                 
                 //What type pf change made to database
                 switch change.type {

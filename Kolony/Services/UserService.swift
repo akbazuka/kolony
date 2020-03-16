@@ -82,7 +82,41 @@ final class _UserService {
             "productInvetoryId" : productInventId,
             "timeStamp" : FieldValue.serverTimestamp()
         ])
-        //print("Sent order")
+        //Reduce stock when user makes purchase
+        let updateInventoryRef = Firestore.firestore().collection("productInventory").document(productInventId)
+        
+        updateInventoryRef.updateData([
+            "stock": FieldValue.increment(-1.00)
+        ]) { err in
+            if let err = err {
+                print("Error updating stock: \(err)")
+            } else {
+                print("Stock successfully updated")
+            }
+        }
+        //Check if stock still exists after user make's purchase and if not, update to soldOut = true
+        updateInventoryRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let productInvent = ProductInventory.init(data: data!)
+                //Update document's soldOut field to true is no more stock left
+                if productInvent.stock == 0{
+                    updateInventoryRef.updateData([
+                        "soldOut": true
+                    ]) { err in
+                        if let err = err {
+                            print("Error updating soldOut: \(err)")
+                        } else {
+                            print("soldOut successfully updated")
+                        }
+                    }
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+        
+        
     }
 
     
