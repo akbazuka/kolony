@@ -11,6 +11,7 @@
  */
 import Foundation
 import FirebaseFirestore
+import Firebase
 
 struct ProductInventory {
     //Properties

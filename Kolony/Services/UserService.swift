@@ -16,7 +16,7 @@ final class _UserService {
     
     // Variables
     var user = User()
-    var favorites = [Product]()
+    var orders = [ProductInventory]()
     let auth = Auth.auth()
     let db = Firestore.firestore()
     var userListener : ListenerRegistration? = nil
@@ -71,21 +71,20 @@ final class _UserService {
         })*/
     }
     
-    /*
-    func favoriteSelected(product: Product) {
-        let favsRef = Firestore.firestore().collection("users").document(user.id).collection("favorites")
+    //Add order to subcollection of user when item sold
+    func sendOrders(productInventId: String) {
+        let ref = Firestore.firestore().collection("orders").document()
+        let docId = ref.documentID
         
-        if favorites.contains(product) {
-            // We remove it as a favorite
-            favorites.removeAll{ $0 == product }
-            favsRef.document(product.id).delete()
-        } else {
-            // Add as a favorite.
-            favorites.append(product)
-            let data = Product.modelToData(product: product)
-            favsRef.document(product.id).setData(data)
-        }
-    }*/
+        ref.setData([
+            "id" : docId,
+            "user" : user.id,
+            "productInvetoryId" : productInventId,
+            "timeStamp" : FieldValue.serverTimestamp()
+        ])
+        //print("Sent order")
+    }
+
     
     func logoutUser() {
         userListener?.remove()

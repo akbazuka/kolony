@@ -33,6 +33,8 @@ class CheckoutVC: UIViewController, CartCellDelegate {
         setupTableView()
         setcheckoutData()
         setupStripeConfig()
+        
+        print("Items are: \(StripeCart.cartItems)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -219,6 +221,11 @@ extension CheckoutVC: STPPaymentContextDelegate{
                 return
             }
             //If request was successful
+            //Add items to oreders subcollection of user
+            for item in StripeCart.cartItems {
+                UserService.sendOrders(productInventId: item.id)
+            }
+            
             StripeCart.clearCart()
             self.tableView.reloadData()
             self.setcheckoutData()
