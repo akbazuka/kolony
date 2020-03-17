@@ -222,11 +222,14 @@ extension CheckoutVC: STPPaymentContextDelegate{
             }
             //If request was successful
             //Add items to oreders subcollection of user
+            var i = StripeCart.cartItems.count-1
             for item in StripeCart.cartItems {
-                UserService.sendOrders(productInventId: item.id)
+                UserService.sendOrders(productInvent: item, product: StripeCart.cartProducts[i])
+                i -= 1
             }
             
             StripeCart.clearCart()
+            i = 0
             self.tableView.reloadData()
             self.setcheckoutData()
             completion(.success, nil)
@@ -255,7 +258,9 @@ extension CheckoutVC: STPPaymentContextDelegate{
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default) { (action) in
-            self.navigationController?.popViewController(animated: true)
+            //self.navigationController?.popViewController(animated: true)
+            let navToVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OrdersVC")
+            self.navigationController?.pushViewController(navToVC, animated: true)
         }
         
         alertController.addAction(action)

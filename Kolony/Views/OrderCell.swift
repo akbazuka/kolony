@@ -30,22 +30,28 @@ class OrderCell: UITableViewCell {
            super.awakeFromNib()
        }
 
-    func configureCell(productInventory: ProductInventory, product: Product/*, delegate: OrderCellDelegate*/){
+    func configureCell(order: Order){
         //self.delegate = delegate
-        self.item = productInventory
+        //self.item = order
 
-        orderName.text = product.name
-        orderSize.text = "Size: \(NSNumber(value: productInventory.size).stringValue)"
+        orderName.text = order.productName 
+        orderSize.text = "Size: \(NSNumber(value: order.productSize).stringValue)"
 
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
 
-        if let price = formatter.string(from: product.price as NSNumber){
+        if let price = formatter.string(from: order.productPrice as NSNumber){
             orderPrice.text = price
         }
 
-        if let url = URL(string: product.images) {
+        if let url = URL(string: order.productImages) {
             orderImage.kf.setImage(with: url)
         }
+        
+        let theFormatter = DateFormatter()
+        theFormatter.dateStyle = .medium
+        let theDate = theFormatter.string(from: order.timeStamp.dateValue())
+        orderDate.text = theDate
+    
     }
 }

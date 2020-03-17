@@ -15,7 +15,8 @@ class AccountVC : UIViewController{
     }
     
     override func viewWillAppear(_ animated: Bool) {
-       blockGuestUser()
+        blockGuestUser()
+        navBarSetup()
     }
     
     //Don't allow guest user to visit CheckoutVC
@@ -37,6 +38,11 @@ class AccountVC : UIViewController{
             alertController.addAction(signup)
             present(alertController,animated: true,completion: nil)
         }
+    }
+    
+    func navBarSetup(){
+        //self.navigationController?.navigationItem.title = "My Orders"
+        self.title = "My Account"
     }
     
     //Navigate to homeVC

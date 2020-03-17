@@ -26,6 +26,13 @@ class LoginVC: UIViewController {
         ifUserDefaultExists()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        //Resets fields and activity indicator
+        emailText.text = ""
+        passTextField.text = ""
+        activityIndicator.isHidden = true
+    }
+    
     //Login User with existing credentials if they exist
     func ifUserDefaultExists(){
         if UserDefaults.standard.object(forKey: "email") != nil{

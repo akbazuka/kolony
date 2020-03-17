@@ -16,11 +16,13 @@ final class _UserService {
     
     // Variables
     var user = User()
-    var orders = [ProductInventory]()
+    //var orders = [Order]()
+    var orderProductInvent : ProductInventory!
+    var orderProduct : Product!
     let auth = Auth.auth()
     let db = Firestore.firestore()
     var userListener : ListenerRegistration? = nil
-    //var favsListener : ListenerRegistration? = nil
+    var ordersListener : ListenerRegistration? = nil
     
     var isGuest : Bool {
         
@@ -53,37 +55,26 @@ final class _UserService {
             self.user = User.init(data: data)
             print("Success",self.user)
         })
-        
-        
-        /*//To implement favourites
-        let favsRef = userRef.collection("favorites")
-        favsListener = favsRef.addSnapshotListener({ (snap, error) in
-            
-            if let error = error {
-                debugPrint(error.localizedDescription)
-                return
-            }
-            
-            snap?.documents.forEach({ (document) in
-                let favorite = Product.init(data: document.data())
-                self.favorites.append(favorite)
-            })
-        })*/
     }
     
     //Add order to subcollection of user when item sold
-    func sendOrders(productInventId: String) {
+    func sendOrders(productInvent: ProductInventory, product: Product) {
         let ref = Firestore.firestore().collection("orders").document()
         let docId = ref.documentID
         
         ref.setData([
             "id" : docId,
             "user" : user.id,
-            "productInvetoryId" : productInventId,
+            "productImages" : product.images,
+            "productName" : product.name,
+            "productPrice": product.price,
+            "productSize" : productInvent.size,
+            "productInventoryId" : productInvent.id,
             "timeStamp" : FieldValue.serverTimestamp()
         ])
+        
         //Reduce stock when user makes purchase
-        let updateInventoryRef = Firestore.firestore().collection("productInventory").document(productInventId)
+        let updateInventoryRef = Firestore.firestore().collection("productInventory").document(productInvent.id)
         
         updateInventoryRef.updateData([
             "stock": FieldValue.increment(-1.00)
@@ -115,18 +106,14 @@ final class _UserService {
                 print("Document does not exist")
             }
         }
-        
-        
     }
-
     
     func logoutUser() {
         userListener?.remove()
         userListener = nil
-        //favsListener?.remove()
-        //favsListener = nil
         user = User()
-        //favorites.removeAll()
+        orderProductInvent = nil
+        orderProduct = nil
         
         //Reset user defaults
         UserDefaults.standard.set(nil, forKey: "email")

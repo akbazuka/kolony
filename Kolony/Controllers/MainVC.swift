@@ -40,7 +40,7 @@ class MainVC: UIViewController{
 
     var menuOptions = ["Settings", "Rate Us", "My Orders","Logout"]
     
-    var menuImages = [UIImage(named: "settingsPic"), UIImage(named: "ratePic"), UIImage(named: "exitPic"), nil]
+    var menuImages = [UIImage(named: "settingsPic"), UIImage(named: "ratePic"), UIImage(named: "receiptPic_24pt"), UIImage(named: "exitPic")]
     
     var db : Firestore!
     var products = [Product]()
@@ -98,6 +98,7 @@ class MainVC: UIViewController{
         if UserService.isGuest == true{
             print("Yes")
             menuOptions.remove(at: 2) //Remove "My Oders" from menu if user is guest
+            menuImages.remove(at: 2)
             menuOptions[2] = "Login"  //Change Logout button to Login if user is guest
         }
     }
@@ -175,8 +176,6 @@ class MainVC: UIViewController{
         else { //When menu is not visible
             openMenu()
         }
-
-//        showMenu = !showMenu //Either shows or hides menu depending on current state, when hamburger button is pressed
     }
 
     //When view is tapped outside the menu, the menu closes
@@ -398,16 +397,27 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         switch menuOptions[indexPath.row] {
         case "Settings":
             print("Settings pressed")
+            tableView.deselectRow(at: indexPath, animated: true)
+            self.closeMenu()
+            
         case "Rate Us":
             print("Rate Us pressed")
+            tableView.deselectRow(at: indexPath, animated: true)
+            self.closeMenu()
+            
         case "My Orders":
-            print("My Orders pressed")
+            let ordersVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OrdersVC")
+            self.navigationController?.pushViewController(ordersVC, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+            self.closeMenu()
+            
         default: //For login and logout cases(combined to one)
             guard let user = Auth.auth().currentUser else { return }
             
             if user.isAnonymous {
                 tableView.deselectRow(at: indexPath, animated: true)
                 self.closeMenu()
+                //self.navigationController?.popViewController(animated: true)
                 self.dismiss(animated: true, completion: nil)
             } else {
                 do {
@@ -420,6 +430,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
                         }
                         tableView.deselectRow(at: indexPath, animated: true)
                         self.closeMenu()
+                        //self.navigationController?.popViewController(animated: true)
                         self.dismiss(animated: true, completion: nil)
                     }
                 } catch {

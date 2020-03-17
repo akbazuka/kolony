@@ -32,6 +32,15 @@ class SignUpVC: UIViewController {
 //        haveAccBtn.layer.borderColor = UIColor.black.cgColor
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        //Resets fields and activity indicator
+        emailText.text = ""
+        passText.text = ""
+        confirmPassText.text = ""
+        usernameText.text = ""
+        activityIndicator.isHidden = true
+    }
+    
     @IBAction func backBtnOnClick(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
