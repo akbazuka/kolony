@@ -273,7 +273,7 @@ class MainVC: UIViewController{
 }
 
 //MARK: Products View Stuff (Collection View)
-extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     //When new document is added to database
     func onDocumentAdded(change: DocumentChange, product: Product){
@@ -308,10 +308,14 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource {
         collectionView.deleteItems(at: [IndexPath(item: oldIndex, section: 0)]) //Reload collectionViewData after delete
     }
     
+    //Resize collection view accroding to phone size
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let height = view.frame.size.height
+        let width = view.frame.size.width
+        return CGSize(width: width * 0.45, height: height * 0.35)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        //return images.count //Creates no. of cells based on length of images array
-        //print("We have: \(products.count)")
         return products.count
     }
     

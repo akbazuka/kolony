@@ -35,16 +35,7 @@ class ProductVC: UIViewController {
     
     @IBOutlet weak var productPrice: UILabel!
     
-    ////Use only if want to display size of item in cart in detail view as well
-    ////Only used when product coming from CartVC
-    //static var prodSize = ""
-    
-    //Use only if want to display size of item in cart in detail view as well
-    //static var sizeSelected = 0 //To make sure that user chooses size from picker before adding to cart
-    
     fileprivate let pickerView = ToolbarPickerView()
-
-    //var selectedItemID = ""
     
     //Text box that allows you to select size and then displays it
     @IBOutlet weak var sizeText: UITextField!
@@ -57,7 +48,8 @@ class ProductVC: UIViewController {
     var selectedItem : ProductInventory!
     var listener : ListenerRegistration!
     
-    
+    //For downloading and storing images from Kingfisher
+    var images = [UIImage]()
     var currentImage = 0 //For swiping images
     
     //ViewDidLoad
@@ -71,6 +63,7 @@ class ProductVC: UIViewController {
         
         setData()           //Display data sent over by MainVC
         //To swipe images
+        downloadImages()
         setUpGestures()
         createPickerView()
     }
@@ -88,6 +81,11 @@ class ProductVC: UIViewController {
         pickerView.reloadAllComponents()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        //Manually clear cache every time user leaves ProductVC
+        ImageCache.default.clearMemoryCache()
+    }
+    
     func setUpGestures(){
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(imageSwipe))
         swipeRight.direction = UISwipeGestureRecognizer.Direction.right
@@ -98,34 +96,88 @@ class ProductVC: UIViewController {
         productImages.addGestureRecognizer(swipeLeft)
     }
     
+    func downloadImages(){
+        if let imageURL = URL(string: ProductVC.product.images), let imageURL2 = URL(string: ProductVC.product.image2), let imageURL3 = URL(string: ProductVC.product.image3), let imageURL4 = URL(string: ProductVC.product.image4){
+        
+            KingfisherManager.shared.retrieveImage(with: imageURL){ result in
+                // `result` is either a `.success(RetrieveImageResult)` or a `.failure(KingfisherError)`
+                switch result {
+                case .success(let value):
+                    // The image was set to image view:
+                    print(value.image)
+                    self.images.append(value.image)
+
+                case .failure(let error):
+                    print("Error download \(imageURL) image")
+                    print(error)
+                }
+            }
+            
+            KingfisherManager.shared.retrieveImage(with: imageURL2){ result in
+                // `result` is either a `.success(RetrieveImageResult)` or a `.failure(KingfisherError)`
+                switch result {
+                case .success(let value):
+                    // The image was set to image view:
+                    print(value.image)
+                    self.images.append(value.image)
+
+                case .failure(let error):
+                    print("Error download \(imageURL2) image")
+                    print(error)
+                }
+            }
+            
+            KingfisherManager.shared.retrieveImage(with: imageURL3){ result in
+                // `result` is either a `.success(RetrieveImageResult)` or a `.failure(KingfisherError)`
+                switch result {
+                case .success(let value):
+                    // The image was set to image view:
+                    print(value.image)
+                    self.images.append(value.image)
+
+                case .failure(let error):
+                    print("Error download \(imageURL3) image")
+                    print(error)
+                }
+            }
+            
+            KingfisherManager.shared.retrieveImage(with: imageURL4){ result in
+                // `result` is either a `.success(RetrieveImageResult)` or a `.failure(KingfisherError)`
+                switch result {
+                case .success(let value):
+                    // The image was set to image view:
+                    print(value.image)
+                    self.images.append(value.image)
+
+                case .failure(let error):
+                    print("Error download \(imageURL4) image")
+                    print(error)
+                }
+            }
+        }
+    }
+    
     @objc func imageSwipe(gesture: UIGestureRecognizer){
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
 
-            let imageURL = URL(string: ProductVC.product.images)
-            let imageURL2 = URL(string: ProductVC.product.image2)
-            let imageURL3 = URL(string: ProductVC.product.image3)
-            let imageURL4 = URL(string: ProductVC.product.image4)
-            
-            let imageURLs = [imageURL,imageURL2,imageURL3,imageURL4]
-            
             switch swipeGesture.direction {
                 
             case UISwipeGestureRecognizer.Direction.left:
-                if currentImage == imageURLs.count - 1 {
+                if currentImage == images.count - 1 {
                     currentImage = 0
 
                 }else{
                     currentImage += 1
                 }
-                productImages.kf.setImage(with: imageURLs[currentImage])
+                productImages.image = images[currentImage]
 
             case UISwipeGestureRecognizer.Direction.right:
                 if currentImage == 0 {
-                    currentImage = imageURLs.count - 1
+                    currentImage = images.count - 1
                 }else{
                     currentImage -= 1
                 }
-                productImages.kf.setImage(with: imageURLs[currentImage])
+                productImages.image = images[currentImage]
             default:
                 break
             }
