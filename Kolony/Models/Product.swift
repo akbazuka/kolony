@@ -16,8 +16,10 @@ struct Product {
     //Properties
     var id: String
     var name: String
-    //var images: [String] //Array of images
     var images: String
+    var image2: String
+    var image3: String
+    var image4: String
     var inventoryExists: Bool
     var price: Double
     var brand: String
@@ -32,6 +34,9 @@ struct Product {
         self.id = data["id"] as? String ?? ""
         self.name = data["name"] as? String ?? ""
         self.images = data["images"] as? String ?? ""
+        self.image2 = data["image2"] as? String ?? ""
+        self.image3 = data["image3"] as? String ?? ""
+        self.image4 = data["image4"] as? String ?? ""
         self.inventoryExists = data["inventoryExists"] as? Bool ?? true
         self.price = data["price"] as? Double ?? 0.00
         self.brand = data["brand"] as? String ?? ""

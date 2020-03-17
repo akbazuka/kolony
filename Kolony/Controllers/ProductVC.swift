@@ -57,6 +57,9 @@ class ProductVC: UIViewController {
     var selectedItem : ProductInventory!
     var listener : ListenerRegistration!
     
+    
+    var currentImage = 0 //For swiping images
+    
     //ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +70,8 @@ class ProductVC: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
         
         setData()           //Display data sent over by MainVC
+        //To swipe images
+        setUpGestures()
         createPickerView()
     }
     
@@ -81,6 +86,50 @@ class ProductVC: UIViewController {
         listener.remove()               //Removes listeners to save data in Firestore; stops real time updates
         productInventory.removeAll()    //Delete data from Firestore cache to avoind duplicating data every time view appears
         pickerView.reloadAllComponents()
+    }
+    
+    func setUpGestures(){
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(imageSwipe))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        productImages.addGestureRecognizer(swipeRight)
+
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(imageSwipe))
+        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
+        productImages.addGestureRecognizer(swipeLeft)
+    }
+    
+    @objc func imageSwipe(gesture: UIGestureRecognizer){
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+
+            let imageURL = URL(string: ProductVC.product.images)
+            let imageURL2 = URL(string: ProductVC.product.image2)
+            let imageURL3 = URL(string: ProductVC.product.image3)
+            let imageURL4 = URL(string: ProductVC.product.image4)
+            
+            let imageURLs = [imageURL,imageURL2,imageURL3,imageURL4]
+            
+            switch swipeGesture.direction {
+                
+            case UISwipeGestureRecognizer.Direction.left:
+                if currentImage == imageURLs.count - 1 {
+                    currentImage = 0
+
+                }else{
+                    currentImage += 1
+                }
+                productImages.kf.setImage(with: imageURLs[currentImage])
+
+            case UISwipeGestureRecognizer.Direction.right:
+                if currentImage == 0 {
+                    currentImage = imageURLs.count - 1
+                }else{
+                    currentImage -= 1
+                }
+                productImages.kf.setImage(with: imageURLs[currentImage])
+            default:
+                break
+            }
+        }
     }
     
     func intuitiveDataVariables() {
@@ -113,6 +162,8 @@ class ProductVC: UIViewController {
         colorwayLabel.adjustsFontSizeToFitWidth = true
         releaseLabel.adjustsFontSizeToFitWidth = true
         retailLabel.adjustsFontSizeToFitWidth = true
+        
+        productImages.isUserInteractionEnabled = true
     }
     
     func setData() {
