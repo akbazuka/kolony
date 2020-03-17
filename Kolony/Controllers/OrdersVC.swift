@@ -83,6 +83,45 @@ class OrdersVC: UIViewController/*, OrderCellDelegate */{
             })
         })
     }
+    
+    @IBAction func homeBtnOnClick(_ sender: Any) {
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers
+        for vc in viewControllers {
+            if vc is MainVC {
+                self.navigationController!.popToViewController(vc, animated: true)
+            }
+        }
+    }
+    @IBAction func cartBtnOnClick(_ sender: Any) {
+       let viewControllers: [UIViewController] = self.navigationController!.viewControllers
+        for vc in viewControllers {
+            if vc is CheckoutVC {
+                self.navigationController!.popToViewController(vc, animated: true)
+                return
+            }
+        }
+        
+        let checkoutVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CheckoutVC")
+        
+        self.navigationController?.pushViewController(checkoutVC, animated: true)
+    }
+    
+    @IBAction func accBtnOnClick(_ sender: Any) {
+        //Pop VC if already exists in navigation stack
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers
+        for vc in viewControllers {
+            if vc is AccountVC {
+                self.navigationController!.popToViewController(vc, animated: true)
+                return
+            }
+        }
+        
+        //If VC does not exist in Navigation stack, psuh to VC
+        let accountVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AccountVC")
+        
+        self.navigationController?.pushViewController(accountVC, animated: true)
+    }
+    
 }
 
 //MARK: TableView
