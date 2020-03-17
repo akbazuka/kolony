@@ -40,7 +40,7 @@ class MainVC: UIViewController{
 
     var menuOptions = ["Settings", "Rate Us", "My Orders","Logout"]
     
-    var menuImages = [UIImage(named: "settingsPic"), UIImage(named: "ratePic"), UIImage(named: "receiptPic_24pt"), UIImage(named: "exitPic")]
+    var menuImages = [UIImage(named: "settingsPerson24pt"), UIImage(named: "ratePic"), UIImage(named: "receiptPic_24pt"), UIImage(named: "exitPic")]
     
     var db : Firestore!
     var products = [Product]()
@@ -400,7 +400,8 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch menuOptions[indexPath.row] {
         case "Settings":
-            print("Settings pressed")
+            let accountVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AccountVC")
+            self.navigationController?.pushViewController(accountVC, animated: true)
             tableView.deselectRow(at: indexPath, animated: true)
             self.closeMenu()
             
