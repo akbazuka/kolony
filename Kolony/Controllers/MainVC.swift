@@ -45,6 +45,9 @@ class MainVC: UIViewController{
     var db : Firestore!
     var products = [Product]()
     var listener : ListenerRegistration!
+    var filtered = [Product]()
+    var searchActive = false
+    let searchController = UISearchController(searchResultsController: nil)
     
     //ViewDidLoad
     override func viewDidLoad() {
@@ -71,16 +74,22 @@ class MainVC: UIViewController{
     }
     
     func setupNavBar() {
-        let searchController = UISearchController(searchResultsController: self)
         navigationItem.searchController = searchController
+        self.searchController.searchResultsUpdater = self
+        self.searchController.delegate = self
+        self.searchController.searchBar.delegate = self
+        
+        self.searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Kolony"
-        //navigationItem.titleView = searchController.searchBar
-        //navigationItem.hidesSearchBarWhenScrolling = true
-        searchController.hidesNavigationBarDuringPresentation = true //Not Working?
-        //searchController.searchBar.sizeToFit()
-        //.automaticallyShowsCancelButton = true //Clear Button
+        searchController.searchBar.sizeToFit()
         searchController.searchBar.showsCancelButton = true
         searchController.searchBar.returnKeyType = .search
+        
+        searchController.searchBar.becomeFirstResponder()
+        
+        ////Add search bar in the navigation bar
+        //self.navigationItem.titleView = searchController.searchBar
     }
     
     func guestUserSetup() {
@@ -96,7 +105,6 @@ class MainVC: UIViewController{
     
     func guestExperience() {
         if UserService.isGuest == true{
-            print("Yes")
             menuOptions.remove(at: 2) //Remove "My Oders" from menu if user is guest
             menuImages.remove(at: 2)
             menuOptions[2] = "Login"  //Change Logout button to Login if user is guest
@@ -316,16 +324,26 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return products.count
+        if searchActive{
+            return filtered.count
+        } else {
+            return products.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //Create cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ProductCell
-
         
-        //Get data of product by cell (from database)
-        let item: Product = products[indexPath.row]
+        let item: Product
+
+        //If user searches
+        if searchActive{
+            item = filtered[indexPath.row]
+        } else {
+            //Get data of product by cell (from database)
+            item = products[indexPath.row]
+        }
         
         //Pulls image from URL that was given as a String and displays in image view
         if let imageURL = URL(string: item.images){
@@ -349,8 +367,15 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //searchBar.endEditing(true)
         
-        //Data from database shown in collection view
-        let item: Product = products[indexPath.row]
+        let item: Product
+
+        //If user searches
+        if searchActive{
+            item = filtered[indexPath.row]
+        } else {
+            //Get data of product by cell (from database)
+            item = products[indexPath.row]
+        }
         
         ProductVC.product = item
         
@@ -376,7 +401,6 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 //MARK: Menu View Stuff (Table View)
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("The count is \(self.callCount)")
         if self.callCount == 1{
             guestExperience()
             self.callCount -= 1
@@ -445,4 +469,48 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }    
+}
+
+//MARK: Search Bar Stuff
+extension MainVC: UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating{
+       
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchActive = false
+        searchController.searchBar.text = ""
+         //self.dismiss(animated: true, completion: nil)
+     }
+     
+     func updateSearchResults(for searchController: UISearchController)
+     {
+        
+        let searchText = searchController.searchBar.text?.lowercased()
+        
+        //Search according to product name and brand
+        filtered = products.filter { product -> Bool in
+            return product.name.lowercased().hasPrefix(searchText!) || product.brand.hasPrefix(searchText!)
+        }
+        
+        collectionView.reloadData()
+
+     }
+     
+     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+         searchActive = true
+         collectionView.reloadData()
+     }
+     
+     
+     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //collectionView.reloadData()
+        searchActive = false
+     }
+     
+     func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
+         if !searchActive {
+             searchActive = true
+             collectionView.reloadData()
+         }
+         
+         searchController.searchBar.resignFirstResponder()
+     }
 }

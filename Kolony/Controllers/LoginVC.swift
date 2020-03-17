@@ -140,7 +140,7 @@ class LoginVC: UIViewController {
                 }
             }
         } else {
-            self.alert(title: "Missing Email", message: "Please enter your email in the text field first")
+            self.alert(title: "Email Field is Empty", message: "Please enter your email address in the text field and we will send you an email to change your password.")
         }
     }
     
