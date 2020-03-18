@@ -18,8 +18,6 @@ class MainVC: UIViewController{
 
     @IBOutlet weak var menuButton: UIButton!
 
-    @IBOutlet weak var filterButton: UIButton!
-
     @IBOutlet weak var mainTintedV: UIView!
     
     @IBOutlet weak var menuView: UITableView!
@@ -47,6 +45,7 @@ class MainVC: UIViewController{
     var listener : ListenerRegistration!
     var filtered = [Product]()
     var searchActive = false
+    
     let searchController = UISearchController(searchResultsController: nil)
     
     //ViewDidLoad
@@ -70,6 +69,7 @@ class MainVC: UIViewController{
     override func viewWillDisappear(_ animated: Bool) {
         listener.remove()       //Removes listeners to save data in Firestore; stops real time updates
         products.removeAll()    //Delete data from Firestore cache to avoind duplicating data every time view appears
+        filtered.removeAll()
         collectionView.reloadData()
     }
     
@@ -87,6 +87,9 @@ class MainVC: UIViewController{
         searchController.searchBar.returnKeyType = .search
         
         searchController.searchBar.becomeFirstResponder()
+        
+        self.searchController.searchBar.becomeFirstResponder()
+
         
         ////Add search bar in the navigation bar
         //self.navigationItem.titleView = searchController.searchBar
@@ -174,7 +177,7 @@ class MainVC: UIViewController{
             })
         })
     }
-
+    
     //Menu opens and closes as hamburger button is pressed
     @IBAction func menuButtonPressed(_ sender: Any) {
 
@@ -188,12 +191,9 @@ class MainVC: UIViewController{
 
     //When view is tapped outside the menu, the menu closes
     @objc func tapOutsideMenu(_ sender: UITapGestureRecognizer) {
-
         closeMenu()
-        
         UIView.animate(withDuration: 0.4, animations:{
             self.view.layoutIfNeeded()
-
         })
     }
 
@@ -214,7 +214,6 @@ class MainVC: UIViewController{
     }
     
     @objc func rightSwipeMenu(_ sender: UIScreenEdgePanGestureRecognizer) {
-        
         openMenu()
     }
     
@@ -233,7 +232,6 @@ class MainVC: UIViewController{
     }
     
     @objc func openMenu() {
-        
         MenuLeadingConstraint.constant = 0 //remove menu from view
 
         mainTintedV.isHidden = false //Shows tinted VC
@@ -473,7 +471,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: Search Bar Stuff
 extension MainVC: UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating{
-       
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false
         searchController.searchBar.text = ""
@@ -482,35 +480,28 @@ extension MainVC: UISearchControllerDelegate, UISearchBarDelegate, UISearchResul
      
      func updateSearchResults(for searchController: UISearchController)
      {
-        
         let searchText = searchController.searchBar.text?.lowercased()
         
-        //Search according to product name and brand
-        filtered = products.filter { product -> Bool in
-            return product.name.lowercased().hasPrefix(searchText!) || product.brand.hasPrefix(searchText!)
+        if searchText!.isEmpty == false {
+            //Search according to product name and brand
+            filtered = products.filter { product -> Bool in
+                return product.name.lowercased().contains(searchText!) || product.brand.contains(searchText!)
+            }
+        } else {
+            
+            filtered = products
         }
-        
-        collectionView.reloadData()
 
+        collectionView.reloadData()
      }
-     
+
      func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-         searchActive = true
-         collectionView.reloadData()
+        searchActive = true
+        collectionView.reloadData()
      }
-     
      
      func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         //collectionView.reloadData()
         searchActive = false
-     }
-     
-     func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
-         if !searchActive {
-             searchActive = true
-             collectionView.reloadData()
-         }
-         
-         searchController.searchBar.resignFirstResponder()
      }
 }
