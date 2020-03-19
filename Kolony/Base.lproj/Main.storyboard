@@ -370,7 +370,7 @@
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="ZUO-P8-4EH" customClass="ProductCell" customModule="Kolony" customModuleProvider="target">
                                         <rect key="frame" x="15" y="10" width="168" height="210"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="xH2-es-oHp">
                                             <rect key="frame" x="0.0" y="0.0" width="168" height="210"/>
                                             <autoresizingMask key="autoresizingMask"/>
@@ -866,7 +866,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="345" height="143"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yXK-VE-vws">
-                                                            <rect key="frame" x="232.66666666666663" y="115" width="72" height="20"/>
+                                                            <rect key="frame" x="220.66666666666663" y="115" width="96" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="MZ3-S5-vBs"/>
                                                             </constraints>
@@ -1152,7 +1152,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QaU-c1-NUk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="Z1k-B6-ecm" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3486.9565217391305" y="-260.49107142857144"/>
+            <point key="canvasLocation" x="3458" y="-260"/>
         </scene>
         <!--AccountVC-->
         <scene sceneID="phM-Fv-JdV">

@@ -43,7 +43,7 @@ class MainVC: UIViewController{
     var db : Firestore!
     var products = [Product]()
     var listener : ListenerRegistration!
-    var filtered = [Product]()
+    var filteredProducts = [Product]()
     var searchActive = false
     
     let searchController = UISearchController(searchResultsController: nil)
@@ -56,7 +56,7 @@ class MainVC: UIViewController{
         interactionWithMenu()       //Sets up menu and allows intuitive interaction
         UINavigationBar.appearance().titleTextAttributes = attributes //Changes font of navigation bar title
         
-        setupNavBar()
+        //searchControllerConfig()
         guestUserSetup()            //Initial setup of guest user
     }
     
@@ -66,14 +66,21 @@ class MainVC: UIViewController{
         getUser()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        searchControllerConfig() //Reset search controller before MainVC appears
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         listener.remove()       //Removes listeners to save data in Firestore; stops real time updates
         products.removeAll()    //Delete data from Firestore cache to avoind duplicating data every time view appears
-        filtered.removeAll()
+        filteredProducts.removeAll()
         collectionView.reloadData()
+        searchActive = false
+        //Remove search bar; only way to make scope bar diappear when leave MainVC and hit back button
+        navigationItem.searchController = nil
     }
     
-    func setupNavBar() {
+    func searchControllerConfig() {
         navigationItem.searchController = searchController
         self.searchController.searchResultsUpdater = self
         self.searchController.delegate = self
@@ -85,6 +92,7 @@ class MainVC: UIViewController{
         searchController.searchBar.sizeToFit()
         searchController.searchBar.showsCancelButton = true
         searchController.searchBar.returnKeyType = .search
+        searchController.searchBar.scopeButtonTitles = ["Name","Brand","Color","Style"]
         
         searchController.searchBar.becomeFirstResponder()
         
@@ -276,6 +284,74 @@ class MainVC: UIViewController{
 //            }
 //        }
 //    }
+    
+    func searchFilterName(searchBar: UISearchBar){
+        //let searchText = searchController.searchBar.text?.lowercased()
+        let searchText = searchBar.text?.lowercased()
+
+        if searchText!.isEmpty == false {
+            //Search according to product name
+            filteredProducts = products.filter { product -> Bool in
+                return product.name.lowercased().lowercased().contains(searchText!)
+            }
+        } else {
+
+            filteredProducts = products
+        }
+
+        collectionView.reloadData()
+    }
+
+    func searchFilterBrand(searchBar: UISearchBar){
+        //let searchText = searchController.searchBar.text?.lowercased()
+        let searchText = searchBar.text?.lowercased()
+
+        if searchText!.isEmpty == false {
+            //Search according to product brand
+            filteredProducts = products.filter { product -> Bool in
+                return product.brand.lowercased().contains(searchText!)
+            }
+        } else {
+
+            filteredProducts = products
+        }
+
+        collectionView.reloadData()
+    }
+
+    func searchFilterColor(searchBar: UISearchBar){
+        //let searchText = searchController.searchBar.text?.lowercased()
+        let searchText = searchBar.text?.lowercased()
+
+        if searchText!.isEmpty == false {
+            //Search according to color
+            filteredProducts = products.filter { product -> Bool in
+                return product.colorway.lowercased().contains(searchText!) //Add another field that has string as colours that deines raw colors of a product; i.e. black, red, yellow, blue, etc.
+            }
+        } else {
+
+            filteredProducts = products
+        }
+
+        collectionView.reloadData()
+    }
+
+    func searchFilterStyle(searchBar: UISearchBar){
+        //let searchText = searchController.searchBar.text?.lowercased()
+        let searchText = searchBar.text?.lowercased()
+
+        if searchText!.isEmpty == false {
+            //Search according to color
+            filteredProducts = products.filter { product -> Bool in
+                return product.style.lowercased().contains(searchText!)
+            }
+        } else {
+
+            filteredProducts = products
+        }
+
+        collectionView.reloadData()
+    }
 }
 
 //MARK: Products View Stuff (Collection View)
@@ -323,7 +399,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if searchActive{
-            return filtered.count
+            return filteredProducts.count
         } else {
             return products.count
         }
@@ -337,7 +413,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 
         //If user searches
         if searchActive{
-            item = filtered[indexPath.row]
+            item = filteredProducts[indexPath.row]
         } else {
             //Get data of product by cell (from database)
             item = products[indexPath.row]
@@ -369,7 +445,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 
         //If user searches
         if searchActive{
-            item = filtered[indexPath.row]
+            item = filteredProducts[indexPath.row]
         } else {
             //Get data of product by cell (from database)
             item = products[indexPath.row]
@@ -480,20 +556,20 @@ extension MainVC: UISearchControllerDelegate, UISearchBarDelegate, UISearchResul
      
      func updateSearchResults(for searchController: UISearchController)
      {
-        let searchText = searchController.searchBar.text?.lowercased()
-        
-        if searchText!.isEmpty == false {
-            //Search according to product name and brand
-            filtered = products.filter { product -> Bool in
-                return product.name.lowercased().contains(searchText!) || product.brand.contains(searchText!)
-            }
-        } else {
-            
-            filtered = products
+        let scopeString = searchController.searchBar.selectedScopeButtonIndex
+                switch scopeString{
+                case 0:
+                    searchFilterName(searchBar: searchController.searchBar)
+                case 1:
+                    searchFilterBrand(searchBar: searchController.searchBar)
+                case 2:
+                    searchFilterColor(searchBar: searchController.searchBar)
+                case 3:
+                    searchFilterStyle(searchBar: searchController.searchBar)
+                default:
+                    return
         }
-
-        collectionView.reloadData()
-     }
+    }
 
      func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchActive = true
