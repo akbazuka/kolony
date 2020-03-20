@@ -250,6 +250,8 @@ class MainVC: UIViewController{
         
         UIView.animate(withDuration: 0.4, animations:{
             self.view.layoutIfNeeded()})
+        
+        self.searchController.dismiss(animated: true, completion: nil)
     }
     
 //    //Navigate to different VC manually (With Navigation Controller)
@@ -574,6 +576,7 @@ extension MainVC: UISearchControllerDelegate, UISearchBarDelegate, UISearchResul
      func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchActive = true
         collectionView.reloadData()
+        closeMenu()
      }
      
      func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

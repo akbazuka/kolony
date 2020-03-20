@@ -124,7 +124,6 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func forgotPasswordBtnOnClick(_ sender: Any) {
-        
         resetPassword()
     }
     
