@@ -20,6 +20,8 @@ class MainVC: UIViewController{
 
     @IBOutlet weak var mainTintedV: UIView!
     
+    @IBOutlet weak var searchTintedV: UIView!
+    
     @IBOutlet weak var menuView: UITableView!
 
     @IBOutlet var mainView: UIView!
@@ -29,6 +31,8 @@ class MainVC: UIViewController{
     var showMenu = false
     
     var tapGesture = UITapGestureRecognizer()
+    
+    var cancelSearchGesture = UITapGestureRecognizer()
     
     var swipeLeft = UISwipeGestureRecognizer()
     
@@ -90,14 +94,13 @@ class MainVC: UIViewController{
         self.searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Kolony"
         searchController.searchBar.sizeToFit()
-        searchController.searchBar.showsCancelButton = true
+        searchController.searchBar.showsCancelButton = false
         searchController.searchBar.returnKeyType = .search
         searchController.searchBar.scopeButtonTitles = ["Name","Brand","Color","Style"]
         
         searchController.searchBar.becomeFirstResponder()
         
         self.searchController.searchBar.becomeFirstResponder()
-
         
         ////Add search bar in the navigation bar
         //self.navigationItem.titleView = searchController.searchBar
@@ -140,6 +143,12 @@ class MainVC: UIViewController{
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapOutsideMenu(_:)))
         mainTintedV.addGestureRecognizer(tapGesture)
         mainTintedV.isUserInteractionEnabled = true
+        
+        //Search controller view to detect tap
+        cancelSearchGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapOutsideSearch(_:)))
+        searchTintedV.isHidden = true
+        searchTintedV.addGestureRecognizer(cancelSearchGesture)
+        searchTintedV.isUserInteractionEnabled = true
         
         //Swipe left to close menu
         swipeLeft = UISwipeGestureRecognizer(target : self, action : #selector(self.leftSwipeMenu))
@@ -204,6 +213,11 @@ class MainVC: UIViewController{
             self.view.layoutIfNeeded()
         })
     }
+    
+    @objc func tapOutsideSearch(_ sender: UITapGestureRecognizer){
+        self.searchController.searchBar.showsCancelButton.toggle()
+        self.searchController.dismiss(animated: true, completion: nil)
+    }
 
     //Set backgorund image for menu button to closed state
     func changeMenuImageClose() {
@@ -243,6 +257,13 @@ class MainVC: UIViewController{
         MenuLeadingConstraint.constant = 0 //remove menu from view
 
         mainTintedV.isHidden = false //Shows tinted VC
+        
+        searchTintedV.isHidden = true //Hides search tinted VC if is visible
+        
+        //If user clicks on menu while search controller is being used, hide cancel button
+        if searchController.searchBar.showsCancelButton{
+            searchController.searchBar.showsCancelButton.toggle()
+        }
 
         showMenu = true
 
@@ -553,7 +574,9 @@ extension MainVC: UISearchControllerDelegate, UISearchBarDelegate, UISearchResul
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false
         searchController.searchBar.text = ""
+        searchTintedV.isHidden = true
          //self.dismiss(animated: true, completion: nil)
+        searchController.searchBar.showsCancelButton.toggle()
      }
      
      func updateSearchResults(for searchController: UISearchController)
@@ -574,13 +597,16 @@ extension MainVC: UISearchControllerDelegate, UISearchBarDelegate, UISearchResul
     }
 
      func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchController.searchBar.showsCancelButton.toggle()
         searchActive = true
         collectionView.reloadData()
         closeMenu()
+        searchTintedV.isHidden = false
      }
      
      func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         //collectionView.reloadData()
         searchActive = false
+        searchTintedV.isHidden = true
      }
 }

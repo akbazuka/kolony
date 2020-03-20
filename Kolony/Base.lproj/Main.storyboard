@@ -547,7 +547,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rb0-VG-apn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1525.5999999999999" y="1492.6108374384237"/>
+            <point key="canvasLocation" x="1527" y="1208"/>
         </scene>
         <!--MainVC-->
         <scene sceneID="6Jt-il-CrQ">
@@ -636,10 +636,15 @@
                                 </connections>
                             </collectionView>
                             <view alpha="0.29999999999999999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uyU-Qt-B3S" userLabel="MainTinted">
-                                <rect key="frame" x="0.0" y="0.0" width="416" height="819"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UOP-Vi-4PD" userLabel="SearchTinted">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="96v-bd-blX">
                                 <rect key="frame" x="0.0" y="0.0" width="195" height="808"/>
@@ -720,11 +725,12 @@
                         <outlet property="mainView" destination="YLH-O9-0Td" id="ZVa-7x-jC4"/>
                         <outlet property="menuButton" destination="BTv-ST-Rfv" id="OFQ-bs-C3p"/>
                         <outlet property="menuView" destination="96v-bd-blX" id="5Ps-Gl-vKe"/>
+                        <outlet property="searchTintedV" destination="UOP-Vi-4PD" id="K2t-uf-gSv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Yd-nE-DEJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2460.8695652173915" y="-260.49107142857144"/>
+            <point key="canvasLocation" x="2460" y="-260.83743842364532"/>
         </scene>
         <!--Product Details-->
         <scene sceneID="vah-dF-O28">
