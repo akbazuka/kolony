@@ -53,7 +53,7 @@ final class _UserService {
             
             guard let data = snap?.data() else { return }
             self.user = User.init(data: data)
-            print("Success",self.user)
+            //print("Success",self.user)
         })
     }
     

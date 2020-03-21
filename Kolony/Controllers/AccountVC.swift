@@ -37,7 +37,7 @@ class AccountVC : UIViewController{
         tableView.register(SettingsCell.self, forCellReuseIdentifier: reuseIdentifier)
         view.addSubview(tableView)
         tableView.frame = view.frame
-        
+
         let frame = CGRect(x: 0, y: 88, width: view.frame.width, height: 100)
         userInfoHeader = UserInfoHeader(frame: frame)
         tableView.tableHeaderView = userInfoHeader
@@ -56,6 +56,8 @@ class AccountVC : UIViewController{
     //Don't allow guest user to visit CheckoutVC
     func blockGuestUser(){
         if UserService.isGuest == true{
+            self.blurBackground()
+            
             let alertController = UIAlertController(title: "Hi friend!", message: "This is a user only feature. Please create an account with us to be able to access all of our features. It's free to Sign-up", preferredStyle: .alert)
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
@@ -77,6 +79,54 @@ class AccountVC : UIViewController{
     func navBarSetup(){
         //self.navigationController?.navigationItem.title = "My Orders"
         self.title = "Settings"
+    }
+    
+    func blurBackground(){
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+    }
+    
+    //Navigate to VC after Alert (to Navigation Controller)
+    func alertNavToMain(title:String, message: String) {
+        //Error Title
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        //Action Title
+        //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { UIAlertAction in
+            //Go to view controller through naigation controller
+            let viewControllers: [UIViewController] = self.navigationController!.viewControllers
+            for vc in viewControllers {
+                if vc is MainVC {
+                    self.navigationController!.popToViewController(vc, animated: true)
+                }
+            }
+        })
+        //Present to Screen
+        present(alert,animated: true, completion: nil)
+    }
+    
+    //Navigate to VC after Alert (to Navigation Controller)
+    func alert(title:String, message: String) {
+        //Error Title
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        //Action Title
+        //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        //Present to Screen
+        present(alert,animated: true, completion: nil)
+    }
+    
+    //Validate email regex
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
     }
     
     //Navigate to homeVC
@@ -105,52 +155,86 @@ class AccountVC : UIViewController{
     
     func inputAlert(option: String){
         let fullMessage = option.split(separator: " ") //Split by space
-        let partMessage = fullMessage[1]
+        let partMessage = fullMessage[1].lowercased()
         
         let alert = UIAlertController(title: "Change \(partMessage)", message: "Please enter your new \(partMessage)", preferredStyle: .alert)
+        
+        var sensitive = false
+        
+        if option == "Change Password"{
+            sensitive = true
+        }
+        
         alert.addTextField { (textField) in
-            textField.placeholder = "\(partMessage)"
+            textField.placeholder = "New \(partMessage)"
+            textField.isSecureTextEntry = sensitive //only true if password
         }
 
         alert.addTextField { (textField) in
             textField.placeholder = "Confirm \(partMessage)"
+            textField.isSecureTextEntry = sensitive //only true if password
         }
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
         alert.addAction(UIAlertAction(title: "Submit", style: .default, handler: { (action) in
-            if let textField = alert.textFields?[0], let userText = textField.text,!userText.isEmpty, let textField1 = alert.textFields?[1], let userText1 = textField1.text, !userText1.isEmpty {
+            //If input fields are not empty and they macth
+            if let userText = alert.textFields?[0].text,!userText.isEmpty, let userText1 = alert.textFields?[1].text, !userText1.isEmpty, userText == userText1 {
                 
                 switch option{
                 case "Change Username":
+                    //Update username in Firestore Database
                     UserService.updateUser(new: userText, type: "username")
-                    //Userservice.getCurrentUser() //??
-                    
-                    //Success alert
-                    //...
-                case "Change Email":
-                    UserService.updateUser(new: userText, type: "email")
-                    //Userservice.getCurrentUser() //??
 
-                    //Firebase auth
-                    //...
-                    //User defaults
-                    //...
-                    
-                    //Success alert
-                    //...
+                case "Change Email":
+                    //Checks if email address is well formatted
+                    if self.isValidEmail(userText){
+                        //Update email in Firebase Authentication
+                        Auth.auth().currentUser?.updateEmail(to: userText, completion: { (error) in
+                            if let error = error {
+                                debugPrint(error)
+                                Auth.auth().handleFireAuthError(error: error, vc: self)
+                                print("Nope")
+                            }
+                        })
+                        //Update email in Firestore Database
+                        UserService.updateUser(new: userText, type: "email")
+                        //Update user defaut for emai
+                        UserDefaults.standard.set(userText, forKey: "email")
+                    } else {
+                        self.alert(title: "Error", message: "Please enter a valid e-mail address.")
+                        return
+                    }
+
                 case "Change Password":
-                    print("Password")
-                    //Firebase auth
-                    //...
-                    //User defaults
-                    //...
-                    
-                    //Success alert
-                    //...
+                    //Checks if password is at least 6 characters in length
+                    if userText.count >= 6{
+                        //Update password in Firebase Authentication
+                        Auth.auth().currentUser?.updatePassword(to: userText, completion: { (error) in
+                            if let error = error {
+                                debugPrint(error)
+                                Auth.auth().handleFireAuthError(error: error, vc: self)
+                            }
+                        })
+                        //Update user defaut for password
+                        UserDefaults.standard.set(userText, forKey: "password")
+                    } else {
+                        self.alert(title: "Error", message: "Please enter a password of at least 6 characters.")
+                        return
+                    }
                 default:
                     return
                 }
+                
+                self.blurBackground()   //Blur background before presenting success message
+                self.alertNavToMain(title: "Congratulations!", message: "Your \(partMessage) was updated successfully!")
+                
+            } else if let userText = alert.textFields?[0].text, let userText1 = alert.textFields?[1].text, userText.isEmpty || userText1.isEmpty {
+                //If user leaves text fields empty
+                self.alert(title: "Error", message: "Please fill out all text fields.")
+            } else {
+                //If inputs did not match
+                self.alert(title: "Error", message: "Your inputs did not match, please try again.")
             }
         }))
 
@@ -238,11 +322,12 @@ extension AccountVC: UITableViewDelegate, UITableViewDataSource {
                 inputAlert(option: "Change Email")
                 tableView.deselectRow(at: indexPath, animated: true)
             } else {
-                inputAlert(option: "Change Paasword")
+                inputAlert(option: "Change Password")
                 tableView.deselectRow(at: indexPath, animated: true)
             }
         case .Communication:
             print("Aloha")
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 }

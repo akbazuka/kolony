@@ -24,7 +24,7 @@ class SettingsCell: UITableViewCell {
     lazy var switchControl: UISwitch = {
         let switchControl = UISwitch()
         switchControl.isOn = true
-        switchControl.onTintColor = UIColor.green
+        switchControl.onTintColor = UIColor.black
         switchControl.translatesAutoresizingMaskIntoConstraints = false
         switchControl.addTarget(self, action: #selector(handleSwitchAction), for: .valueChanged)
         

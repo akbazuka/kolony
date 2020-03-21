@@ -33,8 +33,6 @@ class CheckoutVC: UIViewController, CartCellDelegate {
         setupTableView()
         setcheckoutData()
         setupStripeConfig()
-        
-        print("Items are: \(StripeCart.cartItems)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +47,7 @@ class CheckoutVC: UIViewController, CartCellDelegate {
     //Don't allow guest user to visit CheckoutVC
     func blockGuestUser(){
         if UserService.isGuest == true{
+            self.blurBackground()
             let alertController = UIAlertController(title: "Hi friend!", message: "This is a user only feature. Please create an account with us to be able to access all of our features. It's free to Sign-up!", preferredStyle: .alert)
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
@@ -156,6 +155,14 @@ class CheckoutVC: UIViewController, CartCellDelegate {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         //Present to Screen
         present(alert,animated: true,completion: nil)
+    }
+    
+    func blurBackground(){
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
     }
 }
 
