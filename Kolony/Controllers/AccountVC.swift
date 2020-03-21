@@ -102,6 +102,60 @@ class AccountVC : UIViewController{
         
         self.navigationController?.pushViewController(checkoutVC, animated: true)
     }
+    
+    func inputAlert(option: String){
+        let fullMessage = option.split(separator: " ") //Split by space
+        let partMessage = fullMessage[1]
+        
+        let alert = UIAlertController(title: "Change \(partMessage)", message: "Please enter your new \(partMessage)", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "\(partMessage)"
+        }
+
+        alert.addTextField { (textField) in
+            textField.placeholder = "Confirm \(partMessage)"
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        alert.addAction(UIAlertAction(title: "Submit", style: .default, handler: { (action) in
+            if let textField = alert.textFields?[0], let userText = textField.text,!userText.isEmpty, let textField1 = alert.textFields?[1], let userText1 = textField1.text, !userText1.isEmpty {
+                
+                switch option{
+                case "Change Username":
+                    UserService.updateUser(new: userText, type: "username")
+                    //Userservice.getCurrentUser() //??
+                    
+                    //Success alert
+                    //...
+                case "Change Email":
+                    UserService.updateUser(new: userText, type: "email")
+                    //Userservice.getCurrentUser() //??
+
+                    //Firebase auth
+                    //...
+                    //User defaults
+                    //...
+                    
+                    //Success alert
+                    //...
+                case "Change Password":
+                    print("Password")
+                    //Firebase auth
+                    //...
+                    //User defaults
+                    //...
+                    
+                    //Success alert
+                    //...
+                default:
+                    return
+                }
+            }
+        }))
+
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension AccountVC: UITableViewDelegate, UITableViewDataSource {
@@ -171,11 +225,22 @@ extension AccountVC: UITableViewDelegate, UITableViewDataSource {
                     self.view.window?.rootViewController?.dismiss(animated: true, completion: nil) //Goes back to root view controller
                     //self.navigationController?.popToRootViewController(animated: true)
                 }
+                tableView.deselectRow(at: indexPath, animated: true)
             } catch {
                 Auth.auth().handleFireAuthError(error: error, vc: self)
                 debugPrint(error)
             }
-        }
+            } else if (AccountOptions(rawValue: indexPath.row)?.description) == "Change Username"{
+                inputAlert(option: "Change Username")
+                tableView.deselectRow(at: indexPath, animated: true)
+                
+            } else if (AccountOptions(rawValue: indexPath.row)?.description) == "Change Email"{
+                inputAlert(option: "Change Email")
+                tableView.deselectRow(at: indexPath, animated: true)
+            } else {
+                inputAlert(option: "Change Paasword")
+                tableView.deselectRow(at: indexPath, animated: true)
+            }
         case .Communication:
             print("Aloha")
         }

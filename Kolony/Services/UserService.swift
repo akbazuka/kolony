@@ -57,6 +57,21 @@ final class _UserService {
         })
     }
     
+    func updateUser(new: String, type: String){
+        let updateUserRef = Firestore.firestore().collection("users").document(UserService.user.id)
+
+        updateUserRef.updateData([
+            //type is passed either username or email
+            type : new
+        ]) { err in
+            if let err = err {
+                print("Error updating \(type): \(err)")
+            } else {
+                print("Successfully updated \(type)")
+            }
+        }
+    }
+    
     //Add order to subcollection of user when item sold
     func sendOrders(productInvent: ProductInventory, product: Product) {
         let ref = Firestore.firestore().collection("orders").document()
