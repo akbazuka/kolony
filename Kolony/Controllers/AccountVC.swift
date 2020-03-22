@@ -69,7 +69,6 @@ class AccountVC : UIViewController{
                 let signUpVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC")
                 self.present(signUpVC, animated: true, completion: nil)
             }
-            
             alertController.addAction(cancel)
             alertController.addAction(signup)
             present(alertController,animated: true,completion: nil)
@@ -115,7 +114,6 @@ class AccountVC : UIViewController{
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         //Action Title
         //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         //Present to Screen
         present(alert,animated: true, completion: nil)
@@ -124,7 +122,6 @@ class AccountVC : UIViewController{
     //Validate email regex
     func isValidEmail(_ email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
@@ -149,16 +146,13 @@ class AccountVC : UIViewController{
         }
         
         let checkoutVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CheckoutVC")
-        
         self.navigationController?.pushViewController(checkoutVC, animated: true)
     }
     
     func inputAlert(option: String){
         let fullMessage = option.split(separator: " ") //Split by space
         let partMessage = fullMessage[1].lowercased()
-        
         let alert = UIAlertController(title: "Change \(partMessage)", message: "Please enter your new \(partMessage)", preferredStyle: .alert)
-        
         var sensitive = false
         
         if option == "Change Password"{
@@ -176,7 +170,6 @@ class AccountVC : UIViewController{
         }
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
         alert.addAction(UIAlertAction(title: "Submit", style: .default, handler: { (action) in
             //If input fields are not empty and they macth
             if let userText = alert.textFields?[0].text,!userText.isEmpty, let userText1 = alert.textFields?[1].text, !userText1.isEmpty, userText == userText1 {
