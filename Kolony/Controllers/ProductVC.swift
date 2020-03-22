@@ -424,8 +424,8 @@ extension ProductVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        //Unhighlight previous item if there was a previous item selected
-        if self.highlightedItem != nil {
+        //Unhighlight previous item if there was a previous item selected and if not current item
+        if self.highlightedItem != nil && self.highlightedItem != indexPath{
             if let previousCell = collectionView.cellForItem(at: self.highlightedItem){
                 previousCell.contentView.backgroundColor = UIColor.white
             }
