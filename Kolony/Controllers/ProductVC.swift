@@ -14,43 +14,30 @@ import Kingfisher
 class ProductVC: UIViewController {
     
     @IBOutlet weak var productImages: UIImageView!
-    
     @IBOutlet weak var productName: UILabel!
-    
     @IBOutlet weak var addToCartBtn: UIButton!
-    
     @IBOutlet weak var tryBtn: UIButton!
-    
     @IBOutlet weak var sizeBtn: UIButton!
-    
     @IBOutlet weak var brandLabel: UILabel!
-    
     @IBOutlet weak var styleLabel: UILabel!
-    
     @IBOutlet weak var colorwayLabel: UILabel!
-    
     @IBOutlet weak var releaseLabel: UILabel!
-    
     @IBOutlet weak var retailLabel: UILabel!
-    
     @IBOutlet weak var productPrice: UILabel!
-    
-    fileprivate let pickerView = ToolbarPickerView()
-    
-    //Text box that allows you to select size and then displays it
-    @IBOutlet weak var sizeText: UITextField!
+    @IBOutlet weak var collectionView: UICollectionView!    //That displays sizes
     
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
     
+    //Variables
     var db: Firestore!
     var productInventory = [ProductInventory]()
     static var product: Product!
     var selectedItem : ProductInventory!
     var listener : ListenerRegistration!
-    
     //For downloading and storing images from Kingfisher
     var images = [UIImage]()
     var currentImage = 0 //For swiping images
+    var highlightedItem: IndexPath!
     
     //ViewDidLoad
     override func viewDidLoad() {
@@ -65,20 +52,21 @@ class ProductVC: UIViewController {
         //To swipe images
         downloadImages()
         setUpGestures()
-        createPickerView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         //print("Aloha: \(ProductVC.prodID)")
         setProductsInventoryListener()  //Pulls data from database
         //print("Count 1: \(productInventory.count)")
-        didTapCancel()                  //Refresh Size picker every time user navigates to ProductVC
+        collectionView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         listener.remove()               //Removes listeners to save data in Firestore; stops real time updates
         productInventory.removeAll()    //Delete data from Firestore cache to avoind duplicating data every time view appears
-        pickerView.reloadAllComponents()
+        collectionView.reloadData()
+        selectedItem = nil
+        highlightedItem = nil
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -88,10 +76,12 @@ class ProductVC: UIViewController {
     
     func setUpGestures(){
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(imageSwipe))
+        swipeRight.cancelsTouchesInView = false
         swipeRight.direction = UISwipeGestureRecognizer.Direction.right
         productImages.addGestureRecognizer(swipeRight)
 
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(imageSwipe))
+        swipeLeft.cancelsTouchesInView = false
         swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
         productImages.addGestureRecognizer(swipeLeft)
     }
@@ -128,7 +118,7 @@ class ProductVC: UIViewController {
             }
             
             KingfisherManager.shared.retrieveImage(with: imageURL3){ result in
-                // `result` is either a `.success(RetrieveImageResult)` or a `.failure(KingfisherError)`
+                //`result` is either a `.success(RetrieveImageResult)` or a `.failure(KingfisherError)`
                 switch result {
                 case .success(let value):
                     // The image was set to image view:
@@ -142,7 +132,7 @@ class ProductVC: UIViewController {
             }
             
             KingfisherManager.shared.retrieveImage(with: imageURL4){ result in
-                // `result` is either a `.success(RetrieveImageResult)` or a `.failure(KingfisherError)`
+                //`result` is either a `.success(RetrieveImageResult)` or a `.failure(KingfisherError)`
                 switch result {
                 case .success(let value):
                     // The image was set to image view:
@@ -165,12 +155,10 @@ class ProductVC: UIViewController {
             case UISwipeGestureRecognizer.Direction.left:
                 if currentImage == images.count - 1 {
                     currentImage = 0
-
                 }else{
                     currentImage += 1
                 }
                 productImages.image = images[currentImage]
-
             case UISwipeGestureRecognizer.Direction.right:
                 if currentImage == 0 {
                     currentImage = images.count - 1
@@ -247,34 +235,10 @@ class ProductVC: UIViewController {
         if let retail = formatter.string(from: ProductVC.product.retail as NSNumber) {
             retailLabel.text = retail
         }
-        
-        ////Use only if want to display size of item in cart in detail view as well
-        //sizeText.text = ProductVC.prodSize //Only displays a size when information sent from CartVC
-    }
-    
-    func createPickerView() {
-        //UIPickerView with Done Button
-        self.sizeText.inputView = self.pickerView
-        self.sizeText.inputAccessoryView = self.pickerView.toolbar
-
-        self.pickerView.dataSource = self
-        self.pickerView.delegate = self
-        self.pickerView.toolbarDelegate = self
-
-        self.pickerView.reloadAllComponents()
     }
     
     //Fetch all documents of a certain product in Firestore Database and Listens for Real-Time Updates
     func setProductsInventoryListener() {
-        
-        //If trying to make different queries on same page
-        //var ref: Query!
-        //if showFavorites {
-            //ref = db.collection("users").document(UserService.user.id).collection("favorites")
-        //} else {
-        //ref = db.productInventory(product: ProductVC.prodID)
-        //}
-
         listener = db.productInventory(product: ProductVC.product.id).addSnapshotListener({ (snap, error) in
             
             if let error = error {
@@ -301,42 +265,27 @@ class ProductVC: UIViewController {
     }
 
     @IBAction func addToCartOnClick(_ sender: Any) {
-        //if(isKeyPresentInUserDefaults(key: "uID")){ //Not as good as validating if guest user
         
         //Only allows to add to cart if user is logged in with a valid account and not as guest user and size is picked
         guard let user = Auth.auth().currentUser else { return }
         
-        if !user.isAnonymous, let size = sizeText.text, !size.isEmpty/*, ProductVC.sizeSelected == 1 */{
-            //print("This is the selected item: \(selectedItem.id)")
-            //print("This is the product name: \(product.name)")
+        if !user.isAnonymous, selectedItem != nil{
             //Add item to cart
             StripeCart.addItemToCart(item:selectedItem, product: ProductVC.product)
             
             //Refresh Size picker so that when user navigates back, they cannot re-add to cart
-            self.didTapCancel()
-            
-            ////Use only if want to display size of item in cart in detail view as well
-            //ProductVC.sizeSelected = 0 //Does not allow user to add to cart again without reselecting size
+            self.selectedItem = nil
+            collectionView(collectionView, didUnhighlightItemAt: highlightedItem)
             
             //Show alert saying item was added to cart
             alertNavToVC(title: "Added to Cart", message: "This item was successfully added to your shopping cart!",toVC: "CheckoutVC")
             
         } else if (user.isAnonymous) {
             alertToVC(title: "Hi friend!", message: "This is a user only feature. Please create an account with us to be able to access all of our features.", toVC: "SignUpVC")
-        }   ////Use only if want to display size of item in cart in detail view as well
-            /*else if ProductVC.sizeSelected == 0, let size = sizeText.text, !size.isEmpty{ //Does not allow user to add to cart if coming straight from CartVC and has not manually rechose a size
-            self.didTapCancel()
-            alert(title: "This item is already in your Cart", message: "Please select a size again if you wish to add the item once more.")
-        } */else {
+        } else {
                 alert(title: "Please select a Size", message: "Select a size for the product you wish to add to your cart.")
         }
     }
-    
-    /*
-    //To check if a user defualt exists
-    func isKeyPresentInUserDefaults(key: String) -> Bool {
-        return UserDefaults.standard.object(forKey: key) != nil
-    }*/
     
     @IBAction func tryOnClicked(_ sender: Any) {
         //
@@ -358,8 +307,7 @@ class ProductVC: UIViewController {
         //Error Title
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         //Action Title
-        //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        //alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         alert.addAction(UIAlertAction(title: "OK", style: .default) { UIAlertAction in
             //Go to view controller through naigation controller
@@ -388,15 +336,14 @@ class ProductVC: UIViewController {
     }
 }
 
-/*Delegate methods of UIPickerView*/
-//MARK: UIPickerView Delegates
-extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
+//MARK: Products View Stuff (Collection View)
+extension ProductVC: UICollectionViewDelegate, UICollectionViewDataSource/*, UICollectionViewDelegateFlowLayout */{
     
     //When new document is added to database
     func onDocumentAdded(change: DocumentChange, inventory: ProductInventory){
         let newIndex = Int(change.newIndex) //Returns UInt so cast to Int
         productInventory.insert(inventory, at: newIndex) //Insert into correct position of products array
-        pickerView.reloadAllComponents()
+        collectionView.reloadData()
     }
     //When a document is changed in the database
     func onDocumentModified(change: DocumentChange, inventory: ProductInventory){
@@ -405,7 +352,7 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
             let index = Int(change.newIndex)
             productInventory[index] = inventory //Replace new (changed) product with old
             print("New added: \(productInventory.count)")
-            pickerView.reloadComponent(index)
+            collectionView.reloadData()
         } else {
             let oldIndex = Int(change.oldIndex)
             let newIndex = Int(change.newIndex)
@@ -413,7 +360,7 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
             productInventory.remove(at: oldIndex)               //Remove old product at its index
             productInventory.insert(inventory, at: newIndex)    //Add new item at the index of the old item
             
-            pickerView.reloadAllComponents()
+            collectionView.reloadData()
         }
     }
     
@@ -421,70 +368,68 @@ extension ProductVC: UIPickerViewDataSource, UIPickerViewDelegate {
     func onDocumentRemoved(change: DocumentChange){
         let oldIndex = Int(change.oldIndex)
         productInventory.remove(at: oldIndex)
-        pickerView.reloadAllComponents()
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
-        //print("This is the count: \(productInventory.count)")
-        return productInventory.count
-        //return sizes.count
-        
-    }
-
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-
-    /*
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.sizes[row]
-    }*/
-
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let item: ProductInventory = productInventory[row]
-        return NSNumber(value: item.size).stringValue //Covert Double to string and format to Whole number if .0
+        collectionView.reloadData()
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let item: ProductInventory = productInventory[row]
-        self.sizeText.text = NSNumber(value: item.size).stringValue
+//    //Resize collection view accroding to phone size
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let height = view.frame.size.height
+//        let width = view.frame.size.width
+//        return CGSize(width: width * 0.45, height: height * 0.35)
+//    }
+//
+//    //To center cells in collection view
+//    func centerItemsInCollectionView(cellWidth: Double, numberOfItems: Double, spaceBetweenCell: Double, collectionView: UICollectionView) -> UIEdgeInsets {
+//        let totalCellWidth = cellWidth * numberOfItems
+//        let totalSpacingWidth = spaceBetweenCell * (numberOfItems - 1)
+//
+//        let leftInset = (view.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
+//        let rightInset = leftInset
+//
+//        return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+//    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //print("Aloha \(productInventory.count)")
+        return productInventory.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        //Create cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SizeCell", for: indexPath) as! SizeCell
+        
+        let item = productInventory[indexPath.row]
+        
+        //Get item's size
+        cell.sizeLabel.text = NSNumber(value: item.size).stringValue
+        
+        return cell
+    }
+    
+    //Prepare to add selected item to cart
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //print("Aloha")
+        let item = productInventory[indexPath.row]
         self.selectedItem = item
+        //print("Selected size is: \(selectedItem)")
+        //The cell that is currently highlighted so that can be deselected later
+        self.highlightedItem = indexPath
+    }
+    
+    //Change color of cell when user taps on it
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) {
+            cell.contentView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        //Unhighlight previous item if there was a previous item selected
+        if self.highlightedItem != nil {
+            if let previousCell = collectionView.cellForItem(at: self.highlightedItem){
+                previousCell.contentView.backgroundColor = UIColor.white
+            }
+        }
     }
 }
 
-/*Done button of picker*/
-//MARK: UIPickerView Done Button
-extension ProductVC: ToolbarPickerViewDelegate {
-
-    func didTapDone() {
-        let row = self.pickerView.selectedRow(inComponent: 0)
-        self.pickerView.selectRow(row, inComponent: 0, animated: false)
-        
-        //To change title of button
-        //self.sizeBtn.setTitle(self.titles[row], for: .normal)
-        //self.sizeBtn.resignFirstResponder()
-        
-        let item: ProductInventory = productInventory[row]
-        
-        self.sizeText.text = NSNumber(value: item.size).stringValue
-        self.sizeText.resignFirstResponder()
-        
-        ////Selects product according to size chosen
-        //self.selectedItemID = item.individualID ?? "0"
-        
-        ////Use only if want to display size of item in cart in detail view as well
-        //ProductVC.sizeSelected = 1 //User has selected a size; allow it to be added ot cart
-        
-        //To paas correct item to add to cart
-        self.selectedItem = item
-    }
-
-    func didTapCancel() {
-        self.sizeText.text = nil
-        self.sizeText.resignFirstResponder()
-        self.selectedItem = nil
-        ////Resets selected item
-        //self.selectedItemID = ""
-    }
-}

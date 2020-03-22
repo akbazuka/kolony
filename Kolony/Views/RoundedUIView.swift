@@ -45,3 +45,12 @@ class RoundedButton : UIButton {
     }
 }
 
+class RoundedSizeLabel : UIButton {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        layer.cornerRadius = 5
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.black.cgColor
+    }
+}
+

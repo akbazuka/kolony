@@ -13,7 +13,7 @@ private let reuseIdentifier = "SettingsCell"
 
 class AccountVC : UIViewController{
     
-    // MARK: - Properties
+    //MARK: - Properties
     var tableView: UITableView!
     var userInfoHeader: UserInfoHeader!
     
@@ -27,7 +27,7 @@ class AccountVC : UIViewController{
         navBarSetup()
     }
     
-    // MARK: - Helper Functions
+    //MARK: - Helper Functions
     func configureTableView() {
         tableView = UITableView()
         tableView.delegate = self

@@ -54,7 +54,7 @@
                                 <rect key="frame" x="169" y="517.66666666666663" width="37" height="37"/>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sAV-PV-fqV">
-                                <rect key="frame" x="89.666666666666657" y="580" width="196" height="44"/>
+                                <rect key="frame" x="89.666666666666686" y="580" width="196" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Da8-ph-TBk"/>
                                     <constraint firstAttribute="width" constant="196" id="REg-Ir-3qx"/>
@@ -775,20 +775,20 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NrO-VP-o5v">
-                                                <rect key="frame" x="122.66666666666669" y="455" width="54" height="44"/>
+                                                <rect key="frame" x="160" y="437" width="54" height="29"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="44" id="OBG-Js-Ukh"/>
+                                                    <constraint firstAttribute="height" constant="29" id="OBG-Js-Ukh"/>
                                                     <constraint firstAttribute="width" constant="54" id="PDS-s0-k6d"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Size:">
+                                                <state key="normal" title="Sizes">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VaO-pG-YDY">
-                                                <rect key="frame" x="122.66666666666669" y="634" width="130" height="47"/>
+                                                <rect key="frame" x="122.66666666666669" y="647" width="130" height="47"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="47" id="LuH-Jn-ch0"/>
@@ -802,31 +802,6 @@
                                                     <action selector="tryOnClicked:" destination="VDX-kg-mU8" eventType="touchUpInside" id="xrH-5S-nke"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tdx-tS-ZIe">
-                                                <rect key="frame" x="110.66666666666669" y="539" width="154" height="54"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="154" id="NxQ-K5-wgm"/>
-                                                    <constraint firstAttribute="height" constant="54" id="yyI-d0-zhC"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
-                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Add To Cart" image="cartPic">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="addToCartOnClick:" destination="VDX-kg-mU8" eventType="touchUpInside" id="CJH-3b-X22"/>
-                                                </connections>
-                                            </button>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ydi-F9-R0m">
-                                                <rect key="frame" x="186.66666666666666" y="460" width="66" height="34"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="66" id="UWA-1c-UHn"/>
-                                                    <constraint firstAttribute="height" constant="34" id="VSv-Ob-rXP"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BRAND" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LUu-1i-Xmv">
                                                 <rect key="frame" x="9.6666666666666714" y="745" width="120.00000000000001" height="35"/>
                                                 <constraints>
@@ -927,27 +902,84 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="D8h-Cf-8sn">
+                                                <rect key="frame" x="67.666666666666686" y="474" width="240" height="74"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="74" id="CU1-Dn-QmT"/>
+                                                    <constraint firstAttribute="width" constant="240" id="J6c-Cz-HNM"/>
+                                                </constraints>
+                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="s99-0V-wPG">
+                                                    <size key="itemSize" width="35" height="35"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells>
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="SizeCell" reuseIdentifier="SizeCell" id="pJC-Bs-piG" customClass="SizeCell" customModule="Kolony" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="kXT-yv-H63">
+                                                            <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lan-R9-afj">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </collectionViewCellContentView>
+                                                        <size key="customSize" width="35" height="35"/>
+                                                        <connections>
+                                                            <outlet property="sizeLabel" destination="Lan-R9-afj" id="zpy-7v-tat"/>
+                                                        </connections>
+                                                    </collectionViewCell>
+                                                </cells>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="VDX-kg-mU8" id="mhP-Nh-u8x"/>
+                                                    <outlet property="delegate" destination="VDX-kg-mU8" id="DUI-Af-GeS"/>
+                                                </connections>
+                                            </collectionView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tdx-tS-ZIe">
+                                                <rect key="frame" x="110.66666666666669" y="566" width="154" height="54"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="154" id="NxQ-K5-wgm"/>
+                                                    <constraint firstAttribute="height" constant="54" id="yyI-d0-zhC"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="20"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="Add To Cart" image="cartPic">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="addToCartOnClick:" destination="VDX-kg-mU8" eventType="touchUpInside" id="CJH-3b-X22"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstItem="USj-V6-ptc" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="-118" id="0sg-kB-GGH"/>
                                             <constraint firstItem="Nro-p1-fbN" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="64" id="11z-To-vBL"/>
-                                            <constraint firstItem="VaO-pG-YDY" firstAttribute="top" secondItem="Tdx-tS-ZIe" secondAttribute="bottom" constant="41" id="2E2-RR-PV8"/>
-                                            <constraint firstItem="NrO-VP-o5v" firstAttribute="top" secondItem="ECi-eQ-3IG" secondAttribute="bottom" constant="39" id="3ac-EM-WFX"/>
+                                            <constraint firstItem="VaO-pG-YDY" firstAttribute="top" secondItem="Tdx-tS-ZIe" secondAttribute="bottom" constant="27" id="2E2-RR-PV8"/>
+                                            <constraint firstItem="NrO-VP-o5v" firstAttribute="top" secondItem="ECi-eQ-3IG" secondAttribute="bottom" constant="21" id="3ac-EM-WFX"/>
                                             <constraint firstAttribute="bottom" secondItem="ks5-lI-d4c" secondAttribute="bottom" constant="140.5" id="6mW-sT-9oI"/>
                                             <constraint firstItem="LUu-1i-Xmv" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="-118" id="CZQ-Be-r3r"/>
                                             <constraint firstItem="YQg-BV-fcE" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="64" id="H2T-e2-NSp"/>
                                             <constraint firstItem="Nro-p1-fbN" firstAttribute="top" secondItem="YQg-BV-fcE" secondAttribute="bottom" constant="30" id="IOW-La-0lJ"/>
                                             <constraint firstItem="Dv4-rZ-eHy" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" id="K4N-G5-vIy"/>
-                                            <constraint firstItem="LUu-1i-Xmv" firstAttribute="top" secondItem="VaO-pG-YDY" secondAttribute="bottom" constant="64" id="KIa-7F-210"/>
+                                            <constraint firstItem="LUu-1i-Xmv" firstAttribute="top" secondItem="VaO-pG-YDY" secondAttribute="bottom" constant="51" id="KIa-7F-210"/>
                                             <constraint firstItem="ECi-eQ-3IG" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" id="Qcb-q2-HSx"/>
                                             <constraint firstItem="7Zz-LB-9ah" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="-118" id="QkN-d3-6iU"/>
-                                            <constraint firstItem="Ydi-F9-R0m" firstAttribute="centerY" secondItem="f09-rT-Svy" secondAttribute="centerY" constant="-106.75" id="RZ8-iY-uSO"/>
                                             <constraint firstItem="VaO-pG-YDY" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" id="Ron-aI-QDm"/>
+                                            <constraint firstItem="D8h-Cf-8sn" firstAttribute="top" secondItem="NrO-VP-o5v" secondAttribute="bottom" constant="8" id="TQm-Xe-456"/>
                                             <constraint firstItem="YQg-BV-fcE" firstAttribute="top" secondItem="5Xz-28-FvG" secondAttribute="bottom" constant="27" id="V1U-ah-HX7"/>
                                             <constraint firstItem="ks5-lI-d4c" firstAttribute="top" secondItem="n97-29-T1M" secondAttribute="bottom" constant="30" id="WNs-RT-eAW"/>
                                             <constraint firstItem="ECi-eQ-3IG" firstAttribute="top" secondItem="Dv4-rZ-eHy" secondAttribute="bottom" constant="19" id="XDU-U2-Ajj"/>
-                                            <constraint firstItem="yRp-AK-MnU" firstAttribute="top" secondItem="VaO-pG-YDY" secondAttribute="bottom" constant="64" id="Xv0-XL-rOB"/>
+                                            <constraint firstItem="yRp-AK-MnU" firstAttribute="top" secondItem="VaO-pG-YDY" secondAttribute="bottom" constant="51" id="Xv0-XL-rOB"/>
                                             <constraint firstItem="ZfN-9x-Zcd" firstAttribute="top" secondItem="yRp-AK-MnU" secondAttribute="bottom" constant="25" id="Yk0-sb-HFY"/>
                                             <constraint firstItem="jwi-N7-xeA" firstAttribute="top" secondItem="f09-rT-Svy" secondAttribute="top" id="YwY-0H-ax1"/>
                                             <constraint firstAttribute="bottom" secondItem="Nro-p1-fbN" secondAttribute="bottom" constant="139.5" id="Z4n-HS-b9c"/>
@@ -956,17 +988,18 @@
                                             <constraint firstItem="7Zz-LB-9ah" firstAttribute="top" secondItem="LUu-1i-Xmv" secondAttribute="bottom" constant="25" id="aHo-zR-zDy"/>
                                             <constraint firstItem="yRp-AK-MnU" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="64" id="biS-Vx-Vpa"/>
                                             <constraint firstItem="Dv4-rZ-eHy" firstAttribute="top" secondItem="jwi-N7-xeA" secondAttribute="bottom" constant="8" id="dXp-cv-EY4"/>
-                                            <constraint firstItem="Tdx-tS-ZIe" firstAttribute="top" secondItem="NrO-VP-o5v" secondAttribute="bottom" constant="40" id="fHI-nG-7xw"/>
-                                            <constraint firstItem="Ydi-F9-R0m" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="32" id="g4N-W8-7sb"/>
+                                            <constraint firstItem="Tdx-tS-ZIe" firstAttribute="top" secondItem="NrO-VP-o5v" secondAttribute="bottom" constant="100" id="fHI-nG-7xw"/>
+                                            <constraint firstItem="D8h-Cf-8sn" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" id="iHO-UI-1FQ"/>
                                             <constraint firstItem="USj-V6-ptc" firstAttribute="top" secondItem="7Zz-LB-9ah" secondAttribute="bottom" constant="26" id="iSr-3G-jqK"/>
                                             <constraint firstItem="LUu-1i-Xmv" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="-118" id="jGI-ap-Dvp"/>
                                             <constraint firstItem="n97-29-T1M" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="-118" id="lNL-qi-LUS"/>
                                             <constraint firstItem="n97-29-T1M" firstAttribute="top" secondItem="USj-V6-ptc" secondAttribute="bottom" constant="27" id="lYW-XC-j7z"/>
                                             <constraint firstItem="ks5-lI-d4c" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="-118" id="lYn-Qu-0BT"/>
                                             <constraint firstItem="5Xz-28-FvG" firstAttribute="top" secondItem="ZfN-9x-Zcd" secondAttribute="bottom" constant="26" id="njn-0R-AiG"/>
+                                            <constraint firstItem="Tdx-tS-ZIe" firstAttribute="top" secondItem="D8h-Cf-8sn" secondAttribute="bottom" constant="18" id="ogk-ze-5q3"/>
                                             <constraint firstItem="ZfN-9x-Zcd" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="64" id="qlG-Wj-O9x"/>
                                             <constraint firstItem="5Xz-28-FvG" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="64" id="qpf-vQ-z5w"/>
-                                            <constraint firstItem="NrO-VP-o5v" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="-38" id="tWb-3J-1ml"/>
+                                            <constraint firstItem="NrO-VP-o5v" firstAttribute="centerX" secondItem="f09-rT-Svy" secondAttribute="centerX" constant="-0.5" id="tWb-3J-1ml"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -1015,6 +1048,7 @@
                     <connections>
                         <outlet property="addToCartBtn" destination="Tdx-tS-ZIe" id="OOW-Tu-ipb"/>
                         <outlet property="brandLabel" destination="yRp-AK-MnU" id="7Da-AE-mXu"/>
+                        <outlet property="collectionView" destination="D8h-Cf-8sn" id="jhb-WA-m85"/>
                         <outlet property="colorwayLabel" destination="5Xz-28-FvG" id="KZA-vh-fAX"/>
                         <outlet property="productImages" destination="jwi-N7-xeA" id="Vcb-cr-MZs"/>
                         <outlet property="productName" destination="Dv4-rZ-eHy" id="GUY-0H-P97"/>
@@ -1022,14 +1056,13 @@
                         <outlet property="releaseLabel" destination="YQg-BV-fcE" id="Acu-Ej-2PK"/>
                         <outlet property="retailLabel" destination="Nro-p1-fbN" id="tec-wq-Vm2"/>
                         <outlet property="sizeBtn" destination="NrO-VP-o5v" id="SAe-Rd-gzD"/>
-                        <outlet property="sizeText" destination="Ydi-F9-R0m" id="H7L-ES-OjE"/>
                         <outlet property="styleLabel" destination="ZfN-9x-Zcd" id="LIa-nV-5gc"/>
                         <outlet property="tryBtn" destination="VaO-pG-YDY" id="uoI-Tc-ig4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ERI-ZH-p4U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2461" y="-986"/>
+            <point key="canvasLocation" x="2460" y="-986.45320197044339"/>
         </scene>
         <!--CheckoutVC-->
         <scene sceneID="mob-zj-wza">
@@ -1071,7 +1104,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="345" height="143"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yXK-VE-vws">
-                                                            <rect key="frame" x="232.66666666666663" y="115" width="72" height="20"/>
+                                                            <rect key="frame" x="220.66666666666663" y="115" width="96" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="MZ3-S5-vBs"/>
                                                             </constraints>

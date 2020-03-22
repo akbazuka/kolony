@@ -15,8 +15,6 @@ class OrdersVC: UIViewController/*, OrderCellDelegate */{
     @IBOutlet weak var tableView: UITableView!
     
     var orders = [Order]()
-//    var productInventory = [ProductInventory]()
-//    var products = [Product]()
     var db : Firestore!
     var listener : ListenerRegistration!
     
@@ -100,9 +98,7 @@ class OrdersVC: UIViewController/*, OrderCellDelegate */{
                 return
             }
         }
-        
         let checkoutVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CheckoutVC")
-        
         self.navigationController?.pushViewController(checkoutVC, animated: true)
     }
     
@@ -115,13 +111,10 @@ class OrdersVC: UIViewController/*, OrderCellDelegate */{
                 return
             }
         }
-        
         //If VC does not exist in Navigation stack, psuh to VC
         let accountVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AccountVC")
-        
         self.navigationController?.pushViewController(accountVC, animated: true)
     }
-    
 }
 
 //MARK: TableView
@@ -133,7 +126,6 @@ extension OrdersVC: UITableViewDelegate, UITableViewDataSource {
         orders.insert(order, at: newIndex) //Insert into correct position of products array
         //tableView.insertRows(at: [IndexPath(item: newIndex, section: 0)], with: .automatic) //Insert at bottom of collectionview; Does not work?
         tableView.reloadData()
-
     }
     //When a document is changed in the database
     func onDocumentModified(change: DocumentChange, order: Order){
@@ -164,7 +156,6 @@ extension OrdersVC: UITableViewDelegate, UITableViewDataSource {
         //tableView.deleteRows(at: [IndexPath(item: oldIndex, section: 0)], with: .automatic)
         tableView.reloadData()
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return orders.count

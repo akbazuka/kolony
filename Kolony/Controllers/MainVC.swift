@@ -86,6 +86,7 @@ class MainVC: UIViewController{
     
     func searchControllerConfig() {
         navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         self.searchController.searchResultsUpdater = self
         self.searchController.delegate = self
         self.searchController.searchBar.delegate = self
