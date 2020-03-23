@@ -20,6 +20,7 @@ class AddProductVC: UIViewController{
     @IBOutlet weak var styleTxt: UITextField!
     @IBOutlet weak var colorwayTxt: UITextField!
     @IBOutlet weak var releaseTxt: UITextField!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     //Eventually change to front, back, left side and right side images
     var imagePlaceholders = [UIImage(named: "cameraPic"), UIImage(named: "cameraPic"), UIImage(named: "cameraPic"),  UIImage(named: "cameraPic")]
@@ -108,10 +109,11 @@ class AddProductVC: UIViewController{
     }
     
     @IBAction func addProductOnClick(_ sender: Any) {
+        activityIndicator.startAnimating()
+        
         for i in (0..<3){
             if isPlaceholder[i] == true{
                 allImagesAdded = false
-                return
             } else {
                 allImagesAdded = true
             }
@@ -127,10 +129,10 @@ class AddProductVC: UIViewController{
             guard let imageData4 = images[3]?.jpegData(compressionQuality: 0.2) else {return}
             
             //Create a storage image reference
-            let imageRef = Storage.storage().reference().child("\(productNameTxt.text).jpg")
-            let imageRef2 = Storage.storage().reference().child("\(productNameTxt.text)2.jpg")
-            let imageRef3 = Storage.storage().reference().child("\(productNameTxt.text)3.jpg")
-            let imageRef4 = Storage.storage().reference().child("\(productNameTxt.text)4.jpg")
+            let imageRef = Storage.storage().reference().child("\(productNameTxt.text!).jpg")
+            let imageRef2 = Storage.storage().reference().child("\(productNameTxt.text!)2.jpg")
+            let imageRef3 = Storage.storage().reference().child("\(productNameTxt.text!)3.jpg")
+            let imageRef4 = Storage.storage().reference().child("\(productNameTxt.text!)4.jpg")
             
             //Set metadata
             let metadata = StorageMetadata()
@@ -140,6 +142,7 @@ class AddProductVC: UIViewController{
                 if let error = error{
                     debugPrint(error.localizedDescription)
                     self.alert(title: "Error", message: "Unable to upload image1")
+                    self.activityIndicator.stopAnimating()
                     return
                 }
                 
@@ -148,6 +151,7 @@ class AddProductVC: UIViewController{
                     if let error = error{
                         debugPrint(error.localizedDescription)
                         self.alert(title: "Error", message: "Unable to retrieve url1")
+                        self.activityIndicator.stopAnimating()
                         return
                     }
                     
@@ -157,6 +161,7 @@ class AddProductVC: UIViewController{
                     if let error = error{
                         debugPrint(error.localizedDescription)
                         self.alert(title: "Error", message: "Unable to upload image2")
+                        self.activityIndicator.stopAnimating()
                         return
                     }
                     
@@ -165,6 +170,7 @@ class AddProductVC: UIViewController{
                         if let error = error{
                             debugPrint(error.localizedDescription)
                             self.alert(title: "Error", message: "Unable to retrieve url2")
+                            self.activityIndicator.stopAnimating()
                             return
                         }
                         
@@ -174,6 +180,7 @@ class AddProductVC: UIViewController{
                         if let error = error{
                             debugPrint(error.localizedDescription)
                             self.alert(title: "Error", message: "Unable to upload image3")
+                            self.activityIndicator.stopAnimating()
                             return
                         }
                         
@@ -182,6 +189,7 @@ class AddProductVC: UIViewController{
                             if let error = error{
                                 debugPrint(error.localizedDescription)
                                 self.alert(title: "Error", message: "Unable to retrieve url3")
+                                self.activityIndicator.stopAnimating()
                                 return
                             }
                             
@@ -191,6 +199,7 @@ class AddProductVC: UIViewController{
                             if let error = error{
                                 debugPrint(error.localizedDescription)
                                 self.alert(title: "Error", message: "Unable to upload image4")
+                                self.activityIndicator.stopAnimating()
                                 return
                             }
                             
@@ -199,6 +208,7 @@ class AddProductVC: UIViewController{
                                 if let error = error{
                                     debugPrint(error.localizedDescription)
                                     self.alert(title: "Error", message: "Unable to retrieve url4")
+                                    self.activityIndicator.stopAnimating()
                                     return
                                 }
                                 
@@ -215,10 +225,10 @@ class AddProductVC: UIViewController{
                     }
                 })
                 }
-                
         } else {
+            self.activityIndicator.stopAnimating()
            //Show alert; Pleae fill in all fields
-            alert(title: "Please fill out all fields", message: "Pleas fill out all fields and add all images (swipe through images to see if any are missing).")
+            self.alert(title: "Please fill out all fields", message: "Pleas fill out all fields and add all images (swipe through images to see if any are missing).")
         }
     }
     
@@ -235,13 +245,11 @@ class AddProductVC: UIViewController{
             if let error = error{
                 debugPrint(error.localizedDescription)
                 self.alert(title: "Error", message: "Unable to upload document")
+                self.activityIndicator.stopAnimating()
                 return
             }
+            self.activityIndicator.stopAnimating()
             self.navigationController?.popViewController(animated: true)
-        }
-        
-        func handleError(error: Error, msg: String){
-            
         }
     }
     
