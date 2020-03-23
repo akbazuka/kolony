@@ -17,6 +17,9 @@ class LoginVC: UIViewController {
     @IBOutlet weak var signAsGusetBtn: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    //Keeps track of admin user
+    static var admin = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.isHidden = true
@@ -84,6 +87,11 @@ class LoginVC: UIViewController {
         
         Auth.auth().signIn(withEmail: email, password: password){(user,error) in
             if user != nil {
+                
+                //Check if admin users here
+                if email == "anirapid@gmail.com"{
+                    LoginVC.admin = true
+                }
 
                 self.activityIndicator.stopAnimating()
                 //Set user defaults

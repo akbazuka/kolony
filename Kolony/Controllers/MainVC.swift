@@ -40,9 +40,9 @@ class MainVC: UIViewController{
 
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 24)!] //For changing font of navigation bar title
 
-    var menuOptions = ["Settings", "Rate Us", "My Orders","Logout"]
+    var menuOptions = ["Settings", "Rate Us", "My Orders", "Add Product", "Logout"]
     
-    var menuImages = [UIImage(named: "settingsPerson24pt"), UIImage(named: "ratePic"), UIImage(named: "receiptPic_24pt"), UIImage(named: "exitPic")]
+    var menuImages = [UIImage(named: "settingsPerson24pt"), UIImage(named: "ratePic"), UIImage(named: "receiptPic_24pt"),  UIImage(named: "addPic"), UIImage(named: "exitPic")]
     
     var db : Firestore!
     var products = [Product]()
@@ -107,7 +107,7 @@ class MainVC: UIViewController{
         //self.navigationItem.titleView = searchController.searchBar
     }
     
-    func guestUserSetup() {
+    func guestUserSetup(){
         if Auth.auth().currentUser == nil {
             Auth.auth().signInAnonymously { (result, error) in
                 if let error = error {
@@ -118,11 +118,20 @@ class MainVC: UIViewController{
         }
     }
     
-    func guestExperience() {
+    func guestExperience(){
         if UserService.isGuest == true{
             menuOptions.remove(at: 2) //Remove "My Oders" from menu if user is guest
             menuImages.remove(at: 2)
+            menuOptions.remove(at: 3) //Remove "Add Product" from menu if user is guest
+            menuImages.remove(at: 3)
             menuOptions[2] = "Login"  //Change Logout button to Login if user is guest
+        }
+    }
+    
+    func customerExperience(){
+        if LoginVC.admin == false{
+            menuOptions.remove(at: 3) //Remove "Add Product" from menu if user is guest
+            menuImages.remove(at: 3)
         }
     }
     
@@ -501,6 +510,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.callCount == 1{
             guestExperience()
+            customerExperience()
             self.callCount -= 1
         }
         return menuOptions.count
@@ -534,6 +544,13 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
             
         case "My Orders":
             let ordersVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OrdersVC")
+            self.navigationController?.pushViewController(ordersVC, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+            self.closeMenu()
+            
+        //Admin only
+        case "Add Product":
+            let ordersVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddProductVC")
             self.navigationController?.pushViewController(ordersVC, animated: true)
             tableView.deselectRow(at: indexPath, animated: true)
             self.closeMenu()

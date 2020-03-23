@@ -23,6 +23,7 @@ final class _UserService {
     let db = Firestore.firestore()
     var userListener : ListenerRegistration? = nil
     var ordersListener : ListenerRegistration? = nil
+    var adminAddProductsListener : ListenerRegistration? = nil
     
     var isGuest : Bool {
         
@@ -100,7 +101,7 @@ final class _UserService {
                 print("Stock successfully updated")
             }
         }
-        //Check if stock still exists after user make's purchase and if not, update to soldOut = true
+        //Check if stock still exists after user makes purchase and if not, update to soldOut = true
         updateInventoryRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
@@ -116,11 +117,49 @@ final class _UserService {
                             print("soldOut successfully updated")
                         }
                     }
+                    
+//                    let updateProductRef = Firestore.firestore().collection("products").document(product.id)
+//                        //Check if product inventory still exists after user makes purchase and if not, update to inventoryExists = true
+//                            //Update document's inventoryExists field to false is no more stock left
+//                            if productInvent.soldOut == true{
+//                                updateProductRef.updateData([
+//                                    "inventoryExists": false
+//                                ]) { err in
+//                                    if let err = err {
+//                                        print("Error updating inventoryExists: \(err)")
+//                                    } else {
+//                                        print("inventoryExists successfully updated")
+//                                    }
+//                                }
+//                            }
+                        }
+                    } else {
+                        print("Document does not exist")
+                    }
                 }
-            } else {
-                print("Document does not exist")
             }
-        }
+    
+    func addProduct(name: String, images: String, image2: String, image3: String, image4: String, price: Double, brand: String, colorway: String, retail: Double, style: String, release: Timestamp, timeStamp: Timestamp){
+        
+        let ref = Firestore.firestore().collection("products").document()
+        let docId = ref.documentID
+        
+        ref.setData([
+            "id" : docId,
+            "name" : name,
+            "images" : images,
+            "image2" : image2,
+            "image3": image3,
+            "image4" : image4,
+            "brand" : brand,
+            "price" : price,
+            "retail" : retail,
+            "release" : release,
+            "style" : style,
+            "colorway" : colorway,
+            "inventoryExists" : true,
+            "timeStamp" : FieldValue.serverTimestamp()
+        ])
     }
     
     func logoutUser() {
@@ -129,6 +168,7 @@ final class _UserService {
         user = User()
         orderProductInvent = nil
         orderProduct = nil
+        LoginVC.admin = false
         
         //Reset user defaults
         UserDefaults.standard.set(nil, forKey: "email")
