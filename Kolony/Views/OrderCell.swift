@@ -52,6 +52,5 @@ class OrderCell: UITableViewCell {
         theFormatter.dateStyle = .medium
         let theDate = theFormatter.string(from: order.timeStamp.dateValue())
         orderDate.text = theDate
-    
     }
 }

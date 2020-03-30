@@ -129,7 +129,7 @@ class MainVC: UIViewController{
     }
     
     func customerExperience(){
-        if LoginVC.admin == false{
+        if LoginVC.admin == false && !UserService.isGuest{
             menuOptions.remove(at: 3) //Remove "Add Product" from menu if user is guest
             menuImages.remove(at: 3)
         }
@@ -427,7 +427,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = view.frame.size.height
         let width = view.frame.size.width
-        return CGSize(width: width * 0.45, height: height * 0.35)
+        return CGSize(width: width * 0.449, height: height * 0.35)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

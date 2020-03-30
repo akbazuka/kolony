@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,7 +11,7 @@
         <!--LoginVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="LoginVC" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" interfaceStyle="light" id="BYZ-38-t0r" userLabel="LoginVC" customClass="LoginVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginVC" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" interfaceStyle="light" id="BYZ-38-t0r" userLabel="LoginVC" customClass="LoginVC" customModule="Kolonii" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -122,18 +122,19 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="sAV-PV-fqV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4Rf-8X-evs"/>
-                            <constraint firstItem="sAV-PV-fqV" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="196" id="Ei6-dj-qkf"/>
+                            <constraint firstItem="DRC-mQ-Buy" firstAttribute="top" secondItem="sAV-PV-fqV" secondAttribute="bottom" constant="11" id="7nm-fT-4h9"/>
+                            <constraint firstItem="sAV-PV-fqV" firstAttribute="top" secondItem="NuM-Wx-l4h" secondAttribute="bottom" constant="25.333333333333371" id="7vj-wb-FLJ"/>
+                            <constraint firstItem="NuM-Wx-l4h" firstAttribute="top" secondItem="hod-Mp-uIQ" secondAttribute="bottom" constant="15.666666666666629" id="HOj-cS-lrq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Rdh-Cz-K9n" secondAttribute="bottom" constant="42" id="LJi-V8-DDf"/>
                             <constraint firstItem="KIL-oU-eP1" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="16" id="MEU-fs-tVJ"/>
                             <constraint firstItem="Rdh-Cz-K9n" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="NGJ-XB-N4m"/>
+                            <constraint firstItem="Rdh-Cz-K9n" firstAttribute="top" secondItem="DRC-mQ-Buy" secondAttribute="bottom" constant="21" id="OJf-vf-cgO"/>
                             <constraint firstItem="DRC-mQ-Buy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-1.5" id="Pyr-Y7-xDM"/>
                             <constraint firstItem="NuM-Wx-l4h" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Q3F-PS-xgH"/>
                             <constraint firstItem="hod-Mp-uIQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="70" id="Vzu-yp-20k"/>
-                            <constraint firstItem="NuM-Wx-l4h" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="130" id="WaM-Ya-zhZ"/>
                             <constraint firstItem="l2V-g3-oPW" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-230.5" id="bhT-LK-zNS"/>
                             <constraint firstItem="hod-Mp-uIQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fWp-nt-UR5"/>
                             <constraint firstItem="UCJ-qd-ibY" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-44" id="gmw-Iv-qVm"/>
-                            <constraint firstItem="DRC-mQ-Buy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="251" id="q8i-zB-bES"/>
                             <constraint firstItem="UCJ-qd-ibY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rKm-ne-sGN"/>
                             <constraint firstItem="KIL-oU-eP1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tcX-cr-uCZ"/>
                             <constraint firstItem="l2V-g3-oPW" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xaQ-z4-kK2"/>
@@ -156,7 +157,7 @@
         <!--Sign UpVC-->
         <scene sceneID="fGl-kQ-Nxo">
             <objects>
-                <viewController storyboardIdentifier="SignUpVC" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KtX-wN-mwa" customClass="SignUpVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpVC" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KtX-wN-mwa" customClass="SignUpVC" customModule="Kolonii" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CYM-YG-tis">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -353,7 +354,7 @@
         <!--AddProductVC-->
         <scene sceneID="OM4-Zn-ZgT">
             <objects>
-                <viewController storyboardIdentifier="AddProductVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GLJ-16-I0l" userLabel="AddProductVC" customClass="AddProductVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddProductVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GLJ-16-I0l" userLabel="AddProductVC" customClass="AddProductVC" customModule="Kolonii" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vuc-Cz-Uz3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -592,7 +593,7 @@
         <!--MainVC-->
         <scene sceneID="6Jt-il-CrQ">
             <objects>
-                <viewController storyboardIdentifier="MainVC" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JXj-Jg-4R7" userLabel="MainVC" customClass="MainVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainVC" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JXj-Jg-4R7" userLabel="MainVC" customClass="MainVC" customModule="Kolonii" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YLH-O9-0Td">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -607,14 +608,14 @@
                                     <inset key="sectionInset" minX="15" minY="10" maxX="15" maxY="10"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="ZUO-P8-4EH" customClass="ProductCell" customModule="Kolony" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="ZUO-P8-4EH" customClass="ProductCell" customModule="Kolonii" customModuleProvider="target">
                                         <rect key="frame" x="15" y="10" width="168" height="210"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="xH2-es-oHp">
                                             <rect key="frame" x="0.0" y="0.0" width="168" height="210"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xg3-Oe-xe1" customClass="RoundedShadowView" customModule="Kolony" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xg3-Oe-xe1" customClass="RoundedShadowView" customModule="Kolonii" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="168" height="210"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t6J-YJ-QJJ">
@@ -775,7 +776,7 @@
         <!--Product Details-->
         <scene sceneID="vah-dF-O28">
             <objects>
-                <viewController storyboardIdentifier="ProductVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VDX-kg-mU8" customClass="ProductVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VDX-kg-mU8" customClass="ProductVC" customModule="Kolonii" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oM4-sm-Y2s">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -956,7 +957,7 @@
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="SizeCell" reuseIdentifier="SizeCell" id="pJC-Bs-piG" customClass="SizeCell" customModule="Kolony" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="SizeCell" reuseIdentifier="SizeCell" id="pJC-Bs-piG" customClass="SizeCell" customModule="Kolonii" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="kXT-yv-H63">
@@ -1107,13 +1108,13 @@
         <!--CheckoutVC-->
         <scene sceneID="mob-zj-wza">
             <objects>
-                <viewController storyboardIdentifier="CheckoutVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GXr-IU-euD" userLabel="CheckoutVC" customClass="CheckoutVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CheckoutVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GXr-IU-euD" userLabel="CheckoutVC" customClass="CheckoutVC" customModule="Kolonii" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ME5-r2-4ny">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o3G-w3-dbK" customClass="RoundedButton" customModule="Kolony" customModuleProvider="target">
-                                <rect key="frame" x="20" y="669" width="335" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o3G-w3-dbK" customClass="RoundedButton" customModule="Kolonii" customModuleProvider="target">
+                                <rect key="frame" x="20" y="532" width="335" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Z4S-RX-XaV"/>
                                 </constraints>
@@ -1126,25 +1127,25 @@
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="vNP-I7-v5a">
-                                <rect key="frame" x="169" y="626" width="37" height="37"/>
+                                <rect key="frame" x="169" y="489" width="37" height="37"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="153" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nYA-PO-ZUO">
-                                <rect key="frame" x="15" y="54" width="345" height="366.66666666666669"/>
+                                <rect key="frame" x="15" y="10" width="345" height="273.66666666666669"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CartCell" rowHeight="153" id="4f1-OF-VKE" customClass="CartCell" customModule="Kolony" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CartCell" rowHeight="153" id="4f1-OF-VKE" customClass="CartCell" customModule="Kolonii" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="345" height="153"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4f1-OF-VKE" id="CZ0-fF-wfH">
                                             <rect key="frame" x="0.0" y="0.0" width="345" height="153"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PCU-1u-VJl" customClass="RoundedShadowCartView" customModule="Kolony" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PCU-1u-VJl" customClass="RoundedShadowCartView" customModule="Kolonii" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="345" height="143"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yXK-VE-vws">
-                                                            <rect key="frame" x="220.66666666666663" y="115" width="96" height="20"/>
+                                                            <rect key="frame" x="232.66666666666663" y="115" width="72" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="MZ3-S5-vBs"/>
                                                             </constraints>
@@ -1231,7 +1232,7 @@
                                 </prototypes>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hV4-6A-bC1">
-                                <rect key="frame" x="15" y="421.66666666666669" width="335" height="232.33333333333331"/>
+                                <rect key="frame" x="15" y="284.66666666666669" width="335" height="232.33333333333331"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nJT-I2-wNp">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="1"/>
@@ -1283,14 +1284,14 @@
                                         </subviews>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4N1-6X-pJz">
-                                        <rect key="frame" x="0.0" y="96.999999999999943" width="335" height="1"/>
+                                        <rect key="frame" x="0.0" y="97" width="335" height="1"/>
                                         <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="47B-WP-ln4"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="179" translatesAutoresizingMaskIntoConstraints="NO" id="XOj-Hj-Yk0">
-                                        <rect key="frame" x="0.0" y="105.99999999999994" width="335" height="23.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="106" width="335" height="23.333333333333343"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtotal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OS2-nF-RvN">
                                                 <rect key="frame" x="0.0" y="0.0" width="65" height="23.333333333333332"/>
@@ -1435,7 +1436,7 @@
         <!--AccountVC-->
         <scene sceneID="phM-Fv-JdV">
             <objects>
-                <viewController storyboardIdentifier="AccountVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vho-VM-GWe" customClass="AccountVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AccountVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vho-VM-GWe" customClass="AccountVC" customModule="Kolonii" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lAr-xa-yE7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1474,7 +1475,7 @@
         <!--OrdersVC-->
         <scene sceneID="CMv-wf-YJh">
             <objects>
-                <viewController storyboardIdentifier="OrdersVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lEq-Id-LfM" userLabel="OrdersVC" customClass="OrdersVC" customModule="Kolony" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrdersVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lEq-Id-LfM" userLabel="OrdersVC" customClass="OrdersVC" customModule="Kolonii" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BQC-eY-SZB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1483,14 +1484,14 @@
                                 <rect key="frame" x="15" y="54" width="345" height="665"/>
                                 <color key="backgroundColor" red="0.96471887830000003" green="0.96468263860000003" blue="0.96470719579999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="OrderCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="OrderCell" rowHeight="153" id="iGo-4l-0OF" customClass="OrderCell" customModule="Kolony" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="OrderCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="OrderCell" rowHeight="153" id="iGo-4l-0OF" customClass="OrderCell" customModule="Kolonii" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="345" height="153"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iGo-4l-0OF" id="uE1-0y-RLD">
                                             <rect key="frame" x="0.0" y="0.0" width="345" height="153"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iLS-QK-b5n" customClass="RoundedShadowCartView" customModule="Kolony" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iLS-QK-b5n" customClass="RoundedShadowCartView" customModule="Kolonii" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="345" height="143"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hZ-ib-bZH">
@@ -1652,19 +1653,19 @@
             <point key="canvasLocation" x="1528" y="-260"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="fM6-WC-EoV"/>
+        <segue reference="sbP-hK-w5H"/>
+        <segue reference="cF6-Wh-WYM"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="cameraPic" width="48" height="48"/>
         <image name="cartPic" width="24" height="24"/>
         <image name="cartPic1" width="36" height="36"/>
-        <image name="chevron.left" catalog="system" width="48" height="64"/>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="deletePic" width="24" height="24"/>
         <image name="homePic" width="36" height="36"/>
         <image name="menuVert" width="36" height="36"/>
         <image name="personPic" width="36" height="36"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="MyG-0K-VUg"/>
-        <segue reference="Eca-M0-IVE"/>
-        <segue reference="cF6-Wh-WYM"/>
-    </inferredMetricsTieBreakers>
 </document>
