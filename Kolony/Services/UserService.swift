@@ -73,21 +73,47 @@ final class _UserService {
         }
     }
     
-    //Add order to subcollection of user when item sold
+    //Add order to database when item sold
     func sendOrders(productInvent: ProductInventory, product: Product) {
-        let ref = Firestore.firestore().collection("orders").document()
-        let docId = ref.documentID
-        
-        ref.setData([
-            "id" : docId,
-            "user" : user.id,
-            "productImages" : product.images,
-            "productName" : product.name,
-            "productPrice": product.price,
-            "productSize" : productInvent.size,
-            "productInventoryId" : productInvent.id,
-            "timeStamp" : FieldValue.serverTimestamp()
-        ])
+
+        let inventoryRef = Firestore.firestore().collection("inventory").whereField("product", isEqualTo: product.id).whereField("sold", isEqualTo: false).order(by: "timeStamp", descending: false).limit(to: 1) // Only pull the earliest doucment in the collectoin (by timestamp)
+        inventoryRef.getDocuments { (querySnapshot1, error) in
+            if let error = error {
+                print("Error getting inventory: \(error)")
+            } else {
+                let inventory = querySnapshot1!.documents[0]
+                let inventoryId = inventory.get("id")
+                let inventoryIdRef = Firestore.firestore().collection("inventory").document(inventoryId as! String)
+                inventoryIdRef.getDocument { (doc, er) in
+                    //Update inventory's sold field to true
+                    inventoryIdRef.updateData([
+                        "sold": true
+                    ]) { er in
+                        if let er = er {
+                            print("Error updating sold: \(er)")
+                        } else {
+                            print("sold successfully updated")
+                        }
+                    }
+                }
+                
+                //Send order ot database
+                let ref = Firestore.firestore().collection("orders").document()
+                let docId = ref.documentID
+                
+                ref.setData([
+                    "id" : docId,
+                    "user" : self.user.id,
+                    "productImages" : product.images,
+                    "productName" : product.name,
+                    "productPrice": product.price,
+                    "productSize" : productInvent.size,
+                    "inventoryId" : inventoryId,
+                    "productInventoryId" : productInvent.id,
+                    "timeStamp" : FieldValue.serverTimestamp()
+                ])
+            }
+        }
         
         //Reduce stock when user makes purchase
         let updateInventoryRef = Firestore.firestore().collection("productInventory").document(productInvent.id)
@@ -123,37 +149,37 @@ final class _UserService {
                     
                     Firestore.firestore().collection("productInventory").whereField("product", isEqualTo: product.id).whereField("soldOut", isEqualTo: "false")
                         .getDocuments() { (querySnapshot, err) in
-                            if let err = err {
-                                print("Error getting documents: \(err)")
-                            } else {
-                                for document in querySnapshot!.documents {
-                                    print("\(document.documentID) => \(document.data())")
-                                    noOfResults += 1
-                                }
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                                noOfResults += 1
                             }
+                        }
                     }
                     
                     let updateProductRef = Firestore.firestore().collection("products").document(product.id)
-                        //Check if product inventory still exists after user makes purchase and if not, update to inventoryExists = true
-                            //Update document's inventoryExists field to false is no more stock left
-                    
-                            if noOfResults == 0{
-                                updateProductRef.updateData([
-                                    "inventoryExists": false
-                                ]) { err in
-                                    if let err = err {
-                                        print("Error updating inventoryExists: \(err)")
-                                    } else {
-                                        print("inventoryExists successfully updated")
-                                    }
-                                }
+                    //Check if product inventory still exists after user makes purchase and if not, update to inventoryExists = true
+                    //Update document's inventoryExists field to false is no more stock left
+            
+                    if noOfResults == 0{
+                        updateProductRef.updateData([
+                            "inventoryExists": false
+                        ]) { err in
+                            if let err = err {
+                                print("Error updating inventoryExists: \(err)")
+                            } else {
+                                print("inventoryExists successfully updated")
                             }
                         }
-                    } else {
-                        print("Document does not exist")
                     }
                 }
+            } else {
+                print("Document does not exist")
             }
+        }
+    }
     
     func logoutUser() {
         userListener?.remove()

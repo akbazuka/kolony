@@ -16,7 +16,7 @@ class ProductVC: UIViewController {
     @IBOutlet weak var productImages: UIImageView!
     @IBOutlet weak var productName: UILabel!
     @IBOutlet weak var addToCartBtn: UIButton!
-    @IBOutlet weak var tryBtn: UIButton!
+    @IBOutlet weak var addSizeBtn: UIButton!
     @IBOutlet weak var sizeBtn: UIButton!
     @IBOutlet weak var brandLabel: UILabel!
     @IBOutlet weak var styleLabel: UILabel!
@@ -25,6 +25,7 @@ class ProductVC: UIViewController {
     @IBOutlet weak var retailLabel: UILabel!
     @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!    //That displays sizes
+    @IBOutlet weak var addSizeText: UITextField!
     
     let attributes = [NSAttributedString.Key.font: UIFont(name: "Avenir-Book", size: 10)!] //For changing font of navigation bar title
     
@@ -52,6 +53,8 @@ class ProductVC: UIViewController {
         //To swipe images
         downloadImages()
         setUpGestures()
+        //To allow admin to add sizes
+        adminExperience()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -84,6 +87,16 @@ class ProductVC: UIViewController {
         swipeLeft.cancelsTouchesInView = false
         swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
         productImages.addGestureRecognizer(swipeLeft)
+    }
+    
+    func adminExperience(){
+        if LoginVC.admin == true{
+            addSizeText.isHidden = false
+            addSizeBtn.isHidden = false
+        } else {
+            addSizeText.isHidden = true
+            addSizeBtn.isHidden = true
+        }
     }
     
     func downloadImages(){
@@ -186,9 +199,9 @@ class ProductVC: UIViewController {
         
         //Customize Try Before Buy Button
         //tryBtn.backgroundColor = .black
-        tryBtn.layer.cornerRadius = 5
-        tryBtn.layer.borderWidth = 1
-        tryBtn.layer.borderColor = UIColor.white.cgColor
+        addSizeBtn.layer.cornerRadius = 5
+        addSizeBtn.layer.borderWidth = 1
+        addSizeBtn.layer.borderColor = UIColor.white.cgColor
 
         //Customize Size Button
         sizeBtn.isEnabled = false
@@ -264,6 +277,34 @@ class ProductVC: UIViewController {
         })
     }
 
+
+    /*
+    When Admin add's size from ProductVC
+    */
+    func addInventory(){
+        var docRef: DocumentReference!
+        
+        /*
+         Add text field in VC to specify who the  supplier is, if and when that finctionality is required; otherwise leave as "Kolonii"
+         */
+        print("This is the size: \(addSizeText.text!)")
+        var inventory = Inventory.init(id: "", product: ProductVC.product.id, size: Double(addSizeText.text!)!, sold: false, supplier: "Kolonii", timeStamp: Timestamp())
+        
+        docRef = Firestore.firestore().collection("inventory").document()
+        //Set inventory id to newly generated dicumented id
+        inventory.id = docRef.documentID
+        
+        let data = Inventory.modelToData(inventory: inventory)
+        docRef.setData(data, merge: true) { (error) in
+            if let error = error{
+                debugPrint(error.localizedDescription)
+                self.alert(title: "Error", message: "Unable to upload inventory")
+                return
+            }
+            self.alert(title: "Success", message: "Size for product added successfuly.")
+        }
+    }
+
     @IBAction func addToCartOnClick(_ sender: Any) {
         
         //Only allows to add to cart if user is logged in with a valid account and not as guest user and size is picked
@@ -287,8 +328,17 @@ class ProductVC: UIViewController {
         }
     }
     
-    @IBAction func tryOnClicked(_ sender: Any) {
-        //
+    @IBAction func AddSizeBtnClicked(_ sender: Any) {
+        if addSizeText.text == nil {
+            //If size input is empty, show alert
+            self.alert(title: "Size field empty", message: "Please enter the size you wish to add.")
+        } else if let size = Double(addSizeText.text!){
+            //If valid number entered, add new size for current productto database
+            addInventory()
+        } else {
+            //If input was not a valid number, show alert
+            self.alert(title: "Size entered was not a number", message: "Please enter a valid number for the size.")
+        }
     }
     
     //Alert Popup

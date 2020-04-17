@@ -16,6 +16,7 @@ struct Order {
     var productImages: String
     var productName: String
     var productSize: Double
+    var inventoryId: String
     var productInventoryId: String
     var productPrice: Double
     var timeStamp: Timestamp
@@ -35,6 +36,7 @@ struct Order {
         self.productImages = data["productImages"] as? String ?? ""
         self.productName = data["productName"] as? String ?? ""
         self.productSize = data["productSize"] as? Double ?? 0.0
+        self.inventoryId = data["inventoryId"] as? String ?? ""
         self.productInventoryId = data["productInventoryId"] as? String ?? ""
         self.productPrice = data["productPrice"] as? Double ?? 0.0
         self.timeStamp = data["timeStamp"] as? Timestamp ?? Timestamp()

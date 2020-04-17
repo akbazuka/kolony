@@ -11,6 +11,7 @@
 		7E00324224185B1700094264 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E00324124185B1700094264 /* User.swift */; };
 		7E00324424185C3000094264 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E00324324185C3000094264 /* UserService.swift */; };
 		7E00324B2418BA4B00094264 /* FirebaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E00324A2418BA4B00094264 /* FirebaseUtils.swift */; };
+		7E07A164244987F6000E0C9C /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E07A163244987F6000E0C9C /* Inventory.swift */; };
 		7E0AD94323E2C91900244520 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0AD94223E2C91900244520 /* ProductCell.swift */; };
 		7E0F1A27240E080D0092F6D5 /* CartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0F1A26240E080D0092F6D5 /* CartCell.swift */; };
 		7E1FC42F241A46FA005F2C76 /* RoundedUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1FC42E241A46FA005F2C76 /* RoundedUIView.swift */; };
@@ -20,6 +21,7 @@
 		7E3E02392420DF5600D6E75A /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E02382420DF5600D6E75A /* SettingsCell.swift */; };
 		7E3E023B2420DF8E00D6E75A /* UserInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E023A2420DF8E00D6E75A /* UserInfoHeader.swift */; };
 		7E3E023D2420E42F00D6E75A /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3E023C2420E42F00D6E75A /* SettingsSection.swift */; };
+		7E4CAFDD2428451900E1E074 /* AddProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E4CAFDC2428451900E1E074 /* AddProductVC.swift */; };
 		7E5AA298240B978A00F07843 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5AA297240B978A00F07843 /* PickerView.swift */; };
 		7E817852241F152500333322 /* OrdersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E817851241F152500333322 /* OrdersVC.swift */; };
 		7E817856241F407F00333322 /* AccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E817855241F407F00333322 /* AccountVC.swift */; };
@@ -30,6 +32,7 @@
 		7EB48AE423E67311003C6530 /* ProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB48AE323E67311003C6530 /* ProductVC.swift */; };
 		7ECEC59B241FD13C00F764D8 /* OrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECEC59A241FD13C00F764D8 /* OrderCell.swift */; };
 		7ED747E9240FCFC100FBA3BC /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED747E8240FCFC100FBA3BC /* SignUpVC.swift */; };
+		7EE4588324272B2E00C41F6E /* SizeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE4588224272B2E00C41F6E /* SizeCell.swift */; };
 		7EE6116023D6ED2500DBA511 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE6115F23D6ED2500DBA511 /* AppDelegate.swift */; };
 		7EE6116223D6ED2500DBA511 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE6116123D6ED2500DBA511 /* SceneDelegate.swift */; };
 		7EE6116423D6ED2500DBA511 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE6116323D6ED2500DBA511 /* LoginVC.swift */; };
@@ -46,6 +49,7 @@
 		7E00324124185B1700094264 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7E00324324185C3000094264 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		7E00324A2418BA4B00094264 /* FirebaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtils.swift; sourceTree = "<group>"; };
+		7E07A163244987F6000E0C9C /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 		7E0AD94223E2C91900244520 /* ProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		7E0F1A26240E080D0092F6D5 /* CartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCell.swift; sourceTree = "<group>"; };
 		7E1FC42E241A46FA005F2C76 /* RoundedUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedUIView.swift; sourceTree = "<group>"; };
@@ -54,6 +58,7 @@
 		7E3E02382420DF5600D6E75A /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		7E3E023A2420DF8E00D6E75A /* UserInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoHeader.swift; sourceTree = "<group>"; };
 		7E3E023C2420E42F00D6E75A /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
+		7E4CAFDC2428451900E1E074 /* AddProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductVC.swift; sourceTree = "<group>"; };
 		7E5AA297240B978A00F07843 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		7E817851241F152500333322 /* OrdersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersVC.swift; sourceTree = "<group>"; };
 		7E817855241F407F00333322 /* AccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVC.swift; sourceTree = "<group>"; };
@@ -64,7 +69,8 @@
 		7EB48AE323E67311003C6530 /* ProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductVC.swift; sourceTree = "<group>"; };
 		7ECEC59A241FD13C00F764D8 /* OrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCell.swift; sourceTree = "<group>"; };
 		7ED747E8240FCFC100FBA3BC /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
-		7EE6115C23D6ED2500DBA511 /* Kolony.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kolony.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EE4588224272B2E00C41F6E /* SizeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeCell.swift; sourceTree = "<group>"; };
+		7EE6115C23D6ED2500DBA511 /* Kolonii.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kolonii.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EE6115F23D6ED2500DBA511 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7EE6116123D6ED2500DBA511 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		7EE6116323D6ED2500DBA511 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -115,6 +121,7 @@
 				7E91604924190E15006E9076 /* ProductInventory.swift */,
 				7E3E023624205D2B00D6E75A /* Order.swift */,
 				7E3E023C2420E42F00D6E75A /* SettingsSection.swift */,
+				7E07A163244987F6000E0C9C /* Inventory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -122,6 +129,7 @@
 		7E0032462418646800094264 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7E4CAFDB2428450400E1E074 /* Admin */,
 				7EE6116123D6ED2500DBA511 /* SceneDelegate.swift */,
 				7EE6115F23D6ED2500DBA511 /* AppDelegate.swift */,
 				7EE6116323D6ED2500DBA511 /* LoginVC.swift */,
@@ -153,6 +161,7 @@
 				7ECEC59A241FD13C00F764D8 /* OrderCell.swift */,
 				7E3E02382420DF5600D6E75A /* SettingsCell.swift */,
 				7E3E023A2420DF8E00D6E75A /* UserInfoHeader.swift */,
+				7EE4588224272B2E00C41F6E /* SizeCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -164,6 +173,14 @@
 				7EF6A667241C67CB0072492B /* Extensions.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		7E4CAFDB2428450400E1E074 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				7E4CAFDC2428451900E1E074 /* AddProductVC.swift */,
+			);
+			path = Admin;
 			sourceTree = "<group>";
 		};
 		7E899645241BBCFB00BC7AD1 /* Stripe */ = {
@@ -188,7 +205,7 @@
 		7EE6115D23D6ED2500DBA511 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7EE6115C23D6ED2500DBA511 /* Kolony.app */,
+				7EE6115C23D6ED2500DBA511 /* Kolonii.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -222,7 +239,7 @@
 				7EE6115823D6ED2500DBA511 /* Sources */,
 				7EE6115923D6ED2500DBA511 /* Frameworks */,
 				7EE6115A23D6ED2500DBA511 /* Resources */,
-				E9F823C6F375E6731F8B1451 /* [CP] Embed Pods Frameworks */,
+				A58785A7F6251BAF8213F1C3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -230,7 +247,7 @@
 			);
 			name = Kolony;
 			productName = "Book Buddy";
-			productReference = 7EE6115C23D6ED2500DBA511 /* Kolony.app */;
+			productReference = 7EE6115C23D6ED2500DBA511 /* Kolonii.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -303,7 +320,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E9F823C6F375E6731F8B1451 /* [CP] Embed Pods Frameworks */ = {
+		A58785A7F6251BAF8213F1C3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -334,6 +351,7 @@
 				7E00324424185C3000094264 /* UserService.swift in Sources */,
 				7EE6116423D6ED2500DBA511 /* LoginVC.swift in Sources */,
 				7E00324B2418BA4B00094264 /* FirebaseUtils.swift in Sources */,
+				7EE4588324272B2E00C41F6E /* SizeCell.swift in Sources */,
 				7EE6116023D6ED2500DBA511 /* AppDelegate.swift in Sources */,
 				7EF6A66C241C8D260072492B /* StripeApi.swift in Sources */,
 				7EF6A668241C67CB0072492B /* Extensions.swift in Sources */,
@@ -344,8 +362,10 @@
 				7E3E023D2420E42F00D6E75A /* SettingsSection.swift in Sources */,
 				7E3E02392420DF5600D6E75A /* SettingsCell.swift in Sources */,
 				7E5AA298240B978A00F07843 /* PickerView.swift in Sources */,
+				7E07A164244987F6000E0C9C /* Inventory.swift in Sources */,
 				7E0032402418354F00094264 /* Product.swift in Sources */,
 				7E0AD94323E2C91900244520 /* ProductCell.swift in Sources */,
+				7E4CAFDD2428451900E1E074 /* AddProductVC.swift in Sources */,
 				7E899644241BB6CE00BC7AD1 /* CheckoutVC.swift in Sources */,
 				7E3E023B2420DF8E00D6E75A /* UserInfoHeader.swift in Sources */,
 				7E817856241F407F00333322 /* AccountVC.swift in Sources */,
@@ -497,17 +517,21 @@
 			baseConfigurationReference = E433BB030FFD498D9C1F2744 /* Pods-Kolony.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = TT58DZNPCL;
 				INFOPLIST_FILE = Kolony/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kedlaya.Kolony;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Kolonii;
+				PROVISIONING_PROFILE_SPECIFIER = KolonyAppStore;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -516,17 +540,21 @@
 			baseConfigurationReference = 887AEA2F68718EBB2C6D7836 /* Pods-Kolony.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = TT58DZNPCL;
 				INFOPLIST_FILE = Kolony/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kedlaya.Kolony;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Kolonii;
+				PROVISIONING_PROFILE_SPECIFIER = KolonyAppStore;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

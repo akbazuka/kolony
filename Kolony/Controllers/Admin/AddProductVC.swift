@@ -215,7 +215,7 @@ class AddProductVC: UIViewController{
                                 guard let url4 = url4 else {return}
                                 
                                 //Upload product to Firestore database
-                                self.uploadDocument(url: url.absoluteString, url2: url2.absoluteString, url3: url3.absoluteString, url4: url4.absoluteString)
+                                self.addProduct(url: url.absoluteString, url2: url2.absoluteString, url3: url3.absoluteString, url4: url4.absoluteString)
                                 
                             })
                             }
@@ -232,7 +232,7 @@ class AddProductVC: UIViewController{
         }
     }
     
-    func uploadDocument(url: String, url2: String, url3: String, url4: String){
+    func addProduct(url: String, url2: String, url3: String, url4: String){
         var docRef: DocumentReference!
         
         var product = Product.init(id: "", name: productNameTxt.text!, images: url, image2: url2, image3: url3, image4: url4, price: Double(productPriceTxt.text!)!, brand: productBrandTxt.text!, colorway: colorwayTxt.text!, retail: Double(retailPriceTxt.text!)!, style: styleTxt.text!, release: Timestamp(date: selectedDate), timeStamp: Timestamp())

@@ -2,7 +2,7 @@ platform :ios, '11.0'
 
 target 'Kolony' do
   	use_frameworks!
-
+	
 	pod 'Firebase/Auth' 			#Firebase Authentication
 	pod 'Firebase/Analytics'		#Firebase Analytics
 	pod 'Firebase/Firestore'		#Firebase Firestore Serverless Data Storage
@@ -10,6 +10,6 @@ target 'Kolony' do
 	pod 'Kingfisher'				#Kingfisher pod to pull picture from URL
 	pod 'IQKeyboardManagerSwift'	#Smart Keyboard
   pod 'Firebase/Functions'    #Firebase Functions
-	#pod 'Alamofire' 				#Alamofire Backend Communication
+  pod 'Firebase/Storage'    #Firebase Storage
 
 end

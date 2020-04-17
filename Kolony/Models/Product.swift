@@ -82,7 +82,6 @@ struct Product {
             "inventoryExists" : true,
             "timeStamp" : product.timeStamp
         ]
-        
         return data
     }
 }

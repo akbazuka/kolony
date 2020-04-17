@@ -18,6 +18,8 @@ class OrdersVC: UIViewController/*, OrderCellDelegate */{
     var db : Firestore!
     var listener : ListenerRegistration!
     
+    var barButtonClicked: Bool!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()  //Initialize the database
@@ -27,6 +29,7 @@ class OrdersVC: UIViewController/*, OrderCellDelegate */{
     override func viewDidAppear(_ animated: Bool) {
         //Pulls data from database
         setOrdersListener()
+        barButtonClicked = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -34,7 +37,7 @@ class OrdersVC: UIViewController/*, OrderCellDelegate */{
         listener.remove()       //Removes listeners to save data in Firestore; stops real time updates
         tableView.reloadData()
         
-        if self.isMovingFromParent{
+        if self.isMovingFromParent && barButtonClicked == false{
             let viewControllers: [UIViewController] = self.navigationController!.viewControllers
             for vc in viewControllers {
                 if vc is MainVC {
@@ -89,6 +92,7 @@ class OrdersVC: UIViewController/*, OrderCellDelegate */{
                 self.navigationController!.popToViewController(vc, animated: true)
             }
         }
+        barButtonClicked = true
     }
     
     @IBAction func cartBtnOnClick(_ sender: Any) {
@@ -101,6 +105,7 @@ class OrdersVC: UIViewController/*, OrderCellDelegate */{
         }
         let checkoutVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CheckoutVC")
         self.navigationController?.pushViewController(checkoutVC, animated: true)
+        barButtonClicked = true
     }
     
     @IBAction func accBtnOnClick(_ sender: Any) {
@@ -115,6 +120,7 @@ class OrdersVC: UIViewController/*, OrderCellDelegate */{
         //If VC does not exist in Navigation stack, psuh to VC
         let accountVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AccountVC")
         self.navigationController?.pushViewController(accountVC, animated: true)
+        barButtonClicked = true
     }
 }
 

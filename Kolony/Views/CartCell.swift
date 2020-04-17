@@ -5,6 +5,9 @@
 //  Created by Kedlaya on 3/2/20.
 //  Copyright © 2020 Kedlaya. All rights reserved.
 //
+/*
+ Custom UITableVIew Cell Class
+ */
 
 import UIKit
 
