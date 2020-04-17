@@ -287,7 +287,6 @@ class ProductVC: UIViewController {
         /*
          Add text field in VC to specify who the  supplier is, if and when that finctionality is required; otherwise leave as "Kolonii"
          */
-        print("This is the size: \(addSizeText.text!)")
         var inventory = Inventory.init(id: "", product: ProductVC.product.id, size: Double(addSizeText.text!)!, sold: false, supplier: "Kolonii", timeStamp: Timestamp())
         
         docRef = Firestore.firestore().collection("inventory").document()
@@ -300,8 +299,63 @@ class ProductVC: UIViewController {
                 debugPrint(error.localizedDescription)
                 self.alert(title: "Error", message: "Unable to upload inventory")
                 return
+            } else {
+                self.alert(title: "Success", message: "Size for product added successfuly.")
+                
+                /*
+                 Update productInventory to reflect adding inventory
+                 */
+                var noOfResults = 0                                 //Keep track of if any results are produced from the query
+                let updateProdInventRef = Firestore.firestore().collection("productInventory").whereField("product", isEqualTo: ProductVC.product.id).whereField("size", isEqualTo: Double(self.addSizeText.text!)!)
+                updateProdInventRef.getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        //Keep track if there are any documents
+                        for document1 in querySnapshot!.documents {
+                            noOfResults += 1
+                        }
+                        
+                        if (noOfResults > 0){
+                            //Get id of productInventory doc if it exists
+                            let updateProductInventDoc = Firestore.firestore().collection("productInventory").document(querySnapshot!.documents[0].get("id") as! String)
+                            //Update stock of the product
+                            updateProductInventDoc.updateData([
+                                "stock": FieldValue.increment(1.00)
+                            ]) { err in
+                                if let err = err {
+                                    print("Error updating stock: \(err)")
+                                } else {
+                                    print("Stock successfully updated")
+                                }
+                            }
+                        } else {
+                            print("Shoe size does not exist")
+                            /*
+                             Add new productInvent with regarding product and size
+                             */
+                            var newProdInvent = ProductInventory.init(id: "", product: ProductVC.product.id, size: Double(self.addSizeText.text!)!, soldOut: false, stock: 1)
+                            
+                            var docRef1: DocumentReference!
+                            
+                            docRef1 = Firestore.firestore().collection("productInventory").document()
+                            //Set inventory id to newly generated dicumented id
+                            newProdInvent.id = docRef1.documentID
+                            
+                            let data1 = ProductInventory.modelToData(prodInvent: newProdInvent)
+                            docRef1.setData(data1, merge: true) { (error1) in
+                                if let error1 = error1{
+                                    debugPrint(error1.localizedDescription)
+                                    self.alert(title: "Error", message: "Unable to upload new productInventory")
+                                    return
+                                } else {
+                                    self.alert(title: "Success", message: "New productInventory added successfuly.")
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            self.alert(title: "Success", message: "Size for product added successfuly.")
         }
     }
 

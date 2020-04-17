@@ -39,6 +39,17 @@ struct ProductInventory {
         self.soldOut = data["soldOut"] as? Bool ?? false
         self.stock = data["stock"] as? Int ?? 0
     }
+    
+    static func modelToData(prodInvent: ProductInventory) -> [String: Any]{
+        let data: [String:Any] = [
+            "id" : prodInvent.id,
+            "product" : prodInvent.product,
+            "size" : prodInvent.size,
+            "soldOut" : prodInvent.soldOut,
+            "stock": prodInvent.stock,
+        ]
+        return data
+    }
 }
 
 //For running firstIndex(of:) method in Stripe Cart file to remove items
