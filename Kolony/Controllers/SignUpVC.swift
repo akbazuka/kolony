@@ -148,17 +148,6 @@ class SignUpVC: UIViewController {
             self.activityIndicator.stopAnimating()
         }
     }
-    
-    //Alert Popup
-    func alert(title: String, message: String) {
-        
-        //Error Title
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        //Action Title
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        //Present to Screen
-        present(alert,animated: true,completion: nil)
-    }
 }
 
 

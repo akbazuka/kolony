@@ -76,7 +76,7 @@ final class _UserService {
     //Add order to database when item sold
     func sendOrders(productInvent: ProductInventory, product: Product) {
 
-        let inventoryRef = Firestore.firestore().collection("inventory").whereField("product", isEqualTo: product.id).whereField("sold", isEqualTo: false).order(by: "timeStamp", descending: false).limit(to: 1) // Only pull the earliest doucment in the collectoin (by timestamp)
+        let inventoryRef = Firestore.firestore().collection("inventory").whereField("product", isEqualTo: product.id).whereField("sold", isEqualTo: false).order(by: "timeStamp", descending: false).limit(to: 1) // Only pull the earliest doucment in the collection (by timestamp)
         inventoryRef.getDocuments { (querySnapshot1, error) in
             if let error = error {
                 print("Error getting inventory: \(error)")
@@ -132,6 +132,7 @@ final class _UserService {
             if let document = document, document.exists {
                 let data = document.data()
                 let productInvent1 = ProductInventory.init(data: data!)
+                
                 //Update document's soldOut field to true is no more stock left
                 if productInvent1.stock == 0{
                     updateInventoryRef.updateData([
@@ -147,30 +148,31 @@ final class _UserService {
                     //Keep track of whether inventory exists (other sizes for same shoe) for the product or not after user buys and size gets sold out
                     var noOfResults = 0
                     
-                    Firestore.firestore().collection("productInventory").whereField("product", isEqualTo: product.id).whereField("soldOut", isEqualTo: "false")
+                    Firestore.firestore().collection("productInventory").whereField("product", isEqualTo: product.id).whereField("soldOut", isEqualTo: false)
                         .getDocuments() { (querySnapshot, err) in
                         if let err = err {
                             print("Error getting documents: \(err)")
                         } else {
+                            print("This is the product ID: \(product.id)")
                             for document in querySnapshot!.documents {
                                 //print("\(document.documentID) => \(document.data())")
                                 noOfResults += 1
                             }
-                        }
-                    }
-                    
-                    let updateProductRef = Firestore.firestore().collection("products").document(product.id)
-                    //Check if product inventory still exists after user makes purchase and if not, update to inventoryExists = true
-                    //Update document's inventoryExists field to false is no more stock left
-            
-                    if noOfResults == 0{
-                        updateProductRef.updateData([
-                            "inventoryExists": false
-                        ]) { err in
-                            if let err = err {
-                                print("Error updating inventoryExists: \(err)")
-                            } else {
-                                print("inventoryExists successfully updated")
+                            
+                            let updateProductRef = Firestore.firestore().collection("products").document(product.id)
+                            //Check if product inventory still exists after user makes purchase and if not, update to inventoryExists = true
+                            //Update document's inventoryExists field to false is no more stock left
+
+                            if noOfResults == 0{
+                                updateProductRef.updateData([
+                                    "inventoryExists": false
+                                ]) { err in
+                                    if let err = err {
+                                        print("Error updating inventoryExists: \(err)")
+                                    } else {
+                                        print("inventoryExists successfully updated")
+                                    }
+                                }
                             }
                         }
                     }

@@ -224,7 +224,7 @@ class AddProductVC: UIViewController{
                     })
                     }
                 })
-                }
+            }
         } else {
             self.activityIndicator.stopAnimating()
            //Show alert; Pleae fill in all fields
@@ -252,20 +252,9 @@ class AddProductVC: UIViewController{
             self.navigationController?.popViewController(animated: true)
         }
     }
-    
-    //Alert Popup
-    func alert(title: String, message: String) {
-        
-        //Error Title
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        //Action Title
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        //Present to Screen
-        present(alert,animated: true, completion: nil)
-    }
 }
 
-extension  AddProductVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate/*Used internally by the SDK for ImagePicker*/{
+extension AddProductVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate/*Used internally by the SDK for ImagePicker*/{
     
     func launchImagePicker(){
         let imagePicker = UIImagePickerController()

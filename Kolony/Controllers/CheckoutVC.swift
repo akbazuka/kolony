@@ -146,17 +146,6 @@ class CheckoutVC: UIViewController, CartCellDelegate {
         paymentContext.paymentAmount = StripeCart.total
     }
     
-    //Alert Popup
-    func alert(title: String, message: String) {
-        
-        //Error Title
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        //Action Title
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        //Present to Screen
-        present(alert,animated: true,completion: nil)
-    }
-    
     func blurBackground(){
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)

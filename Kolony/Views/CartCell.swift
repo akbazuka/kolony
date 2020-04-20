@@ -48,13 +48,7 @@ class CartCell: UITableViewCell {
         
         cartName.text = product.name
         cartSize.text = "Size: \(NSNumber(value: productInventory.size).stringValue)"
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        
-        if let price = formatter.string(from: product.price as NSNumber){
-            cartPrice.text = price
-        }
+        cartPrice.text = product.price.asUSCurrency
         
         if let url = URL(string: product.images) {
             cartImage.kf.setImage(with: url)

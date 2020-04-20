@@ -226,28 +226,12 @@ class ProductVC: UIViewController {
             productImages.kf.setImage(with: imageURL)
         }
         productName.text = ProductVC.product.name
-        
-        //Convert Price fro Double to Currency to be displayed
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        if let price = formatter.string(from: ProductVC.product.price as NSNumber) {
-            productPrice.text = price
-        }
+        productPrice.text = ProductVC.product.price.asUSCurrency    //Convert product price to USD
         brandLabel.text = ProductVC.product.brand.uppercased()
         styleLabel.text = ProductVC.product.style.uppercased()
         colorwayLabel.text = ProductVC.product.colorway.uppercased()
-        
-        //Convert Firebase Timestamp() to Date() to String and set it release label's text
-        let theFormatter = DateFormatter()
-        theFormatter.dateStyle = .medium
-        let theDate = theFormatter.string(from: ProductVC.product.release.dateValue())
-        releaseLabel.text = theDate
-        
-        //Convert Retail from Int to Currency to be displayed
-        formatter.numberStyle = .currency
-        if let retail = formatter.string(from: ProductVC.product.retail as NSNumber) {
-            retailLabel.text = retail
-        }
+        releaseLabel.text = ProductVC.product.release.asDate        //Convert Firebase Timestamp() to Date() to String (extension)
+        retailLabel.text = ProductVC.product.retail.asUSCurrency    //Convert retail price to USD (extension)
     }
     
     //Fetch all documents of a certain product in Firestore Database and Listens for Real-Time Updates
@@ -276,7 +260,6 @@ class ProductVC: UIViewController {
             })
         })
     }
-
 
     /*
     When Admin add's size from ProductVC
@@ -319,9 +302,10 @@ class ProductVC: UIViewController {
                         if (noOfResults > 0){
                             //Get id of productInventory doc if it exists
                             let updateProductInventDoc = Firestore.firestore().collection("productInventory").document(querySnapshot!.documents[0].get("id") as! String)
-                            //Update stock of the product
+                            //Update stock of the product and change soldOut to false if true
                             updateProductInventDoc.updateData([
-                                "stock": FieldValue.increment(1.00)
+                                "stock": FieldValue.increment(1.00),
+                                "soldOut": false
                             ]) { err in
                                 if let err = err {
                                     print("Error updating stock: \(err)")
@@ -377,6 +361,7 @@ class ProductVC: UIViewController {
             
         } else if (user.isAnonymous) {
             alertToVC(title: "Hi friend!", message: "This is a user only feature. Please create an account with us to be able to access all of our features.", toVC: "SignUpVC")
+            
         } else {
                 alert(title: "Please select a Size", message: "Select a size for the product you wish to add to your cart.")
         }
@@ -393,50 +378,6 @@ class ProductVC: UIViewController {
             //If input was not a valid number, show alert
             self.alert(title: "Size entered was not a number", message: "Please enter a valid number for the size.")
         }
-    }
-    
-    //Alert Popup
-    func alert(title: String, message: String) {
-        
-        //Error Title
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        //Action Title
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        //Present to Screen
-        present(alert,animated: true, completion: nil)
-    }
-    
-    //Navigate to VC after Alert (to Navigation Controller)
-    func alertNavToVC(title:String, message: String, toVC: String) {
-        //Error Title
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        //Action Title
-        //alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { UIAlertAction in
-            //Go to view controller through naigation controller
-            let navToVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: toVC)
-            self.navigationController?.pushViewController(navToVC, animated: true)
-        })
-        //Present to Screen
-        present(alert,animated: true, completion: nil)
-    }
-    
-    //Navigate to VC after Alert (without navigation controller)
-    func alertToVC(title:String, message: String, toVC: String) {
-        //Error Title
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        //Action Title
-        //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        alert.addAction(UIAlertAction(title: "Sign-Up", style: .default){UIAlertAction in let
-            //Present VC modally
-            goToVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: toVC)
-        self.present(goToVC, animated: true, completion: nil)})
-        
-        //Present to Screen
-        present(alert,animated: true, completion: nil)
     }
 }
 

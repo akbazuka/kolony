@@ -23,11 +23,6 @@ class ProductCell: UICollectionViewCell {
         productName.text = product.name
         //productImage.image = product.images[0] //First image
         
-        //To format Price from double to String
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        if let price = formatter.string(from: product.price as NSNumber) {
-            productPrice.text = price
-        }
+        productPrice.text = product.price.asUSCurrency
     }
 }

@@ -88,37 +88,6 @@ class AccountVC : UIViewController{
         view.addSubview(blurEffectView)
     }
     
-    //Navigate to VC after Alert (to Navigation Controller)
-    func alertNavToMain(title:String, message: String) {
-        //Error Title
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        //Action Title
-        //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { UIAlertAction in
-            //Go to view controller through naigation controller
-            let viewControllers: [UIViewController] = self.navigationController!.viewControllers
-            for vc in viewControllers {
-                if vc is MainVC {
-                    self.navigationController!.popToViewController(vc, animated: true)
-                }
-            }
-        })
-        //Present to Screen
-        present(alert,animated: true, completion: nil)
-    }
-    
-    //Navigate to VC after Alert (to Navigation Controller)
-    func alert(title:String, message: String) {
-        //Error Title
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        //Action Title
-        //alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        //Present to Screen
-        present(alert,animated: true, completion: nil)
-    }
-    
     //Validate email regex
     func isValidEmail(_ email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"

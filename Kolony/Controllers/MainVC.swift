@@ -459,13 +459,7 @@ extension MainVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         }
         // Get references to labels of cell
         cell.productName.text = item.name
-
-        //Convert Price fro Double to Currency to be displayed
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        if let price = formatter.string(from: item.price as NSNumber) {
-            cell.productPrice.text = price
-        }
+        cell.productPrice.text = item.price.asUSCurrency //Display price in $ (extension)
         
         return cell
     }

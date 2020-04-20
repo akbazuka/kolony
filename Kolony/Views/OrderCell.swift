@@ -36,21 +36,12 @@ class OrderCell: UITableViewCell {
 
         orderName.text = order.productName 
         orderSize.text = "Size: \(NSNumber(value: order.productSize).stringValue)"
-
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-
-        if let price = formatter.string(from: order.productPrice as NSNumber){
-            orderPrice.text = price
-        }
+        orderPrice.text = order.productPrice.asUSCurrency
 
         if let url = URL(string: order.productImages) {
             orderImage.kf.setImage(with: url)
         }
         
-        let theFormatter = DateFormatter()
-        theFormatter.dateStyle = .medium
-        let theDate = theFormatter.string(from: order.timeStamp.dateValue())
-        orderDate.text = theDate
+        orderDate.text = order.timeStamp.asDate
     }
 }
