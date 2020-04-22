@@ -45,6 +45,9 @@ class SignUpVC: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    /*
+     Change color of password fields to indicate if password and confirm password match
+     */
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard let passTxt = passText.text else { return }
         
@@ -87,6 +90,9 @@ class SignUpVC: UIViewController {
         self.present(loginVC, animated: true, completion: nil)
     }
     
+    /*
+     Add new user to Firebase Authentication
+     */
     @IBAction func registerBtnOnClick(_ sender: Any) {
         
         guard let email = emailText.text , !email.isEmpty ,
@@ -108,6 +114,7 @@ class SignUpVC: UIViewController {
         
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         
+        //Create Firebase user
         authUser.link(with: credential) { (result, error) in
         if let error = error {
             debugPrint(error)
@@ -117,6 +124,7 @@ class SignUpVC: UIViewController {
             return
         }
             guard let firUser = result?.user else { return } //firUser is the Firebase authenticated user
+            //Model user data
             let kolonyUser = User.init(id: firUser.uid, email: email, username: username, stripeId: "")
             // Upload to Firestore
             self.createFirestoreUser(user: kolonyUser)
@@ -127,6 +135,9 @@ class SignUpVC: UIViewController {
         }
     }
     
+    /*
+     New user in Firestore- "users" collection
+     */
     func createFirestoreUser(user: User) {
         // Step 1: Create document reference
         let newUserRef = Firestore.firestore().collection("users").document(user.id)

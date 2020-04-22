@@ -14,6 +14,7 @@ exports.createStripeCustomer = functions.firestore.document('users/{userId}').on
   return admin.firestore().collection('users').doc(data['id']).update({ stripeId: customer.id });
 });
 
+// Generate an ephemeral key (temporary) for each payment to be processed
 exports.createEphemeralKey = functions.https.onCall(async (data, context) => {
 
     const customerId = data.customer_id;
@@ -30,7 +31,10 @@ exports.createEphemeralKey = functions.https.onCall(async (data, context) => {
     });
 });
   
-// This is the method used for credit cards and uses the new Payment Methods API.
+/*
+This is the method used for credit cards and uses the new Payment Methods API.
+Creates a http charge request tp process payment with Stripe
+*/
 export const createCharge = functions.https.onCall(async (data, context) => {
 
     const customerId = data.customer_id;

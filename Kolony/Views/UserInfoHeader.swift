@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ User Header in Settings Page; Shows username and email at the header
+ */
 class UserInfoHeader: UIView {
     
     // MARK: Properties

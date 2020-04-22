@@ -317,7 +317,7 @@ class MainVC: UIViewController{
 //            }
 //        }
 //    }
-    
+        //MARK: Search Results
     func searchFilterName(searchBar: UISearchBar){
         //let searchText = searchController.searchBar.text?.lowercased()
         let searchText = searchBar.text?.lowercased()

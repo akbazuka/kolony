@@ -279,8 +279,8 @@ extension CheckoutVC: STPPaymentContextDelegate{
         fedEx.identifier = "fedex"
         
         //If address is in the US, consider valid Address
-        if address.country == "US" { //US is ISO country code, can
-            completion(.valid, nil, [upsGround, fedEx], fedEx) //fedEx is set as default
+        if address.country == "US" {                            //US is ISO country code, can
+            completion(.valid, nil, [upsGround, fedEx], fedEx)  //fedEx is set as default
         } else {
             completion(.invalid,nil, nil, nil)
         }

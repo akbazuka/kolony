@@ -253,6 +253,9 @@ extension AccountVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    /*
+     Table view shows settings options
+     */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let section = SettingsSection(rawValue: indexPath.section) else { return }
         

@@ -73,58 +73,109 @@ final class _UserService {
         }
     }
     
-    //Add order to database when item sold
-    func sendOrders(productInvent: ProductInventory, product: Product) {
-
-        let inventoryRef = Firestore.firestore().collection("inventory").whereField("product", isEqualTo: product.id).whereField("sold", isEqualTo: false).order(by: "timeStamp", descending: false).limit(to: 1) // Only pull the earliest doucment in the collection (by timestamp)
+    func updateInventory(changeSold: Bool, inCart: Bool, productInvent: ProductInventory, product: Product){
+        
+       let inventoryRef = Firestore.firestore().collection("inventory").whereField("product", isEqualTo: product.id).whereField("size", isEqualTo: productInvent.size).whereField("sold", isEqualTo: false).order(by: "timeStamp", descending: false).limit(to: 1) // Only pull the earliest doucment in the collection (by timestamp)
         inventoryRef.getDocuments { (querySnapshot1, error) in
             if let error = error {
                 print("Error getting inventory: \(error)")
             } else {
-                let inventory = querySnapshot1!.documents[0]
+                let inventory = querySnapshot1!.documents[0]    //First document from query result (oldest/earliest product)
                 let inventoryId = inventory.get("id")
                 let inventoryIdRef = Firestore.firestore().collection("inventory").document(inventoryId as! String)
                 inventoryIdRef.getDocument { (doc, er) in
-                    //Update inventory's sold field to true
-                    inventoryIdRef.updateData([
-                        "sold": true
-                    ]) { er in
-                        if let er = er {
-                            print("Error updating sold: \(er)")
-                        } else {
-                            print("sold successfully updated")
+                    
+                    /* When order is made*/
+                    if changeSold == true{
+                        //Update inventory's sold field to true and inCart to false
+                        inventoryIdRef.updateData([
+                            "sold": true,
+                            "inCart": false
+                        ]) { er in
+                            if let er = er {
+                                print("Error updating sold: \(er)")
+                            } else {
+                                print("sold successfully updated")
+                            }
+                        }
+                        
+                        //Send order ot database
+                        let ref = Firestore.firestore().collection("orders").document()
+                        let docId = ref.documentID
+                        
+                        ref.setData([
+                            "id" : docId,
+                            "user" : self.user.id,
+                            "productImages" : product.images,
+                            "productName" : product.name,
+                            "productPrice": product.price,
+                            "productSize" : productInvent.size,
+                            "inventoryId" : inventoryId,
+                            "productInventoryId" : productInvent.id,
+                            "timeStamp" : FieldValue.serverTimestamp()
+                        ])
+                    }
+                    /*When customer adds to or removes from cart*/
+                    else {
+                        //When added to cart
+                        if inCart {
+                            //Update inventory's sold field to true
+                            inventoryIdRef.updateData([
+                                "inCart": true
+                            ]) { er in
+                                if let er = er {
+                                    print("Error updating inCart: \(er)")
+                                } else {
+                                    print("inCart successfully updated to true")
+                                }
+                            }
+                            
+                        }
+                        //When removed form cart
+                        else {
+                            //Update inventory's sold field to false
+                            inventoryIdRef.updateData([
+                                "inCart": false
+                            ]) { er in
+                                if let er = er {
+                                    print("Error updating inCart: \(er)")
+                                } else {
+                                    print("inCart successfully updated to false")
+                                }
+                            }
                         }
                     }
                 }
-                
-                //Send order ot database
-                let ref = Firestore.firestore().collection("orders").document()
-                let docId = ref.documentID
-                
-                ref.setData([
-                    "id" : docId,
-                    "user" : self.user.id,
-                    "productImages" : product.images,
-                    "productName" : product.name,
-                    "productPrice": product.price,
-                    "productSize" : productInvent.size,
-                    "inventoryId" : inventoryId,
-                    "productInventoryId" : productInvent.id,
-                    "timeStamp" : FieldValue.serverTimestamp()
-                ])
             }
         }
-        
+    }
+    
+    func updateStockAndProduct(productInvent: ProductInventory, product: Product, decreaseStock: Bool){
         //Reduce stock when user makes purchase
         let updateInventoryRef = Firestore.firestore().collection("productInventory").document(productInvent.id)
         
-        updateInventoryRef.updateData([
-            "stock": FieldValue.increment(-1.00)
-        ]) { err in
-            if let err = err {
-                print("Error updating stock: \(err)")
-            } else {
-                print("Stock successfully updated")
+        if decreaseStock {
+            //Decrement Stock
+            updateInventoryRef.updateData([
+                "stock": FieldValue.increment(-1.00)
+            ]) { err in
+                if let err = err {
+                    print("Error updating stock: \(err)")
+                } else {
+                    print("Stock successfully updated")
+                }
+            }
+        }
+        else {
+            //Increment stock
+            updateInventoryRef.updateData([
+                "stock": FieldValue.increment(1.00)
+            ]) { err in
+                if let err = err {
+                    print("Error updating stock: \(err)")
+                } else {
+                    print("Stock successfully updated")
+                }
             }
         }
         //Check if stock still exists after user makes purchase and if not, update to soldOut = true
@@ -134,7 +185,7 @@ final class _UserService {
                 let productInvent1 = ProductInventory.init(data: data!)
                 
                 //Update document's soldOut field to true is no more stock left
-                if productInvent1.stock == 0{
+                if productInvent1.stock <= 0{
                     updateInventoryRef.updateData([
                         "soldOut": true
                     ]) { err in
@@ -177,10 +228,38 @@ final class _UserService {
                         }
                     }
                 }
+                else {
+                    updateInventoryRef.updateData([
+                        "soldOut": false
+                    ]) { err in
+                        if let err = err {
+                            print("Error updating soldOut: \(err)")
+                        } else {
+                            print("soldOut successfully updated")
+                        }
+                    }
+                    let updateProductRef = Firestore.firestore().collection("products").document(product.id)
+                        updateProductRef.updateData([
+                            "inventoryExists": true
+                        ]) { err in
+                            if let err = err {
+                                print("Error updating inventoryExists: \(err)")
+                            } else {
+                                print("inventoryExists successfully updated")
+                            }
+                        }
+                }
+                
             } else {
                 print("Document does not exist")
             }
         }
+    }
+    
+    //Add order to database when item sold
+    func sendOrders(productInvent: ProductInventory, product: Product) {
+        updateInventory(changeSold: true, inCart: false, productInvent: productInvent, product: product)
+        updateStockAndProduct(productInvent: productInvent, product: product, decreaseStock: true)
     }
     
     func logoutUser() {

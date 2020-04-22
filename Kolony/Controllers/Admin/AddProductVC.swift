@@ -40,6 +40,7 @@ class AddProductVC: UIViewController{
         initializeDatePicker()
     }
     
+    //Date Picker
     func initializeDatePicker(){
         datePicker = UIDatePicker()
         datePicker?.addTarget(self, action: #selector(dateChanged(datePicker:)), for: .valueChanged)
@@ -73,6 +74,9 @@ class AddProductVC: UIViewController{
         productImages.addGestureRecognizer(swipeLeft)
     }
     
+    /*
+     Swipe accross images in AddProductVC
+     */
     @objc func imageSwipe(gesture: UIGestureRecognizer){
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
 
@@ -108,6 +112,9 @@ class AddProductVC: UIViewController{
         isPlaceholder[currentImage] = true
     }
     
+    /*
+     Add Product to Firestore
+     */
     @IBAction func addProductOnClick(_ sender: Any) {
         activityIndicator.startAnimating()
         

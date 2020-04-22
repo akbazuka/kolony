@@ -16,15 +16,17 @@ struct Inventory {
     var size: Double
     var sold: Bool
     var supplier: String
+    var inCart: Bool
     var timeStamp: Timestamp
     
     //Constructor
-    init(id: String, product: String, size: Double, sold: Bool, supplier: String, timeStamp: Timestamp){
+    init(id: String, product: String, size: Double, sold: Bool, supplier: String, inCart: Bool, timeStamp: Timestamp){
         self.id = id
         self.product = product
         self.size = size
         self.sold = sold
         self.supplier = supplier
+        self.inCart = inCart
         self.timeStamp = timeStamp
     }
     
@@ -35,6 +37,7 @@ struct Inventory {
             "size" : inventory.size,
             "sold" : inventory.sold,
             "supplier": inventory.supplier,
+            "inCart": inventory.inCart,
             "timeStamp" : inventory.timeStamp
         ]
         return data

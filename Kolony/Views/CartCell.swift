@@ -56,7 +56,6 @@ class CartCell: UITableViewCell {
     }
     
     @IBAction func removeItemOnClick(_ sender: Any) {
-        //print("Yeet")
         delegate?.removeItem(productInventory: item)
     }
 }

@@ -8,7 +8,9 @@
 
 import Firebase
 
-
+/*
+ Various Quueries from Firestore
+ */
 extension Firestore {
     //Firestore query used in MainVC to Pull Data
     var products: Query{
@@ -27,7 +29,9 @@ extension Firestore {
     }
 }
  
-
+/*
+ Alert to display FirebaseAuth errors
+ */
 extension Auth {
     func handleFireAuthError(error: Error, vc: UIViewController) {
         if let errorCode = AuthErrorCode(rawValue: error._code) {
@@ -39,6 +43,9 @@ extension Auth {
     }
 }
 
+/*
+ Dispaly different error messages according to which error was encountered
+ */
 extension AuthErrorCode {
     var errorMessage: String {
         switch self {

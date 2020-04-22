@@ -20,7 +20,7 @@ final class _StripeCart {
     
     //Variables for subtotal, processing dees, total
     
-    //Note: Stripe takes payment in cents
+    //Note: Stripe takes payment in pennies
     var subtotal: Int{
         var amount = 0
         for price in cartProducts{
@@ -30,6 +30,7 @@ final class _StripeCart {
         return amount //Returns subtotal of all items in Strip Cart
     }
     
+    //To account for the cut that Stripe, add and calculate that cut as processing fees
     var processingFees: Int{
         if subtotal == 0 {
             return 0
@@ -44,11 +45,13 @@ final class _StripeCart {
         return subtotal + processingFees + shippingFees
     }
     
+    //Add to cart
     func addItemToCart(item: ProductInventory, product: Product){
         cartItems.append(item)
         cartProducts.append(product)
     }
     
+    //Remove from cart
     func removeItemFromCart(item: ProductInventory){
         if let index = cartItems.firstIndex(of: item){
             cartItems.remove(at: index)
@@ -56,6 +59,7 @@ final class _StripeCart {
         }
     }
     
+    //Empty cart
     func clearCart(){
         cartItems.removeAll()
         cartProducts.removeAll()

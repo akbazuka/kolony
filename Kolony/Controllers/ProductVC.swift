@@ -67,6 +67,10 @@ class ProductVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         listener.remove()               //Removes listeners to save data in Firestore; stops real time updates
         productInventory.removeAll()    //Delete data from Firestore cache to avoind duplicating data every time view appears
+        //Unhilight hilighted size when leave ProductVC
+        if (highlightedItem != nil){
+            collectionView.cellForItem(at: highlightedItem)?.contentView.backgroundColor = UIColor.white
+        }
         collectionView.reloadData()
         selectedItem = nil
         highlightedItem = nil
@@ -270,7 +274,7 @@ class ProductVC: UIViewController {
         /*
          Add text field in VC to specify who the  supplier is, if and when that finctionality is required; otherwise leave as "Kolonii"
          */
-        var inventory = Inventory.init(id: "", product: ProductVC.product.id, size: Double(addSizeText.text!)!, sold: false, supplier: "Kolonii", timeStamp: Timestamp())
+        var inventory = Inventory.init(id: "", product: ProductVC.product.id, size: Double(addSizeText.text!)!, sold: false, supplier: "Kolonii", inCart: false, timeStamp: Timestamp())
         
         docRef = Firestore.firestore().collection("inventory").document()
         //Set inventory id to newly generated dicumented id
@@ -354,7 +358,11 @@ class ProductVC: UIViewController {
             
             //Refresh Size picker so that when user navigates back, they cannot re-add to cart
             self.selectedItem = nil
-            collectionView(collectionView, didUnhighlightItemAt: highlightedItem)
+            
+            if (highlightedItem != nil){
+                collectionView.cellForItem(at: highlightedItem)?.contentView.backgroundColor = UIColor.white
+            }
+            //collectionView(collectionView, didUnhighlightItemAt: highlightedItem)
             
             //Show alert saying item was added to cart
             alertNavToVC(title: "Added to Cart", message: "This item was successfully added to your shopping cart!",toVC: "CheckoutVC")
@@ -479,8 +487,7 @@ extension ProductVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
 
-        //Where elements_count is the count of all your items in that
-        //Collection view...
+        //Where cellCount is the count of all your items in the collection view
         let cellCount = CGFloat(productInventory.count)
 
         //If the cell count is zero, there is no point in calculating anything.
